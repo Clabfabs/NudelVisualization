@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -21,6 +22,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Controller implements EntryPoint {
+	
+	private FlexTable sampleTable = new FlexTable();
+	private VerticalPanel visualizationPanel = new VerticalPanel();
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -39,13 +43,21 @@ public class Controller implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-    final Button sendButton = new Button("Send");
+
+		// TODO Put this in a seperate Class "Visualization"
+		sampleTable.setText(0, 0, "Country");
+		sampleTable.setText(0, 1, "Item");
+		sampleTable.setText(0, 2, "Year");
+		
+		visualizationPanel.add(sampleTable);
+		RootPanel.get("visualizationContainer").add(visualizationPanel);
+		
     final TextBox nameField = new TextBox();
     nameField.setText("GWT User");
     final Label errorLabel = new Label();
 
     // We can add style names to widgets
-    sendButton.addStyleName("sendButton");
+    // sendButton.addStyleName("sendButton");
 
     // Add the nameField and sendButton to the RootPanel
     // Use RootPanel.get() to get the entire body element
@@ -80,8 +92,8 @@ public class Controller implements EntryPoint {
     closeButton.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         dialogBox.hide();
-        sendButton.setEnabled(true);
-        sendButton.setFocus(true);
+        // sendButton.setEnabled(true);
+        // sendButton.setFocus(true);
       }
     });
 
@@ -116,7 +128,7 @@ public class Controller implements EntryPoint {
         }
         
         // Then, we send the input to the server.
-        sendButton.setEnabled(false);
+        // sendButton.setEnabled(false);
         textToServerLabel.setText(textToServer);
         serverResponseLabel.setText("");
         greetingService.greetServer(textToServer, new AsyncCallback<String>() {
@@ -142,7 +154,7 @@ public class Controller implements EntryPoint {
 
     // Add a handler to send the name to the server
     MyHandler handler = new MyHandler();
-    sendButton.addClickHandler(handler);
+    // sendButton.addClickHandler(handler);
     nameField.addKeyUpHandler(handler);
   }
 }

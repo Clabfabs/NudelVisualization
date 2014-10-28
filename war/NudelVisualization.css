@@ -9,13 +9,13 @@ h1 {
   margin: 10px 0px 20px;
 }
 
-#filter {
+#filterContainer {
 	border: 2px solid;
 	margin: 20px 0px 20px;
 	padding: 15px 5px 15px;
 }
 
-#visualization {
+#visualizationContainer {
 	border: 2px solid;
 	margin: 20px 0px 20px;
 	padding: 15px 5px 15px;
