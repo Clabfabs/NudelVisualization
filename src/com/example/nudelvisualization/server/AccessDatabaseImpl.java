@@ -44,8 +44,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 	  try {
 		  br = new BufferedReader(new FileReader(csvFile));
 		  line = br.readLine();
-		  // use semicolon as separator
-		  country = line.split(cvsSplitBy);	 
+		  country = line.split(cvsSplitBy);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
