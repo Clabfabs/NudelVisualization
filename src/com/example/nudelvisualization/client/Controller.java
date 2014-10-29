@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
+import java.util.ArrayList;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -36,18 +36,28 @@ public class Controller implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final AccessDatabaseAsync greetingService = GWT
+			.create(AccessDatabase.class);
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
 
-		// TODO Put this in a seperate Class "Visualization"
-		sampleTable.setText(0, 0, "Country");
-		sampleTable.setText(0, 1, "Item");
-		sampleTable.setText(0, 2, "Year");
+		// TODO Put this in a separate Class "Visualization"
+		
+		ArrayList<String> titles = null;
+		greetingService.getMetaData("blah", new AsyncCallback<ArrayList<String>>() {
+	          public void onFailure(Throwable caught) {
+	            System.out.println("Blah");
+	          }
+	          public void onSuccess(ArrayList<String> result) {
+	        	  System.out.println(result);
+	        	  for (int i = 0; i < result.size(); i++) {
+	        		  sampleTable.setText(0, i, result.get(i));
+	        	  }
+	          }
+		});
 		
 		visualizationPanel.add(sampleTable);
 		RootPanel.get("visualizationContainer").add(visualizationPanel);
@@ -131,7 +141,7 @@ public class Controller implements EntryPoint {
         // sendButton.setEnabled(false);
         textToServerLabel.setText(textToServer);
         serverResponseLabel.setText("");
-        greetingService.greetServer(textToServer, new AsyncCallback<String>() {
+        /*greetingService.greetServer(textToServer, new AsyncCallback<String>() {
           public void onFailure(Throwable caught) {
             // Show the RPC error message to the user
             dialogBox.setText("Remote Procedure Call - Failure");
@@ -148,7 +158,7 @@ public class Controller implements EntryPoint {
             dialogBox.center();
             closeButton.setFocus(true);
           }
-        });
+        });*/
       }
     }
 

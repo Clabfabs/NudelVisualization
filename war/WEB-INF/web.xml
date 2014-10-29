@@ -8,7 +8,7 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>greetServlet</servlet-name>
-    <servlet-class>com.example.nudelvisualization.server.GreetingServiceImpl</servlet-class>
+    <servlet-class>com.example.nudelvisualization.server.AccessDatabaseImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
