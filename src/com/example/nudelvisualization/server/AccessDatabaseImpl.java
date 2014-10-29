@@ -15,36 +15,71 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 @SuppressWarnings("serial")
 public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDatabase {
+	
+	/**
+	   * Client reaches out to Server to get some Data (as an example, here it gets 
+	   * the metadata (first row)
+	   * 
+	   * @param input TO BE CHANGED INTO CONFIGURATION. Or delete, as we don't need it for MetaData
+	   * @return the metadata as ArrayList
+	   */
+	public String[] getMetaData(String input) throws IllegalArgumentException {
+		// We don't need this anymore, this is completely implemented in the following method
+		return null;
+	}
+	
+	/**
+	   * Client reaches out to Server to a certain number of rows
+	   * 
+	   * @param numberOfRows the number of rows we want
+	   * @return a 2-dimensional String Array with the rows
+	   */
+	public String[][] getSomeRows(int numberOfRows) {
 
-  public ArrayList<String> getMetaData(String input) throws IllegalArgumentException {
-    // Verify that the input is valid. 
-    /*if (!FieldVerifier.isValidName(input)) {
-      // If the input is not valid, throw an IllegalArgumentException back to
-      // the client.
-      throw new IllegalArgumentException(
-          "Name must be at least 4 characters long");
-    }
+		/*// TODO Verify that the input is valid. Example Code:
+		if (!FieldVerifier.isValidName(input)) {
+	      // If the input is not valid, throw an IllegalArgumentException back to
+	      // the client.
+	      throw new IllegalArgumentException(
+	          "Name must be at least 4 characters long");
+	    }*/
+		
+		// Stuff we need for csv import
+		String csvFile = "data/production1990-2011.csv";
+		BufferedReader br = null;
+		String cvsSplitBy = ",";
 
-    String serverInfo = getServletContext().getServerInfo();
-    String userAgent = getThreadLocalRequest().getHeader("User-Agent");
+		// The data we want to fill
+		String[][] data = null;
 
-    // Escape data from the client to avoid cross-site script vulnerabilities.
-    input = escapeHtml(input);
-    userAgent = escapeHtml(userAgent);
-*/
-	  ArrayList<String> titles = new ArrayList<String>();
-	  
-	  String csvFile = "data/sampleData.csv";
-	  BufferedReader br = null;
-	  String line = "";
-	  String cvsSplitBy = ";";
-	  String[] country = null;
+		try {
+			br = new BufferedReader(new FileReader(csvFile));
+			String line = br.readLine();
+			
+			// workaround to get rid of the first 3 annoying characters -> to be improved! :-)
+			String line2 = line.substring(3);
 
-	  
-	  try {
-		  br = new BufferedReader(new FileReader(csvFile));
-		  line = br.readLine();
-		  country = line.split(cvsSplitBy);
+			if (line2 != null) {
+				String[] firstLine = line2.split(cvsSplitBy);
+				data = new String[numberOfRows][firstLine.length];
+				data[0] = firstLine;
+					
+				int i = 1;
+				while (i < numberOfRows) {
+					line = br.readLine();
+					
+					if (line == null) break;
+					
+					String[] cells = line.split(cvsSplitBy);
+					// First idea how a filter could work
+					if (cells[8].equals("1992") && cells[6].equals("15")) {
+						data[i] = line.split(cvsSplitBy);
+						i++;
+					}
+				} 
+			} else {
+				System.out.println("First line failure");
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -58,27 +93,21 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 				}
 			}
 		}
-	 
-		System.out.println("Done");
-		
-		for (int i = 0; i < country.length; i++) {
-			titles.add(country[i]);
-		}
-	  	return titles;
-  }
+		return data;
+	}
 
-  /**
-   * Escape an html string. Escaping data received from the client helps to
-   * prevent cross-site script vulnerabilities.
-   * 
-   * @param html the html string to escape
-   * @return the escaped string
-   */
-  private String escapeHtml(String html) {
-    if (html == null) {
-      return null;
-    }
-    return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(
-        ">", "&gt;");
-  }
+	/**
+	 * Escape an html string. Escaping data received from the client helps to
+	 * prevent cross-site script vulnerabilities.
+	 * 
+	 * @param html the html string to escape
+	 * @return the escaped string
+	 */
+	private String escapeHtml(String html) {
+		if (html == null) {
+			return null;
+		}
+		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(
+				">", "&gt;");
+	}
 }

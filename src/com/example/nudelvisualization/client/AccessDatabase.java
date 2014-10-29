@@ -10,5 +10,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("greet")
 public interface AccessDatabase extends RemoteService {
-  ArrayList<String> getMetaData(String input) throws IllegalArgumentException;
+  String[] getMetaData(String input) throws IllegalArgumentException;
+  String[][] getSomeRows(int numberOfRows);
 }

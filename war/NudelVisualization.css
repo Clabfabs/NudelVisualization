@@ -9,14 +9,33 @@ h1 {
   margin: 10px 0px 20px;
 }
 
+.tableVisualization {
+	border: 1px solid;
+	border-collapse: collapse;
+	width: auto;
+}
+
+.tableVisualization td {
+	border: 1px dotted;
+	border-collapse: collapse;
+	padding: 10px;
+}
+
+.headOfTable {
+	border: 1px solid;
+	font-weight: bold;
+}
+
 #filterContainer {
-	border: 2px solid;
+	border-bottom: 2px solid;
+	border-top: 2px solid;
 	margin: 20px 0px 20px;
 	padding: 15px 5px 15px;
 }
 
 #visualizationContainer {
-	border: 2px solid;
+	border-bottom: 2px solid;
+	border-top: 2px solid;
 	margin: 20px 0px 20px;
 	padding: 15px 5px 15px;
 }

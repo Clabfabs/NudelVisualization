@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import java.util.ArrayList;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -36,7 +35,7 @@ public class Controller implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	private final AccessDatabaseAsync greetingService = GWT
+	private final AccessDatabaseAsync dataAccessSocket = GWT
 			.create(AccessDatabase.class);
 
 	/**
@@ -46,22 +45,29 @@ public class Controller implements EntryPoint {
 
 		// TODO Put this in a separate Class "Visualization"
 		
-		ArrayList<String> titles = null;
-		greetingService.getMetaData("blah", new AsyncCallback<ArrayList<String>>() {
-	          public void onFailure(Throwable caught) {
+		dataAccessSocket.getSomeRows(20, new AsyncCallback<String[][]>() {
+			public void onFailure(Throwable caught) {
 	            System.out.println("Blah");
 	          }
-	          public void onSuccess(ArrayList<String> result) {
-	        	  System.out.println(result);
-	        	  for (int i = 0; i < result.size(); i++) {
-	        		  sampleTable.setText(0, i, result.get(i));
+	          public void onSuccess(String[][] result) {
+	        	  for (int i = 0; i < result.length; i++) {
+	        		  // Assumption: data is complete and a missing value in column 1 means there is no more data to fetch
+	        		  if (result[i][1] != null) {
+	        			  for (int j = 0; j < result[i].length; j++) {
+	        				  sampleTable.setText(i + 1, j, result[i][j]);
+	        			  }	        			  
+        			  }
 	        	  }
 	          }
 		});
 		
+		sampleTable.setStyleName("tableVisualization");
+		sampleTable.getRowFormatter().addStyleName(1, "headOfTable");
 		visualizationPanel.add(sampleTable);
 		RootPanel.get("visualizationContainer").add(visualizationPanel);
 		
+		
+// ----------------------------------------------------------------------- //
     final TextBox nameField = new TextBox();
     nameField.setText("GWT User");
     final Label errorLabel = new Label();
