@@ -6,6 +6,10 @@ public class Item implements FilterItem {
 	private String name;
 	private int ID;
 	
+	public Item(int ID, String name){
+		this.ID = ID;
+		this.name = name;
+	}
 	
 	@Override
 	public boolean getActive() {

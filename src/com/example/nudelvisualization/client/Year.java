@@ -5,6 +5,10 @@ public class Year implements FilterItem {
 	private boolean active = false;
 	private Year year;
 	
+	public Year(Year year) {
+		this.year = year;
+	}
+	
 	@Override
 	public boolean getActive() {
 		return this.active;

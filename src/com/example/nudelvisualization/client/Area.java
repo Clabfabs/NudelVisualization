@@ -6,6 +6,10 @@ public class Area implements FilterItem {
 	private String name;
 	private boolean active = false;
 	
+	public Area(int ID, String name) {
+		this.ID = ID;
+		this.name = name;
+	}
 	@Override
 	public boolean getActive() {
 		return this.active;

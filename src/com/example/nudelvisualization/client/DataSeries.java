@@ -6,7 +6,10 @@ public class DataSeries implements FilterItem {
 	private int ID;
 	private String name;
 
-	
+	public DataSeries(int ID, String name){
+	this.ID = ID;
+	this.name = name;
+	}
 	@Override
 	public boolean getActive() {
 		return this.active;
