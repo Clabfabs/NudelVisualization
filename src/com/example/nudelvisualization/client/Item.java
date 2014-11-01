@@ -4,9 +4,9 @@ public class Item implements FilterItem {
 	
 	private boolean active = false;
 	private String name;
-	private int ID;
+	private String ID;
 	
-	public Item(int ID, String name){
+	public Item(String ID, String name){
 		this.ID = ID;
 		this.name = name;
 	}
@@ -30,11 +30,11 @@ public class Item implements FilterItem {
 		this.name = name;
 	}
 
-	public int getID() {
+	public String getID() {
 		return ID;
 	}
 
-	public void setID(int iD) {
+	public void setID(String iD) {
 		ID = iD;
 	}
 	

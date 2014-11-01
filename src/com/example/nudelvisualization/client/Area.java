@@ -2,11 +2,11 @@ package com.example.nudelvisualization.client;
 
 public class Area implements FilterItem {
 	
-	private int ID;
+	private String ID;
 	private String name;
 	private boolean active = false;
 	
-	public Area(int ID, String name) {
+	public Area(String ID, String name) {
 		this.ID = ID;
 		this.name = name;
 	}
@@ -20,11 +20,11 @@ public class Area implements FilterItem {
 		this.active = active;
 	}
 	
-	public int getID() {
+	public String getID() {
 		return ID;
 	}
 
-	public void setID(int iD) {
+	public void setID(String iD) {
 		ID = iD;
 	}
 
