@@ -1,6 +1,5 @@
 package com.example.nudelvisualization.client;
 
-import com.example.nudelvisualization.server.AccessDatabaseImpl;
 import com.example.nudelvisualization.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -13,7 +12,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -45,7 +46,7 @@ public class Controller implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-
+	
 		// TODO Put this in a separate Class "Visualization"
 
 		dataAccessSocket.getSomeRows(20, new AsyncCallback<String[][]>() {
@@ -65,7 +66,21 @@ public class Controller implements EntryPoint {
 				}
 			}
 		});
+	    TextBox tb1 = new TextBox();
+	    TextBox tb2 = new TextBox();
 
+	    Grid grid = new Grid(2, 2);
+	    grid.setText(0,0, " Start Year");
+	    grid.setWidget(0, 1, tb1);;
+	    grid.setText(1,0, " End Year");
+	    grid.setWidget(1,1,tb2);
+	    
+	    HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
+	    
+	    filterHorizontalPanel.add(grid);
+	    
+	
+	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
 		sampleTable.setStyleName("tableVisualization");
 		sampleTable.getRowFormatter().addStyleName(1, "headOfTable");
 		visualizationPanel.add(sampleTable);
