@@ -6,11 +6,11 @@ import com.example.nudelvisualization.server.AccessDatabaseImpl;
 
 public class Filter {
 
-	ArrayList<Area> area = new ArrayList<Area>();
-	ArrayList<Item> items = new ArrayList<Item>();
-	ArrayList<Year> years = new ArrayList<Year>();
-	ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
-	Configuration config;
+	private ArrayList<Area> area = new ArrayList<Area>();
+	private ArrayList<Item> items = new ArrayList<Item>();
+	private ArrayList<Year> years = new ArrayList<Year>();
+	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
+	private Configuration config;
 	private String[][] table;
 
 	public Filter() {
@@ -26,7 +26,7 @@ public class Filter {
 	// available
 
 	// Gather all Areas in an arraylist
-	private ArrayList setArea() {
+	private ArrayList<Area> setArea() {
 		table = accessDB.getSomeRows(20);
 
 		// indices of column "AreaCode" and "AreaName"
@@ -51,7 +51,7 @@ public class Filter {
 	}
 	
 	// Gather all Items in an arraylist
-	private ArrayList setItems() {
+	private ArrayList<Item> setItems() {
 		table = accessDB.getSomeRows(20);
 
 		// indices of column "ItemCode" and "ItemName"
@@ -77,9 +77,8 @@ public class Filter {
 	}
 	
 	// Gather all Years in an arraylist
-	private ArrayList setYears() {
+	private ArrayList<Year> setYears() {
 		
-		//PROBLEM: Datatype Year.
 		table = accessDB.getSomeRows(20);
 
 		// indices of column "Year"
@@ -101,7 +100,7 @@ public class Filter {
 		return years;
 	}
 
-	private ArrayList setDataSeries() {
+	private ArrayList<DataSeries> setDataSeries() {
 
 		DataSeries exports = new DataSeries(1, "export");
 		dataSeries.add(exports);
@@ -111,13 +110,46 @@ public class Filter {
 		dataSeries.add(production);
 
 		return dataSeries;
-
 	}
-
-	public ArrayList getSomeRows(int numberOfRows) {
-
-		return items;
-
+	
+	//adds all active Objects of the ArrayLists areas, items, years and DataSeries to the Configuration config.
+	public void createConfiguration(){
+		
+		for (int i = 0; i< area.size(); i++){
+			if (area.get(i).getActive()){
+			config.addArea(area.get(i));
+			}
+		}
+		
+		for (int i = 0; i< items.size(); i++){
+			if (items.get(i).getActive()){
+				config.addItem(items.get(i));
+			}
+		}
+		
+		for (int i = 0; i< years.size(); i++){
+			if (years.get(i).getActive()){
+			config.addYear(years.get(i));
+			}
+		}
+		
+		for (int i = 0; i< dataSeries.size(); i++){
+			if (dataSeries.get(i).getActive()){
+			config.addDataSeries(dataSeries.get(i));
+			}
+		}	
 	}
-
+	
+	
+	public Configuration getConfig(){
+		return this.config;
+	}
+	
+	//to be done
+	public void visualize(Configuration config){
+		
+	}
+	
 }
+
+
