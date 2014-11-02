@@ -93,14 +93,11 @@ public class Filter {
 		}
 		
 		// We fill Area objects with the values of the columns "AreaCode" and "AreaName" and gather them in an arraylist.  
-//		for (int j = 1; j < table.length; j++) {
-//			Year itemObject = new Year(table[j][indexYear]);
-//			if (items.contains(itemObject)== false)
-//			items.add(itemObject);
-//		}
-		
-		
-		
+		for (int j = 1; j < table.length; j++) {
+			Year yearObject = new Year(Integer.valueOf(table[j][indexYear]));
+			if (years.contains(yearObject)== false)
+			years.add(yearObject);
+		}
 		return years;
 	}
 
