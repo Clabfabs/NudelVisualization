@@ -16,10 +16,10 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -27,6 +27,18 @@ public class Controller implements EntryPoint {
 
 	private FlexTable sampleTable = new FlexTable();
 	private VerticalPanel visualizationPanel = new VerticalPanel();
+    private HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
+    private TextBox tbYearStart = new TextBox();
+    private TextBox tbYearEnd = new TextBox();
+    private Grid gridYear = new Grid(3, 2);
+    private Button buttonUpdateYear = new Button("Update");
+    //private ListBox lbArea = new ListBox();
+   // Filter filter = new Filter();
+    
+
+
+
+
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -39,9 +51,21 @@ public class Controller implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-	private final AccessDatabaseAsync dataAccessSocket = GWT
-			.create(AccessDatabase.class);
+	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);
 
+	
+	 /**
+	   * Updates the Years Filter. Executed when user clicks the Update Button
+	 * @return 
+	   */
+	private final void updateButtonYear(String start, String end){
+		int startYear=Integer.parseInt(start);
+		int endYear=Integer.parseInt(end);
+		
+		System.out.println(start +" "+ end);
+	}
+	
+	
 	/**
 	 * This is the entry point method.
 	 */
@@ -64,20 +88,36 @@ public class Controller implements EntryPoint {
 						}
 					}
 				}
+				
+				
 			}
 		});
-	    TextBox tb1 = new TextBox();
-	    TextBox tb2 = new TextBox();
-
-	    Grid grid = new Grid(2, 2);
-	    grid.setText(0,0, " Start Year");
-	    grid.setWidget(0, 1, tb1);;
-	    grid.setText(1,0, " End Year");
-	    grid.setWidget(1,1,tb2);
+	
+	    // create Grid for Year Filter
+	    gridYear.setText(0,0, " Start Year");
+	    gridYear.setWidget(0, 1, tbYearStart);;
+	    gridYear.setText(1,0, " End Year");
+	    gridYear.setWidget(1,1,tbYearEnd);
+	    gridYear.setWidget(2,1, buttonUpdateYear);
 	    
-	    HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
+	    // Button to update Year Filter
+	    buttonUpdateYear.addClickHandler(new ClickHandler() {
+	    	
+	    	@Override
+	    	public void onClick(ClickEvent event) {
+	    		updateButtonYear(tbYearStart.getValue(),tbYearEnd.getValue());
+	    	}
+	    });
 	    
-	    filterHorizontalPanel.add(grid);
+	    //for (Area a : filter.area){
+	    //	lbArea.addItem(a.getName());
+	    //}
+	    
+	    
+	    
+	    
+	    filterHorizontalPanel.add(gridYear);
+	    //filterHorizontalPanel.add(lbArea);
 	    
 	
 	    RootPanel.get("filterContainer").add(filterHorizontalPanel);

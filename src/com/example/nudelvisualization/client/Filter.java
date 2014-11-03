@@ -3,13 +3,14 @@ package com.example.nudelvisualization.client;
 import java.util.ArrayList;
 
 import com.example.nudelvisualization.server.AccessDatabaseImpl;
+import com.google.gwt.core.client.GWT;
 
 public class Filter {
 
-	private ArrayList<Area> area = new ArrayList<Area>();
-	private ArrayList<Item> items = new ArrayList<Item>();
-	private ArrayList<Year> years = new ArrayList<Year>();
-	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
+	public ArrayList<Area> area = new ArrayList<Area>();
+	public ArrayList<Item> items = new ArrayList<Item>();
+	public ArrayList<Year> years = new ArrayList<Year>();
+	public ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	private Configuration config;
 	private String[][] table;
 
@@ -21,6 +22,7 @@ public class Filter {
 	}
 
 	AccessDatabaseImpl accessDB = new AccessDatabaseImpl();
+
 
 	// todo: change to definitive method when method available / when database
 	// available
