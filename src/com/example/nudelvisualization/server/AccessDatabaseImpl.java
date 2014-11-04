@@ -204,9 +204,8 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 				data.get(0).add(firstLine[1]);
 				data.get(0).add(firstLine[2]);
 				
-				//funktioniert data.size()? Da immer grösser könnte es eine Endlosschlaufe geben?	
-				int i = 1;
-				while (i < data.size()) {
+					int i = 1;
+					while (i<20000){
 					line = br.readLine();
 					
 					if (line == null) break;
