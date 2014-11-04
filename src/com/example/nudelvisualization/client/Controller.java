@@ -71,7 +71,6 @@ public class Controller implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		
-		System.out.println(filter.area);
 		
 		// TODO Put this in a separate Class "Visualization"
 		for(int i = 0; i< filter.area.size(); i++){

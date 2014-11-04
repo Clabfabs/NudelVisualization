@@ -18,8 +18,7 @@ public class Filter {
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-	private final AccessDatabaseAsync dataAccessSocket = GWT
-			.create(AccessDatabase.class);
+	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);
 
 	public Filter() {
 		dataSeries = setDataSeries();
@@ -41,6 +40,7 @@ public class Filter {
 			}
 
 			public void onSuccess(String[][] result) {
+				
 				// indices of column "AreaCode" and "AreaName"
 				int indexAreaCode = 0;
 				int indexAreaName = 0;
