@@ -139,8 +139,8 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 					
 					// Filter
 					
-				//	for(int f=0; f<config.size.selectedyear(), f++){}
-				//		if(cells[8].equals(config.selectedyear(f)){}						
+					//for(int f=0; f<config.size.selectedyear(), f++){}
+					//if(cells[8].equals(config.selectedyear(f)){}						
 					{
 						dataRow = new String[firstLine.length];
 						dataRow = line.split(cvsSplitBy);
@@ -189,6 +189,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 
 		// The data we want to fill
 		ArrayList<ArrayList<String>> data = null;
+		ArrayList<String> stringList = null;
 		String[][] data2 = null;
 
 		try {
@@ -201,31 +202,35 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 			if (line2 != null) {
 				String[] firstLine = line2.split(cvsSplitBy);
 				data = new ArrayList<ArrayList<String>>();
-				data.get(0).add(firstLine[1]);
-				data.get(0).add(firstLine[2]);
+				stringList = new ArrayList<String>();
+				stringList.add(firstLine[1]);
+				stringList.add(firstLine[2]);
+				data.add(stringList);
+			
+				data2 = data.toArray(new String[data.size()][stringList.size()]);
 				
-					int i = 1;
-					while (i<20000){
-					line = br.readLine();
-					
-					if (line == null) break;
-					
-					String[] cells = line.split(cvsSplitBy);
-					if (!(cells[1].equals(data.get(i-1).get(0)) && cells[2].equals(data.get(i-1).get(1)))) {
-						//nochmals durchdenken!!
-						data.get(i).add(cells[1]);
-						data.get(i).add(cells[2]);
-						i++;
-					}
-				}
-				
-				data2 = new String[data.size()][data.get(0).size()];
-				
-				for (int z=0; z<data2.length; z++) {
-					for (int j=0; j<data2[z].length; j++) {
-						data2[z][j] = data.get(z).get(j);	 
-					}
-				}
+//					int i = 1;
+//					while (i<20000){
+//					line = br.readLine();
+//					
+//					if (line == null) break;
+//					
+//					String[] cells = line.split(cvsSplitBy);
+//					if (!(cells[1].equals(data.get(i-1).get(0)) && cells[2].equals(data.get(i-1).get(1)))) {
+//						//nochmals durchdenken!!
+//						data.get(i).add(cells[1]);
+//						data.get(i).add(cells[2]);
+//						i++;
+//					}
+//				}
+//				
+//				data2 = new String[data.size()][stringList.size()];
+//				
+//				for (int z=0; z<data2.length; z++) {
+//					for (int j=0; j<data2[z].length; j++) {
+//						data2[z][j] = data.get(z).get(j);	 
+//					}
+//				}
 				
 		} else {
 				System.out.println("First line failure");
