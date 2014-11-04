@@ -74,7 +74,10 @@ public class Controller implements EntryPoint {
 		System.out.println(filter.area);
 		
 		// TODO Put this in a separate Class "Visualization"
-
+		for(int i = 0; i< filter.area.size(); i++){
+			System.out.println(filter.area.get(i).getName());
+		}
+		
 		dataAccessSocket.getSomeRows(20, new AsyncCallback<String[][]>() {
 			public void onFailure(Throwable caught) {
 				System.out.println("Blah");
