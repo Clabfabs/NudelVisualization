@@ -33,7 +33,7 @@ public class Controller implements EntryPoint {
     private Grid gridYear = new Grid(3, 2);
     private Button buttonUpdateYear = new Button("Update");
     //private ListBox lbArea = new ListBox();
-   // Filter filter = new Filter();
+    Filter filter = new Filter();
     
 
 
@@ -70,7 +70,9 @@ public class Controller implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-	
+		
+		System.out.println(filter.area);
+		
 		// TODO Put this in a separate Class "Visualization"
 
 		dataAccessSocket.getSomeRows(20, new AsyncCallback<String[][]>() {
