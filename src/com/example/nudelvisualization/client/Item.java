@@ -12,7 +12,7 @@ public class Item implements FilterItem {
 	}
 	
 	@Override
-	public boolean getActive() {
+	public boolean isActive() {
 		return this.active;
 	}
 	

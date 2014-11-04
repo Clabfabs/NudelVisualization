@@ -10,7 +10,7 @@ public class Year implements FilterItem {
 	}
 	
 	@Override
-	public boolean getActive() {
+	public boolean isActive() {
 		return this.active;
 	}
 

@@ -118,25 +118,25 @@ public class Filter {
 	public void createConfiguration(){
 		
 		for (int i = 0; i< area.size(); i++){
-			if (area.get(i).getActive()){
+			if (area.get(i).isActive()){
 			config.addArea(area.get(i));
 			}
 		}
 		
 		for (int i = 0; i< items.size(); i++){
-			if (items.get(i).getActive()){
+			if (items.get(i).isActive()){
 				config.addItem(items.get(i));
 			}
 		}
 		
 		for (int i = 0; i< years.size(); i++){
-			if (years.get(i).getActive()){
+			if (years.get(i).isActive()){
 			config.addYear(years.get(i));
 			}
 		}
 		
 		for (int i = 0; i< dataSeries.size(); i++){
-			if (dataSeries.get(i).getActive()){
+			if (dataSeries.get(i).isActive()){
 			config.addDataSeries(dataSeries.get(i));
 			}
 		}	

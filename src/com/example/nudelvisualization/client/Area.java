@@ -11,7 +11,7 @@ public class Area implements FilterItem {
 		this.name = name;
 	}
 	@Override
-	public boolean getActive() {
+	public boolean isActive() {
 		return this.active;
 	}
 
