@@ -180,7 +180,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 		return data;
 	}
 	
-	public ArrayList<ArrayList<String>> getArea() {
+	public String[][] getArea() {
 
 		// Stuff we need for csv import
 		String csvFile = "data/production1990-2011.csv";
@@ -189,7 +189,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 
 		// The data we want to fill
 		ArrayList<ArrayList<String>> data = null;
-		
+		String[][] data2 = null;
 
 		try {
 			br = new BufferedReader(new FileReader(csvFile));
@@ -218,8 +218,17 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 						data.get(i).add(cells[2]);
 						i++;
 					}
-				} 
-			} else {
+				}
+				
+				data2 = new String[data.size()][data.get(0).size()];
+				
+				for (int z=0; z<data2.length; z++) {
+					for (int j=0; j<data2[z].length; j++) {
+						data2[z][j] = data.get(z).get(j);	 
+					}
+				}
+				
+		} else {
 				System.out.println("First line failure");
 			}
 		} catch (FileNotFoundException e) {
@@ -235,7 +244,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 				}
 			}
 		}
-		return data;
+		return data2;
 	}
 
 	/**

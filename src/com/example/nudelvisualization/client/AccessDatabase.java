@@ -12,4 +12,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface AccessDatabase extends RemoteService {
   String[] getMetaData(String input) throws IllegalArgumentException;
   String[][] getSomeRows(int numberOfRows);
+  String[][] getArea();
 }
