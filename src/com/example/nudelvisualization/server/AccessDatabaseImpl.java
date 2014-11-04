@@ -97,6 +97,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 		return data;
 	}
 	
+	
 	public String[][] getSelectedRows(Configuration config) {
 
 		/*// TODO Verify that the input is valid. Example Code:
@@ -179,6 +180,64 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 		return data;
 	}
 	
+	public ArrayList<ArrayList<String>> getArea() {
+
+		// Stuff we need for csv import
+		String csvFile = "data/production1990-2011.csv";
+		BufferedReader br = null;
+		String cvsSplitBy = ",";
+
+		// The data we want to fill
+		ArrayList<ArrayList<String>> data = null;
+		
+
+		try {
+			br = new BufferedReader(new FileReader(csvFile));
+			String line = br.readLine();
+			
+			// workaround to get rid of the first 3 annoying characters -> to be improved! :-)
+			String line2 = line.substring(3);
+
+			if (line2 != null) {
+				String[] firstLine = line2.split(cvsSplitBy);
+				data = new ArrayList<ArrayList<String>>();
+				data.get(0).add(firstLine[1]);
+				data.get(0).add(firstLine[2]);
+				
+				//funktioniert data.size()? Da immer grösser könnte es eine Endlosschlaufe geben?	
+				int i = 1;
+				while (i < data.size()) {
+					line = br.readLine();
+					
+					if (line == null) break;
+					
+					String[] cells = line.split(cvsSplitBy);
+					if (!(cells[1].equals(data.get(i-1).get(0)) && cells[2].equals(data.get(i-1).get(1)))) {
+						//nochmals durchdenken!!
+						data.get(i).add(cells[1]);
+						data.get(i).add(cells[2]);
+						i++;
+					}
+				} 
+			} else {
+				System.out.println("First line failure");
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return data;
+	}
+
 	/**
 	 * Escape an html string. Escaping data received from the client helps to
 	 * prevent cross-site script vulnerabilities.
