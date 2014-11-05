@@ -54,7 +54,8 @@ public class Filter {
 				for (int j = 1; j < result.length; j++) {
 					
 					
-					//if (area.get(j-1).equals(area.get(j)) == false){--> funktioniert nicht
+					//if (area.get(j-1).equals(area.get(j)) == false){--> funktioniert nicht, contains funktionert am ehesten.
+					//aber auch dann werden immer nur 2 Objekte hinzugefügt.
 					
 					//egal wie. Es stoppt, nachdem area 2 Objekte enthält.
 					area.add(new Area(result[indexAreaCode][j], result[indexAreaName][j]));
