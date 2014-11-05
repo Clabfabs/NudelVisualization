@@ -145,16 +145,24 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 
 					String[] cells = line.split(cvsSplitBy);
 
-					// Filter
-
-					// for(int f=0; f<config.size.selectedyear(), f++){}
-					// if(cells[8].equals(config.selectedyear(f)){}
-					{
-						dataRow = new String[firstLine.length];
-						dataRow = line.split(cvsSplitBy);
-						dataList.add(dataRow);
-						i++;
-					}
+					dataRow = new String[firstLine.length];
+					
+					// Adds Rows to the ArrayList that have been selected by the User in the Filter
+						for(int f=0; f<config.getSelectedYearsList().size(); f++){
+							if(cells[8].equals(config.getSelectedYearsList().get(f).getYear())){
+								for(int g=0; g<config.getSelectedAreaList().size(); g++){
+									if(cells[2].equals(config.getSelectedAreaList().get(f).getID())){
+										for(int h=0; h<config.getSelectedItemsList().size(); h++){
+											if(cells[6].equals(config.getSelectedItemsList().get(f).getID())){
+												dataRow = line.split(cvsSplitBy);
+												dataList.add(dataRow);
+												i++;	
+											}
+										}			
+									}
+								}		
+							}
+						}
 				}
 
 			} else {
