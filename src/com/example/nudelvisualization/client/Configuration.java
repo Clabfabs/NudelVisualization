@@ -27,6 +27,22 @@ public void addDataSeries(DataSeries dataSerie){
 	selectedDataSeries.add(dataSerie);
 }
 
+public ArrayList<Area> getSelectedAreaList(){
+	return selectedArea;
+}
+
+public ArrayList<Item> getSelectedItemsList(){
+	return selectedItems;
+}
+
+public ArrayList<Year> getSelectedYearsList(){
+	return selectedYears;
+}
+
+public ArrayList<DataSeries> getSelectedDataSeriesList(){
+	return selectedDataSeries;
+}
+
 //to be done
 public void loadConfig(){
 	

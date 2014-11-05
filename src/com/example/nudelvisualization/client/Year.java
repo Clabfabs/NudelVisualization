@@ -3,9 +3,9 @@ package com.example.nudelvisualization.client;
 public class Year implements FilterItem {
 	
 	private boolean active = false;
-	private int year;
+	private String year;
 	
-	public Year(int year) {
+	public Year(String year) {
 		this.year = year;
 	}
 	
@@ -19,11 +19,11 @@ public class Year implements FilterItem {
 		this.active = active;
 	}
 
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
