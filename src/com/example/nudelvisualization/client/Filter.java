@@ -24,7 +24,7 @@ public class Filter {
 		dataSeries = setDataSeries();
 		//years = setYears();
 		//items = setItems();
-		area = setArea();
+		setArea();
 	}
 
 	// AccessDatabaseImpl accessDB = new AccessDatabaseImpl();
@@ -36,7 +36,7 @@ public class Filter {
 	
 	
 	
-	private ArrayList<Area> setArea() {
+	private void setArea() {
 		dataAccessSocket.getArea(new AsyncCallback<String[][]>() {
 			public void onFailure(Throwable caught) {
 				System.out.println("Blah");
@@ -47,8 +47,11 @@ public class Filter {
 				int indexAreaCode = 0;
 				int indexAreaName = 1;
 				
-				area.add(new Area(result[indexAreaCode][0], result[indexAreaName][0]));
+				 
 				
+				area.add(new Area(result[0][indexAreaCode], result[0][indexAreaName]));
+				System.out.println(area.get(0).getID());
+				System.out.println(area.get(0).getName());
 				// We fill Area objects with the values of the columns "AreaCode" and "AreaName" and gather them in an arraylist.  
 				//result.length stimmt! 
 				for (int j = 1; j < result.length; j++) {
@@ -57,14 +60,15 @@ public class Filter {
 					//if (area.get(j-1).equals(area.get(j)) == false){--> funktioniert nicht, contains funktionert am ehesten.
 					//aber auch dann werden immer nur 2 Objekte hinzugefügt.
 					
+					
 					//egal wie. Es stoppt, nachdem area 2 Objekte enthält.
-					area.add(new Area(result[indexAreaCode][j], result[indexAreaName][j]));
-						
+					area.add(new Area(result[j][indexAreaCode], result[j][indexAreaName]));
+					System.out.println(area.get(j).getID());
+					System.out.println(area.get(j).getName());	
 					}
 				}
 				//}
 			});
-		return area;
 	}
 
 	// Gather all Items in an arraylist
