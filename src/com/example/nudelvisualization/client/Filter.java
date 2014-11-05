@@ -13,7 +13,7 @@ public class Filter {
 	public ArrayList<Year> years = new ArrayList<Year>();
 	public ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	private Configuration config;
-	// private String[][] table;
+	
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
@@ -21,20 +21,16 @@ public class Filter {
 	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);
 
 	public Filter() {
-		dataSeries = setDataSeries();
+		setDataSeries();
 		//years = setYears();
 		//items = setItems();
 		setArea();
 	}
-
-	// AccessDatabaseImpl accessDB = new AccessDatabaseImpl();
-
-	// todo: change to definitive method when method available / when database
-	// available
-
-	// Gather all Areas in an arraylist
 	
-	
+	//TO DOS: Alle Methoden void wie setArea()
+	//getter-Methoden für ArrayLists
+	//setYears() und setItems() wenn setArea() funktioniert...
+
 	
 	private void setArea() {
 		dataAccessSocket.getArea(new AsyncCallback<String[][]>() {
@@ -123,7 +119,7 @@ public class Filter {
 		return years;
 	}*/
 
-	private ArrayList<DataSeries> setDataSeries() {
+	private void setDataSeries() {
 
 		DataSeries exports = new DataSeries(1, "export");
 		dataSeries.add(exports);
@@ -132,7 +128,7 @@ public class Filter {
 		DataSeries production = new DataSeries(3, "production");
 		dataSeries.add(production);
 
-		return dataSeries;
+		
 	}
 
 	// adds all active Objects of the ArrayLists areas, items, years and
