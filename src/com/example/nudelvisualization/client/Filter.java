@@ -50,24 +50,23 @@ public class Filter {
 				 
 				
 				area.add(new Area(result[0][indexAreaCode], result[0][indexAreaName]));
-				System.out.println(area.get(0).getID());
-				System.out.println(area.get(0).getName());
+				//System.out.println(area.get(0).getID());
+				//System.out.println(area.get(0).getName());
 				// We fill Area objects with the values of the columns "AreaCode" and "AreaName" and gather them in an arraylist.  
 				//result.length stimmt! 
 				for (int j = 1; j < result.length; j++) {
 					
+					//geht nicht...
+					//if (area.get(j-1).getID().equals(area.get(j).getID()) == false){
 					
-					//if (area.get(j-1).equals(area.get(j)) == false){--> funktioniert nicht, contains funktionert am ehesten.
-					//aber auch dann werden immer nur 2 Objekte hinzugefügt.
 					
 					
-					//egal wie. Es stoppt, nachdem area 2 Objekte enthält.
 					area.add(new Area(result[j][indexAreaCode], result[j][indexAreaName]));
-					System.out.println(area.get(j).getID());
-					System.out.println(area.get(j).getName());	
+					//System.out.println(area.get(j).getID());
+					//System.out.println(area.get(j).getName());	
 					}
 				}
-				//}
+			//}
 			});
 	}
 
