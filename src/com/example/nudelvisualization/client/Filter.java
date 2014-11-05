@@ -46,25 +46,22 @@ public class Filter {
 				// indices of column "AreaCode" and "AreaName"
 				int indexAreaCode = 0;
 				int indexAreaName = 1;
-
-				// find indices of column "AreaCode" and "AreaName"
-//				for (int i = 0; i < result[0].length; i++) {
-//					if (result[0][i] == "AreaCode") {
-//						indexAreaCode = i;
-//					} else if (result[0][i] == "AreaName") {
-//						indexAreaName = i;
-//					}
-//				}
 				
+				area.add(new Area(result[indexAreaCode][0], result[indexAreaName][0]));
 				
 				// We fill Area objects with the values of the columns "AreaCode" and "AreaName" and gather them in an arraylist.  
+				//result.length stimmt! 
 				for (int j = 1; j < result.length; j++) {
-					Area areaObject = new Area(result[indexAreaCode][j], result[indexAreaName][j]);
-					if (area.contains(areaObject)== false){
-						area.add(areaObject);
+					
+					
+					//if (area.get(j-1).equals(area.get(j)) == false){--> funktioniert nicht
+					
+					//egal wie. Es stoppt, nachdem area 2 Objekte enthält.
+					area.add(new Area(result[indexAreaCode][j], result[indexAreaName][j]));
+						
 					}
 				}
-				}
+				//}
 			});
 		return area;
 	}

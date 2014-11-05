@@ -195,16 +195,18 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		String cvsSplitBy = ",";
 
 		// The data we want to fill
-		ArrayList<ArrayList<String>> data = null;
+		ArrayList<ArrayList<String>> dataAsArrayList = null;
 		ArrayList<String> stringList = null;
-		String[][] data2 = null;
+		String[][] dataAsArray = null;
 
 		try {
 			br = new BufferedReader(new FileReader(csvFile));
 			String line = br.readLine(); // ignore first row.
-			data = new ArrayList<ArrayList<String>>();
+			dataAsArrayList = new ArrayList<ArrayList<String>>();
 			stringList = new ArrayList<String>();
-
+			
+			/*Fills only the AreaCode-column and the AreaName-column 
+				in a multidimensional ArrayList (dataAsArrayList)*/
 			while (br.readLine() != null) {
 				line = br.readLine();
 
@@ -214,15 +216,16 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 				stringList = new ArrayList<String>();
 				stringList.add(firstLine[2]);
 				stringList.add(firstLine[3]);
-				data.add(stringList);
+				dataAsArrayList.add(stringList);
 			}
-
-			String[][] dataArray = new String[data.size()][];
-			for (int i = 0; i < data.size(); i++) {
-				List<String> areaList = data.get(i);
+			
+			//converts mulitdimensional ArrayList (dataAsArrayList) into multidimensional Array (dataAsArray)
+			String[][] dataArray = new String[dataAsArrayList.size()][];
+			for (int i = 0; i < dataAsArrayList.size(); i++) {
+				List<String> areaList = dataAsArrayList.get(i);
 				dataArray[i] = areaList.toArray(new String[areaList.size()]);
 			}
-			data2 = dataArray;
+			dataAsArray = dataArray;
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -237,7 +240,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 				}
 			}
 		}
-		return data2;
+		return dataAsArray;
 	}
 
 	/**
