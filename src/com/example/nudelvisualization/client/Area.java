@@ -37,7 +37,14 @@ public class Area implements FilterItem {
 	}
 
 
-	
+	public boolean equals(Object obj) {
+		if(obj.getClass() != this.getClass()){
+			return false;
+		}
+		
+		Area other = (Area) obj;
+		return this.ID.equals(other.ID);
+	}
 	
 
 }

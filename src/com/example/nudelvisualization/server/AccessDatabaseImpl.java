@@ -201,40 +201,29 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 
 		try {
 			br = new BufferedReader(new FileReader(csvFile));
-			String line = br.readLine();
+			String line = br.readLine(); // ignore first row.
+			data = new ArrayList<ArrayList<String>>();
+			stringList = new ArrayList<String>();
 
-			// workaround to get rid of the first 3 annoying characters -> to be
-			// improved! :-)
-			// String line2 = line.substring(3);
+			while (br.readLine() != null) {
+				line = br.readLine();
 
-			if (line != null) {
-				data = new ArrayList<ArrayList<String>>();
+				if (line == null)
+					break;
+				String[] firstLine = line.split(cvsSplitBy);
 				stringList = new ArrayList<String>();
-
-				int j = 0;
-				while (j < 100) {
-					line = br.readLine();
-
-					if (line == null)
-						break;
-					String[] firstLine = line.split(cvsSplitBy);
-					stringList = new ArrayList<String>();
-					stringList.add(firstLine[2]);
-					stringList.add(firstLine[3]);
-					data.add(stringList);
-					j++;
-				}
-
-				String[][] dataArray = new String[data.size()][];
-				for (int i = 0; i < data.size(); i++) {
-					List<String> areaList = data.get(i);
-					dataArray[i] = areaList.toArray(new String[areaList.size()]);
-				}
-				data2 = dataArray;
-
-			} else {
-				System.out.println("First line failure");
+				stringList.add(firstLine[2]);
+				stringList.add(firstLine[3]);
+				data.add(stringList);
 			}
+
+			String[][] dataArray = new String[data.size()][];
+			for (int i = 0; i < data.size(); i++) {
+				List<String> areaList = data.get(i);
+				dataArray[i] = areaList.toArray(new String[areaList.size()]);
+			}
+			data2 = dataArray;
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

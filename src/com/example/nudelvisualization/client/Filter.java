@@ -33,6 +33,9 @@ public class Filter {
 	// available
 
 	// Gather all Areas in an arraylist
+	
+	
+	
 	private ArrayList<Area> setArea() {
 		dataAccessSocket.getArea(new AsyncCallback<String[][]>() {
 			public void onFailure(Throwable caught) {
@@ -40,24 +43,25 @@ public class Filter {
 			}
 
 			public void onSuccess(String[][] result) {
-				
 				// indices of column "AreaCode" and "AreaName"
 				int indexAreaCode = 0;
-				int indexAreaName = 0;
+				int indexAreaName = 1;
 
 				// find indices of column "AreaCode" and "AreaName"
-				for (int i = 0; i < result[0].length; i++) {
-					if (result[0][i] == "AreaCode") {
-						indexAreaCode = i;
-					} else if (result[0][i] == "AreaName") {
-						indexAreaName = i;
-					}
-				}
+//				for (int i = 0; i < result[0].length; i++) {
+//					if (result[0][i] == "AreaCode") {
+//						indexAreaCode = i;
+//					} else if (result[0][i] == "AreaName") {
+//						indexAreaName = i;
+//					}
+//				}
+				
+				
 				// We fill Area objects with the values of the columns "AreaCode" and "AreaName" and gather them in an arraylist.  
 				for (int j = 1; j < result.length; j++) {
-					Area areaObject = new Area(result[j][indexAreaCode], result[j][indexAreaName]);
+					Area areaObject = new Area(result[indexAreaCode][j], result[indexAreaName][j]);
 					if (area.contains(areaObject)== false){
-					area.add(areaObject);
+						area.add(areaObject);
 					}
 				}
 				}
