@@ -8,10 +8,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class Filter {
 
-	public ArrayList<Area> area = new ArrayList<Area>();
-	public ArrayList<Item> items = new ArrayList<Item>();
-	public ArrayList<Year> years = new ArrayList<Year>();
-	public ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
+	private ArrayList<Area> area = new ArrayList<Area>();
+	private ArrayList<Item> items = new ArrayList<Item>();
+	private ArrayList<Year> years = new ArrayList<Year>();
+	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	private Configuration config;
 	
 	/**
@@ -22,15 +22,11 @@ public class Filter {
 
 	public Filter() {
 		setDataSeries();
-		//years = setYears();
-		//items = setItems();
+		setYears();
+		setItems();
 		setArea();
 	}
 	
-	//TO DOS: Alle Methoden void wie setArea()
-	//getter-Methoden für ArrayLists
-	//setYears() und setItems() wenn setArea() funktioniert...
-
 	
 	private void setArea() {
 		dataAccessSocket.getArea(new AsyncCallback<String[][]>() {
@@ -51,73 +47,68 @@ public class Filter {
 					//System.out.println(area.get(j).getName());	
 					}
 				}
-			//}
 			});
 	}
+	
+	public ArrayList<Area> getArea(){
+		return this.area;
+	}
 
-	// Gather all Items in an arraylist
-	/*private ArrayList<Item> setItems() {
-		
-
-		// indices of column "ItemCode" and "ItemName"
-		int indexItemCode = 0;
-		int indexItemName = 0;
-
-		// find indices of column "ItemCode" and "ItemName"
-		for (int i = 0; i < table[0].length; i++) {
-			if (table[0][i] == "ItemCode") {
-				indexItemCode = i;
-			} else if (table[0][i] == "ItemName") {
-				indexItemName = i;
+	/* Gather all Items in an arraylist--> hat noch viele Items doppelt, da es von jedem
+	Land einfach einmal jedes Item nimmt. Viele Länder haben aber die gleichen Items...*/
+	private void setItems() {
+		dataAccessSocket.getItem(new AsyncCallback<String[][]>() {
+			public void onFailure(Throwable caught) {
+				System.out.println("Blah");
 			}
-		}
 
-		// We fill Area objects with the values of the columns "AreaCode" and
-		// "AreaName" and gather them in an arraylist.
-		for (int j = 1; j < table.length; j++) {
-			Item itemObject = new Item(table[j][indexItemCode],
-					table[j][indexItemName]);
-			if (items.contains(itemObject) == false)
-				items.add(itemObject);
-		}
-		return items;
-	}*/
+			public void onSuccess(String[][] result) {
+				// indices of column "AreaCode" and "AreaName"
+				int indexItemCode = 0;
+				int indexItemName = 1;
+				
+				/* We fill Area objects with the values of the columns "AreaCode" 
+				and "AreaName" and gather them in an arraylist(area).*/ 
+				for (int j = 0; j < result.length; j++) {
+					items.add(new Item(result[j][indexItemCode], result[j][indexItemName]));
+					//System.out.println(items.get(j).getID());
+					//System.out.println(items.get(j).getName());	
+					}
+				}
+			});
+		
+	}
+	
+	public ArrayList<Item> getItems(){
+		return this.items;
+	}
 
 	// Gather all Years in an arraylist
-	/*private ArrayList<Year> setYears() {
-
-		table = accessDB.getSomeRows(20);
-
-		// indices of column "Year"
-		int indexYear = 0;
-
-		// find indices of column "Year"
-		for (int i = 0; i < table[0].length; i++) {
-			if (table[0][i] == "Year") {
-				indexYear = i;
-			}
+	private void setYears() {
+	int startYear = 1990;
+	int endYear = 2011;
+	for (int j = 0; j <= endYear - startYear;  j++) {
+		years.add(new Year(startYear+j));
+		System.out.println(years.get(j).getYear());
 		}
-
-		// We fill Area objects with the values of the columns "AreaCode" and
-		// "AreaName" and gather them in an arraylist.
-		for (int j = 1; j < table.length; j++) {
-			Year yearObject = new Year(Integer.valueOf(table[j][indexYear]));
-			if (years.contains(yearObject) == false)
-				years.add(yearObject);
-		}
-		return years;
-	}*/
-
+	}
+	
+	public ArrayList<Year> getYears(){
+		return this.years;
+	}
+	
+	
 	private void setDataSeries() {
-
 		DataSeries exports = new DataSeries(1, "export");
 		dataSeries.add(exports);
 		DataSeries imports = new DataSeries(2, "import");
 		dataSeries.add(imports);
 		DataSeries production = new DataSeries(3, "production");
 		dataSeries.add(production);
-
-		
+	}
+	
+	public ArrayList<DataSeries> getDataSeries(){
+		return this.dataSeries;
 	}
 
 	// adds all active Objects of the ArrayLists areas, items, years and

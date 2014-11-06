@@ -9,4 +9,5 @@ public interface AccessDatabaseAsync {
   void getMetaData(String input, AsyncCallback<String[]> callback);
   void getSomeRows(int numberOfRows, AsyncCallback<String[][]> callback);
   void getArea(AsyncCallback<String[][]> callback);
+  void getItem(AsyncCallback<String[][]> callback);
 }

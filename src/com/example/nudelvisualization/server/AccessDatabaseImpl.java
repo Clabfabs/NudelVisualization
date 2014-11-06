@@ -267,6 +267,80 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		}
 		return dataAsArray;
 	}
+	
+	
+	public String[][] getItem() {
+
+		// Stuff we need for csv import
+		String csvFile = "data/production1990-2011.csv";
+		BufferedReader br = null;
+		String cvsSplitBy = ",";
+
+		// The data we want to fill
+		ArrayList<ArrayList<String>> dataAsArrayList = null;
+		ArrayList<String> stringList = null;
+		String[][] dataAsArray = null;
+
+		try {
+			br = new BufferedReader(new FileReader(csvFile));
+			String line = br.readLine(); // ignore first row.
+			dataAsArrayList = new ArrayList<ArrayList<String>>();
+			int counter = 1;
+			line = br.readLine();
+			String[] firstLine = line.split(cvsSplitBy);
+			stringList = new ArrayList<String>();//add the first row, so we can compare
+			stringList.add(firstLine[6]);
+			stringList.add(firstLine[7]);
+			dataAsArrayList.add(stringList);
+				
+			/*Fills only the ItemCode-column and the ItemName-column 
+				in a multidimensional ArrayList (dataAsArrayList) and takes 
+				every Item and ID just once*/
+			while (br.readLine() != null) {
+				line = br.readLine();
+				
+				if (line == null)
+					break;
+				String[] firstLine2 = line.split(cvsSplitBy);
+				stringList = new ArrayList<String>();
+				if (dataAsArrayList.get(counter-1).get(0).compareTo(firstLine2[6]) != 0){
+					stringList.add(firstLine2[6]);
+					stringList.add(firstLine2[7]);
+					dataAsArrayList.add(stringList);
+					counter++;
+				}else{
+	
+				}
+				
+			}
+			
+			/*converts mulitdimensional ArrayList (dataAsArrayList) 
+			 into multidimensional Array (dataAsArray)*/
+			String[][] dataArray = new String[dataAsArrayList.size()][];
+			List<String> areaList = dataAsArrayList.get(0);
+			dataArray[0] = areaList.toArray(new String[areaList.size()]);
+			for (int i = 1; i < dataAsArrayList.size(); i++) {
+				List<String> areaList2 = dataAsArrayList.get(i);
+				dataArray[i] = areaList2.toArray(new String[areaList.size()]);
+				}
+			
+			dataAsArray = dataArray;
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return dataAsArray;
+	}
 
 	/**
 	 * Escape an html string. Escaping data received from the client helps to
