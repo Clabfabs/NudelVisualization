@@ -147,7 +147,7 @@ public class Filter {
 	// to be done
 	public void visualize(Configuration config) {
 		Visualization visualization = new Visualization(config);
-		visualization.onModuleLoad();
+		visualization.draw();
 	}
 
 }

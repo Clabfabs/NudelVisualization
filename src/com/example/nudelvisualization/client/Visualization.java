@@ -1,13 +1,13 @@
 package com.example.nudelvisualization.client;
 
-import com.google.gwt.core.client.EntryPoint;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 
 
 
-public class Visualization implements EntryPoint {
+public class Visualization{
 
 	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
 	private FlexTable sampleTable = new FlexTable();
@@ -17,7 +17,7 @@ public class Visualization implements EntryPoint {
 		this.config = config;
 	}
 
-	public void onModuleLoad(){
+	public void draw(){
 		dataAccessSocket.getSelectedRows(config, new AsyncCallback<String[][]>() {
 			public void onFailure(Throwable caught) {
 				System.out.println("Blah");
@@ -36,4 +36,5 @@ public class Visualization implements EntryPoint {
 				}
 		});
 	}
+
 }
