@@ -211,44 +211,44 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			br = new BufferedReader(new FileReader(csvFile));
 			String line = br.readLine(); // ignore first row.
 			dataAsArrayList = new ArrayList<ArrayList<String>>();
-			stringList = new ArrayList<String>();
 			int counter = 1;
 			line = br.readLine();
 			String[] firstLine = line.split(cvsSplitBy);
-			stringList = new ArrayList<String>();
+			stringList = new ArrayList<String>();//add the first row, so we can compare
 			stringList.add(firstLine[2]);
 			stringList.add(firstLine[3]);
 			dataAsArrayList.add(stringList);
 				
 			/*Fills only the AreaCode-column and the AreaName-column 
-				in a multidimensional ArrayList (dataAsArrayList)*/
+				in a multidimensional ArrayList (dataAsArrayList) and takes 
+				every Area and ID just once*/
 			while (br.readLine() != null) {
 				line = br.readLine();
-
+				
 				if (line == null)
 					break;
 				String[] firstLine2 = line.split(cvsSplitBy);
 				stringList = new ArrayList<String>();
-				//funktioniert nicht:
-				//if (dataAsArrayList.get(counter-1).get(0).equals(firstLine2[2]) == false){
+				if (dataAsArrayList.get(counter-1).get(0).compareTo(firstLine2[2]) != 0){
 					stringList.add(firstLine2[2]);
 					stringList.add(firstLine2[3]);
 					dataAsArrayList.add(stringList);
-					}
-				counter++;
-			//}
+					counter++;
+				}else{
+	
+				}
+				
+			}
 			
-			//converts mulitdimensional ArrayList (dataAsArrayList) into multidimensional Array (dataAsArray)
+			/*converts mulitdimensional ArrayList (dataAsArrayList) 
+			 into multidimensional Array (dataAsArray)*/
 			String[][] dataArray = new String[dataAsArrayList.size()][];
 			List<String> areaList = dataAsArrayList.get(0);
 			dataArray[0] = areaList.toArray(new String[areaList.size()]);
 			for (int i = 1; i < dataAsArrayList.size(); i++) {
-				//if (dataAsArrayList.get(i).get(0).equals(dataAsArrayList.get(i-1).get(0)) == false){
-				//--> funktioniert nicht. Ist immer falsch. 
-					List<String> areaList2 = dataAsArrayList.get(i);
-					dataArray[i] = areaList2.toArray(new String[areaList.size()]);
+				List<String> areaList2 = dataAsArrayList.get(i);
+				dataArray[i] = areaList2.toArray(new String[areaList.size()]);
 				}
-			
 			
 			dataAsArray = dataArray;
 

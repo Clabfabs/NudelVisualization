@@ -43,20 +43,9 @@ public class Filter {
 				int indexAreaCode = 0;
 				int indexAreaName = 1;
 				
-				 
-				
-				area.add(new Area(result[0][indexAreaCode], result[0][indexAreaName]));
-				//System.out.println(area.get(0).getID());
-				//System.out.println(area.get(0).getName());
-				// We fill Area objects with the values of the columns "AreaCode" and "AreaName" and gather them in an arraylist.  
-				//result.length stimmt! 
-				for (int j = 1; j < result.length; j++) {
-					
-					//geht nicht...
-					//if (area.get(j-1).getID().equals(area.get(j).getID()) == false){
-					
-					
-					
+				/* We fill Area objects with the values of the columns "AreaCode" 
+				and "AreaName" and gather them in an arraylist(area).*/ 
+				for (int j = 0; j < result.length; j++) {
 					area.add(new Area(result[j][indexAreaCode], result[j][indexAreaName]));
 					//System.out.println(area.get(j).getID());
 					//System.out.println(area.get(j).getName());	
