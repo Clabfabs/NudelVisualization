@@ -14,4 +14,5 @@ public interface AccessDatabase extends RemoteService {
   String[][] getSomeRows(int numberOfRows);
   String[][] getArea();
   String[][] getItem();
+  String[][] getSelectedRows(Configuration config);
 }
