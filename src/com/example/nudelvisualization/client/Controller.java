@@ -1,5 +1,7 @@
 package com.example.nudelvisualization.client;
 
+import java.util.ArrayList;
+
 import com.example.nudelvisualization.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -8,8 +10,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
@@ -34,6 +38,7 @@ public class Controller implements EntryPoint {
     private Button buttonUpdateYear = new Button("Update");
     private ListBox lbArea = new ListBox();
     Filter filter = new Filter(lbArea);
+    ArrayList <CheckBox> cb = new ArrayList <CheckBox>();
     
 
 
@@ -73,10 +78,6 @@ public class Controller implements EntryPoint {
 		
 		
 		// TODO Put this in a separate Class "Visualization"
-//		for(int i = 0; i< filter.area.size(); i++){
-//			System.out.println(filter.area.get(i).getName());
-//		}
-		
 		dataAccessSocket.getSomeRows(20, new AsyncCallback<String[][]>() {
 			public void onFailure(Throwable caught) {
 				System.out.println("Blah");
@@ -97,6 +98,36 @@ public class Controller implements EntryPoint {
 			}
 		});
 	
+		//create ListBox for Area
+		//for (int i = 0; i < filter.area.size(); i++){
+		//	lbArea.addItem(filter.area.get(i).getName());
+		//}
+	    
+	    
+		for (int j = 0; j < filter.getArea().size(); j++) {
+			cb.add(new CheckBox(filter.getArea().get(j).getName()));
+		}
+		
+		for (int j = 0; j < cb.size(); j++) {
+			cb.get(j).setValue(false);
+		}
+	    
+
+		// Hook up a handler to find out when it's clicked.
+		for (int j = 0; j < cb.size(); j++){
+			cb.get(j).addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					boolean checked = ((CheckBox) event.getSource()).getValue();
+					Window.alert("It is " + (checked ? "" : "not ") + "checked");
+				}
+			});
+		}
+	    // Add it to the root panel.
+		for (int i = 0; i<cb.size(); i++){
+	    RootPanel.get().add(cb.get(i));
+		}
+		
 	    // create Grid for Year Filter
 	    gridYear.setText(0,0, " Start Year");
 	    gridYear.setWidget(0, 1, tbYearStart);;
