@@ -33,7 +33,7 @@ public class Filter {
 	}
 
 	private void setArea() {
-		dataAccessSocket.getArea(new MyCallbackHandler());
+		dataAccessSocket.getArea(new AreaCallbackHandler());
 	}
 
 	public ArrayList<Area> getArea() {
@@ -138,7 +138,7 @@ public class Filter {
 		// visualization.draw();
 	}
 
-	private class MyCallbackHandler implements AsyncCallback<String[][]> {
+	private class AreaCallbackHandler implements AsyncCallback<String[][]> {
 
 		public void onFailure(Throwable caught) {
 			System.out.println("Blah");
