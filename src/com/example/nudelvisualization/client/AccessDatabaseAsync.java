@@ -10,5 +10,5 @@ public interface AccessDatabaseAsync {
   void getSomeRows(int numberOfRows, AsyncCallback<String[][]> callback);
   void getArea(AsyncCallback<String[][]> callback);
   void getItem(AsyncCallback<String[][]> callback);
-  void getSelectedRows(Configuration config, AsyncCallback<String[][]> callback);
+ // void getSelectedRows(Configuration config, AsyncCallback<String[][]> callback);
 }

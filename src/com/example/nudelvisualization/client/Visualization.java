@@ -17,7 +17,7 @@ public class Visualization{
 		this.config = config;
 	}
 
-	public void draw(){
+	/*public void draw(){
 		dataAccessSocket.getSelectedRows(config, new AsyncCallback<String[][]>() {
 			public void onFailure(Throwable caught) {
 				System.out.println("Blah");
@@ -35,6 +35,6 @@ public class Visualization{
 					}
 				}
 		});
-	}
+	}*/
 
 }
