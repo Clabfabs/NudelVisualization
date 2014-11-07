@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -20,6 +21,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.CheckBox;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -98,7 +100,21 @@ public class Controller implements EntryPoint {
 		//	lbArea.addItem(filter.area.get(i).getName());
 		//}
 		
-		
+		CheckBox cb = new CheckBox("Foo");
+	    cb.setValue(false);
+
+	    // Hook up a handler to find out when it's clicked.
+	    cb.addClickHandler(new ClickHandler() {
+	      @Override
+	      public void onClick(ClickEvent event) {
+	        boolean checked = ((CheckBox) event.getSource()).getValue();
+	        Window.alert("It is " + (checked ? "" : "not ") + "checked");
+	      }
+	    });
+
+	    // Add it to the root panel.
+	    RootPanel.get().add(cb);
+	  
 		
 	    // create Grid for Year Filter
 	    gridYear.setText(0,0, " Start Year");
