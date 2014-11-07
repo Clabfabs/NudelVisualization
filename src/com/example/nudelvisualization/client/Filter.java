@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.example.nudelvisualization.server.AccessDatabaseImpl;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.ListBox;
 
 public class Filter {
 
@@ -13,91 +14,78 @@ public class Filter {
 	private ArrayList<Year> years = new ArrayList<Year>();
 	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	private Configuration config;
-	
+	private ListBox lbAreaFilter = null;
+
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);
+	private final AccessDatabaseAsync dataAccessSocket = GWT
+			.create(AccessDatabase.class);
 
-	public Filter() {
+	public Filter(ListBox lbArea ) {
+		lbAreaFilter = lbArea;
 		setDataSeries();
 		setYears();
-		setItems();
+		// setItems();
 		setArea();
+		// System.out.println(area.get(0).getName());
 	}
-	
-	
-	private void setArea() {
-		dataAccessSocket.getArea(new AsyncCallback<String[][]>() {
-			public void onFailure(Throwable caught) {
-				System.out.println("Blah");
-			}
 
-			public void onSuccess(String[][] result) {
-				// indices of column "AreaCode" and "AreaName"
-				int indexAreaCode = 0;
-				int indexAreaName = 1;
-				
-				/* We fill Area objects with the values of the columns "AreaCode" 
-				and "AreaName" and gather them in an arraylist(area).*/ 
-				for (int j = 0; j < result.length; j++) {
-					area.add(new Area(result[j][indexAreaCode], result[j][indexAreaName]));
-					//System.out.println(area.get(j).getID());
-					//System.out.println(area.get(j).getName());	
-					}
-				}
-			});
+	private void setArea() {
+		dataAccessSocket.getArea(new MyCallbackHandler());
 	}
-	
-	public ArrayList<Area> getArea(){
+
+	public ArrayList<Area> getArea() {
 		return this.area;
 	}
 
-	/* Gather all Items in an arraylist--> hat noch viele Items doppelt, da es von jedem
-	Land einfach einmal jedes Item nimmt. Viele Länder haben aber die gleichen Items...*/
-	private void setItems() {
-		dataAccessSocket.getItem(new AsyncCallback<String[][]>() {
-			public void onFailure(Throwable caught) {
-				System.out.println("Blah");
-			}
+	/*
+	 * Gather all Items in an arraylist--> hat noch viele Items doppelt, da es
+	 * von jedem Land einfach einmal jedes Item nimmt. Viele Länder haben aber
+	 * die gleichen Items...
+	 */
+	// private void setItems() {
+	// dataAccessSocket.getItem(new AsyncCallback<String[][]>() {
+	// public void onFailure(Throwable caught) {
+	// System.out.println("Blah");
+	// }
+	//
+	// public void onSuccess(String[][] result) {
+	// // indices of column "AreaCode" and "AreaName"
+	// int indexItemCode = 0;
+	// int indexItemName = 1;
+	//
+	// /* We fill Area objects with the values of the columns "AreaCode"
+	// and "AreaName" and gather them in an arraylist(area).*/
+	// for (int j = 0; j < result.length; j++) {
+	// items.add(new Item(result[j][indexItemCode], result[j][indexItemName]));
+	// //System.out.println(items.get(j).getID());
+	// //System.out.println(items.get(j).getName());
+	// }
+	// }
+	// });
+	//
+	// }
 
-			public void onSuccess(String[][] result) {
-				// indices of column "AreaCode" and "AreaName"
-				int indexItemCode = 0;
-				int indexItemName = 1;
-				
-				/* We fill Area objects with the values of the columns "AreaCode" 
-				and "AreaName" and gather them in an arraylist(area).*/ 
-				for (int j = 0; j < result.length; j++) {
-					items.add(new Item(result[j][indexItemCode], result[j][indexItemName]));
-					//System.out.println(items.get(j).getID());
-					//System.out.println(items.get(j).getName());	
-					}
-				}
-			});
-		
-	}
-	
-	public ArrayList<Item> getItems(){
+	public ArrayList<Item> getItems() {
 		return this.items;
 	}
 
 	// Gather all Years in an arraylist
 	private void setYears() {
-	int startYear = 1990;
-	int endYear = 2011;
-	for (int j = 0; j <= endYear - startYear;  j++) {
-		years.add(new Year(startYear+j));
-		System.out.println(years.get(j).getYear());
+		int startYear = 1990;
+		int endYear = 2011;
+		for (int j = 0; j <= endYear - startYear; j++) {
+			years.add(new Year(startYear + j));
+			// System.out.println(years.get(j).getYear());
 		}
 	}
-	
-	public ArrayList<Year> getYears(){
+
+	public ArrayList<Year> getYears() {
 		return this.years;
 	}
-	
-	
+
 	private void setDataSeries() {
 		DataSeries exports = new DataSeries(1, "export");
 		dataSeries.add(exports);
@@ -106,8 +94,8 @@ public class Filter {
 		DataSeries production = new DataSeries(3, "production");
 		dataSeries.add(production);
 	}
-	
-	public ArrayList<DataSeries> getDataSeries(){
+
+	public ArrayList<DataSeries> getDataSeries() {
 		return this.dataSeries;
 	}
 
@@ -147,7 +135,34 @@ public class Filter {
 	// to be done
 	public void visualize(Configuration config) {
 		Visualization visualization = new Visualization(config);
-		//visualization.draw();
+		// visualization.draw();
+	}
+
+	private class MyCallbackHandler implements AsyncCallback<String[][]> {
+
+		public void onFailure(Throwable caught) {
+			System.out.println("Blah");
+		}
+
+		public void onSuccess(String[][] result) {
+			// indices of column "AreaCode" and "AreaName"
+			int indexAreaCode = 0;
+			int indexAreaName = 1;
+
+			/*
+			 * We fill Area objects with the values of the columns "AreaCode"
+			 * and "AreaName" and gather them in an arraylist(area).
+			 */
+			for (int j = 0; j < result.length; j++) {
+				area.add(new Area(result[j][indexAreaCode],
+						result[j][indexAreaName]));
+				// System.out.println(area.get(j).getName());
+				// System.out.println(area.get(j).getID());
+				// System.out.println(area.get(j).getName());
+				lbAreaFilter.addItem(area.get(j).getName());
+			}
+		}
+
 	}
 
 }

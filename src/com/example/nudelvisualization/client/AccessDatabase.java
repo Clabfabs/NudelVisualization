@@ -13,6 +13,6 @@ public interface AccessDatabase extends RemoteService {
   String[] getMetaData(String input) throws IllegalArgumentException;
   String[][] getSomeRows(int numberOfRows);
   String[][] getArea();
-  String[][] getItem();
-  //String[][] getSelectedRows(Configuration config);
+ // String[][] getItem();
+String[][] getItem();
 }
