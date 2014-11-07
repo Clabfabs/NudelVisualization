@@ -1,5 +1,7 @@
 package com.example.nudelvisualization.client;
 
+import java.util.ArrayList;
+
 import com.example.nudelvisualization.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -36,6 +38,7 @@ public class Controller implements EntryPoint {
     private Button buttonUpdateYear = new Button("Update");
     private ListBox lbArea = new ListBox();
     Filter filter = new Filter();
+    ArrayList <CheckBox> cb = new ArrayList <CheckBox>();
     
 
 
@@ -99,22 +102,31 @@ public class Controller implements EntryPoint {
 		//for (int i = 0; i < filter.area.size(); i++){
 		//	lbArea.addItem(filter.area.get(i).getName());
 		//}
+	    
+	    
+		for (int j = 0; j < filter.getArea().size(); j++) {
+			cb.add(new CheckBox(filter.getArea().get(j).getName()));
+		}
 		
-		CheckBox cb = new CheckBox("Foo");
-	    cb.setValue(false);
+		for (int j = 0; j < cb.size(); j++) {
+			cb.get(j).setValue(false);
+		}
+	    
 
-	    // Hook up a handler to find out when it's clicked.
-	    cb.addClickHandler(new ClickHandler() {
-	      @Override
-	      public void onClick(ClickEvent event) {
-	        boolean checked = ((CheckBox) event.getSource()).getValue();
-	        Window.alert("It is " + (checked ? "" : "not ") + "checked");
-	      }
-	    });
-
+		// Hook up a handler to find out when it's clicked.
+		for (int j = 0; j < cb.size(); j++){
+			cb.get(j).addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					boolean checked = ((CheckBox) event.getSource()).getValue();
+					Window.alert("It is " + (checked ? "" : "not ") + "checked");
+				}
+			});
+		}
 	    // Add it to the root panel.
-	    RootPanel.get().add(cb);
-	  
+		for (int i = 0; i<cb.size(); i++){
+	    RootPanel.get().add(cb.get(i));
+		}
 		
 	    // create Grid for Year Filter
 	    gridYear.setText(0,0, " Start Year");
