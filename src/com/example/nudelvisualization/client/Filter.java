@@ -3,8 +3,10 @@ package com.example.nudelvisualization.client;
 import java.util.ArrayList;
 
 import com.example.nudelvisualization.server.AccessDatabaseImpl;
+import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class Filter {
@@ -15,6 +17,7 @@ public class Filter {
 	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	private Configuration config;
 	private ListBox lbAreaFilter = null;
+	private ArrayList<CheckBox> cbAreaFilter = null;
 
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting
@@ -23,8 +26,8 @@ public class Filter {
 	private final AccessDatabaseAsync dataAccessSocket = GWT
 			.create(AccessDatabase.class);
 
-	public Filter(ListBox lbArea ) {
-		lbAreaFilter = lbArea;
+	public Filter(ArrayList<CheckBox> cbArea) {
+		cbAreaFilter = cbArea;
 		setDataSeries();
 		setYears();
 		// setItems();
@@ -159,7 +162,8 @@ public class Filter {
 				// System.out.println(area.get(j).getName());
 				// System.out.println(area.get(j).getID());
 				// System.out.println(area.get(j).getName());
-				lbAreaFilter.addItem(area.get(j).getName());
+				CheckBox cb = new CheckBox(area.get(j).getName());
+				cbAreaFilter.add(cb);
 			}
 		}
 

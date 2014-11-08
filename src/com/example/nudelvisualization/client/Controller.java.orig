@@ -10,10 +10,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
@@ -24,7 +22,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -37,9 +34,13 @@ public class Controller implements EntryPoint {
     private TextBox tbYearEnd = new TextBox();
     private Grid gridYear = new Grid(3, 2);
     private Button buttonUpdateYear = new Button("Update");
-    //private ListBox lbArea = new ListBox();
-    private ArrayList<CheckBox> cbArea = new ArrayList <CheckBox>();
-    Filter filter = new Filter(cbArea);
+    private ListBox lbArea = new ListBox();
+<<<<<<< HEAD
+    Filter filter = new Filter(lbArea);
+=======
+    Filter filter = new Filter();
+    ArrayList <CheckBox> cb = new ArrayList <CheckBox>();
+>>>>>>> branch 'master' of https://github.com/Clabfabs/NudelVisualization.git
     
 
 
@@ -79,6 +80,10 @@ public class Controller implements EntryPoint {
 		
 		
 		// TODO Put this in a separate Class "Visualization"
+//		for(int i = 0; i< filter.area.size(); i++){
+//			System.out.println(filter.area.get(i).getName());
+//		}
+		
 		dataAccessSocket.getSomeRows(20, new AsyncCallback<String[][]>() {
 			public void onFailure(Throwable caught) {
 				System.out.println("Blah");
@@ -99,42 +104,45 @@ public class Controller implements EntryPoint {
 			}
 		});
 	
+<<<<<<< HEAD
+=======
 		//create ListBox for Area
 		//for (int i = 0; i < filter.area.size(); i++){
 		//	lbArea.addItem(filter.area.get(i).getName());
 		//}
 	    
 	    
-//		for (int j = 0; j < filter.getArea().size(); j++) {
-//			cb.add(new CheckBox(filter.getArea().get(j).getName()));
-//		}
+		for (int j = 0; j < filter.getArea().size(); j++) {
+			cb.add(new CheckBox(filter.getArea().get(j).getName()));
+		}
 		
-//		for (int j = 0; j < cb.size(); j++) {
-//			cb.get(j).setValue(false);
-//		}
+		for (int j = 0; j < cb.size(); j++) {
+			cb.get(j).setValue(false);
+		}
 	    
 
 		// Hook up a handler to find out when it's clicked.
-//		for (int j = 0; j < cb.size(); j++){
-//			cb.get(j).addClickHandler(new ClickHandler() {
-//				@Override
-//				public void onClick(ClickEvent event) {
-//					boolean checked = ((CheckBox) event.getSource()).getValue();
-//					Window.alert("It is " + (checked ? "" : "not ") + "checked");
-//				}
-//			});
-//		}
-//	    // Add it to the root panel.
-//		for (int i = 0; i<cb.size(); i++){
-//	    RootPanel.get().add(cb.get(i));
-//		}
+		for (int j = 0; j < cb.size(); j++){
+			cb.get(j).addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					boolean checked = ((CheckBox) event.getSource()).getValue();
+					Window.alert("It is " + (checked ? "" : "not ") + "checked");
+				}
+			});
+		}
+	    // Add it to the root panel.
+		for (int i = 0; i<cb.size(); i++){
+	    RootPanel.get().add(cb.get(i));
+		}
 		
-//	    // create Grid for Year Filter
-//	    gridYear.setText(0,0, " Start Year");
-//	    gridYear.setWidget(0, 1, tbYearStart);;
-//	    gridYear.setText(1,0, " End Year");
-//	    gridYear.setWidget(1,1,tbYearEnd);
-//	    gridYear.setWidget(2,1, buttonUpdateYear);
+>>>>>>> branch 'master' of https://github.com/Clabfabs/NudelVisualization.git
+	    // create Grid for Year Filter
+	    gridYear.setText(0,0, " Start Year");
+	    gridYear.setWidget(0, 1, tbYearStart);;
+	    gridYear.setText(1,0, " End Year");
+	    gridYear.setWidget(1,1,tbYearEnd);
+	    gridYear.setWidget(2,1, buttonUpdateYear);
 	    
 	    // Button to update Year Filter
 	    buttonUpdateYear.addClickHandler(new ClickHandler() {
@@ -147,10 +155,7 @@ public class Controller implements EntryPoint {
 	    
 	    
 	    filterHorizontalPanel.add(gridYear);
-	    for (int i = 0; i<cbArea.size(); i++){
-	    	filterHorizontalPanel.add(cbArea.get(i));
-	    }
-	    
+	    filterHorizontalPanel.add(lbArea);
 	    
 	
 	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
