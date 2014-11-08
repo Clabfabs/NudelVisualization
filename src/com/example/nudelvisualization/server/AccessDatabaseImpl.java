@@ -149,11 +149,11 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 					
 					// Adds Rows to the ArrayList that have been selected by the User in the Filter
 						for(int f=0; f< config.getSelectedYearsList().size(); f++){
-							if(cells[8].equals(config.getSelectedYearsList().get(f).getYear())){
+							if(cells[8].equals(config.getSelectedYearsList().get(f))){
 								for(int g=0; g<config.getSelectedAreaList().size(); g++){
-									if(cells[2].equals(config.getSelectedAreaList().get(f).getID())){
+									if(cells[2].equals(config.getSelectedAreaList().get(f))){
 										for(int h=0; h<config.getSelectedItemsList().size(); h++){
-											if(cells[6].equals(config.getSelectedItemsList().get(f).getID())){
+											if(cells[6].equals(config.getSelectedItemsList().get(f))){
 												dataRow = line.split(cvsSplitBy);
 												dataList.add(dataRow);
 												i++;	

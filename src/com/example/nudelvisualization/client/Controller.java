@@ -49,7 +49,7 @@ public class Controller implements EntryPoint {
     private ArrayList<String> selectedYears = new ArrayList<String>();
     private ArrayList<String> selectedDataSeries = new ArrayList<String>();
     private ArrayList<String> selectedItems = new ArrayList<String>();
-    private Configuration config = new Configuration();
+    static Configuration config = new Configuration();
 
 
 
@@ -189,7 +189,7 @@ public class Controller implements EntryPoint {
 	    
 		//Listbox Year
 		for (int i = 0; i< filter.getYears().size(); i++){
-			lbYear.addItem(Integer.toString(filter.getYears().get(i).getYear()) + "       ");
+			lbYear.addItem(filter.getYears().get(i).getYear() + "       ");
 		}
 		
 		//Listbox DataSeries

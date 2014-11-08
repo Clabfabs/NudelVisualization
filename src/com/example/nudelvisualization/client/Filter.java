@@ -16,7 +16,7 @@ public class Filter {
 
 	private ArrayList<Area> area = new ArrayList<Area>();
 	private ArrayList<Item> items = new ArrayList<Item>();
-	private ArrayList<Year> years = new ArrayList<Year>();
+	static ArrayList<Year> years = new ArrayList<Year>();
 	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	private Configuration config;
 	private ListBox lbAreaFilter = null;
@@ -38,6 +38,9 @@ public class Filter {
 		setArea();
 		lbAreaFilter = lbArea;
 		// System.out.println(area.get(0).getName());
+	}
+	public Filter(){
+		
 	}
 
 	private void setArea() {
@@ -64,13 +67,17 @@ public class Filter {
 
 	// Gather all Years in an arraylist
 	private void setYears() {
+		addYears();
+	}
+
+	static void addYears() {
 		int startYear = 1990;
 		int endYear = 2011;
 		
 		for (int j = 0; j <= endYear - startYear; j++) {
-			years.add(new Year(startYear + j));
-			// System.out.println(years.get(j).getYear());
-			//lbYearFilter.addItem("hi");
+			int x = startYear+j;
+			Integer n = new Integer(x);
+			years.add(new Year(n.toString()));
 		}
 	}
 
