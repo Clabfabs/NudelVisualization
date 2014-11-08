@@ -93,7 +93,7 @@ public class Filter {
 
 	// adds all active Objects of the ArrayLists areas, items, years and
 	// DataSeries to the Configuration config.
-	public void createConfiguration() {
+	/*public void createConfiguration() {
 
 		for (int i = 0; i < area.size(); i++) {
 			if (area.get(i).isActive()) {
@@ -118,7 +118,7 @@ public class Filter {
 				config.addDataSeries(dataSeries.get(i));
 			}
 		}
-	}
+	}*/
 
 	public Configuration getConfig() {
 		return this.config;
