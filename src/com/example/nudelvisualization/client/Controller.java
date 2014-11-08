@@ -44,8 +44,8 @@ public class Controller implements EntryPoint {
     private ListBox lbYear = new ListBox(true);
    // private List<Composite> cbArea = new ArrayList <Composite>();
     Filter filter = new Filter(lbArea);
-    private List<Integer> selectedAreas = new ArrayList<Integer>();
-    private List<Integer> selectedYears = new ArrayList<Integer>();
+    private List<String> selectedAreas = new ArrayList<String>();
+    private List<String> selectedYears = new ArrayList<String>();
 
 
 
@@ -73,14 +73,14 @@ public class Controller implements EntryPoint {
 		
 		for (int i = 0; i < lbArea.getItemCount(); i++){
 			if (lbArea.isItemSelected( i) == true){
-				selectedAreas.add(Integer.parseInt(lbArea.getValue(i)));
+				selectedAreas.add(lbArea.getValue(i));
 				System.out.println(lbArea.getValue(i));
 			}
 		}
 		
 		for (int j= 0; j<lbYear.getItemCount(); j++){
 			if (lbYear.isItemSelected(j)){
-				selectedYears.add(Integer.parseInt(lbYear.getValue(j)));
+				selectedYears.add(lbYear.getValue(j));
 				System.out.println(lbYear.getValue(j));
 			}
 		}
@@ -173,6 +173,9 @@ public class Controller implements EntryPoint {
 	    filterHorizontalPanel.add(gridYear);
 	    filterHorizontalPanel.add(lbArea);
 	    filterHorizontalPanel.add(lbYear);
+
+	    //filterHorizontalPanel.add(new CheckBox(filter.getItems().get(0).getName()));
+	    
 	    filterHorizontalPanel.add(buttonUpdateFilter);
 	    
 	    
