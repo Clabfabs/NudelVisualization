@@ -42,7 +42,7 @@ public class Controller implements EntryPoint {
     private Button buttonUpdateFilter = new Button("OK");
     private ListBox lbArea = new ListBox(true);
     private ListBox lbYear = new ListBox(true);
-   // private List<Composite> cbArea = new ArrayList <Composite>();
+    private ListBox lbDataSeries = new ListBox(true);
     Filter filter = new Filter(lbArea);
     private List<String> selectedAreas = new ArrayList<String>();
     private List<String> selectedYears = new ArrayList<String>();
@@ -156,6 +156,11 @@ public class Controller implements EntryPoint {
 		//Listbox Year
 		for (int i = 0; i< filter.getYears().size(); i++){
 			lbYear.addItem(Integer.toString(filter.getYears().get(i).getYear()) + "       ");
+		}
+		
+		//Listbox DataSeries
+		for (int i = 0; i<filter.getDataSeries().size(); i++){
+			lbDataSeries.addItem(filter.getDataSeries().get(i).getName(), filter.getDataSeries().get(i).getID());
 		}
 		
 		

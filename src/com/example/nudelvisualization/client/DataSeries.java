@@ -3,10 +3,10 @@ package com.example.nudelvisualization.client;
 public class DataSeries implements FilterItem {
 	
 	private boolean active = false;
-	private int ID;
+	private String ID;
 	private String name;
 
-	public DataSeries(int ID, String name){
+	public DataSeries(String ID, String name){
 	this.ID = ID;
 	this.name = name;
 	}
@@ -20,11 +20,11 @@ public class DataSeries implements FilterItem {
 		this.active = active;
 	}
 
-	public int getID() {
+	public String getID() {
 		return ID;
 	}
 
-	public void setID(int iD) {
+	public void setID(String iD) {
 		ID = iD;
 	}
 

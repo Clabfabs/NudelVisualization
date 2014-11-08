@@ -97,11 +97,11 @@ public class Filter {
 	}
 
 	private void setDataSeries() {
-		DataSeries exports = new DataSeries(1, "export");
+		DataSeries exports = new DataSeries("1", "export");
 		dataSeries.add(exports);
-		DataSeries imports = new DataSeries(2, "import");
+		DataSeries imports = new DataSeries("2", "import");
 		dataSeries.add(imports);
-		DataSeries production = new DataSeries(3, "production");
+		DataSeries production = new DataSeries("3", "production");
 		dataSeries.add(production);
 	}
 
