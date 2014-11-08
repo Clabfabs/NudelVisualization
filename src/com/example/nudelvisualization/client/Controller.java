@@ -43,7 +43,7 @@ public class Controller implements EntryPoint {
     private ListBox lbArea = new ListBox(true);
    // private List<Composite> cbArea = new ArrayList <Composite>();
     Filter filter = new Filter(lbArea);
-    private ArrayList<String> selectedAreas = new ArrayList<String>();
+    private List<String> selectedAreas = new ArrayList<String>();
 
 
 
@@ -72,7 +72,7 @@ public class Controller implements EntryPoint {
 		for (int i = 0; i < lbArea.getItemCount(); i++){
 			if (lbArea.isItemSelected( i) == true){
 				selectedAreas.add(lbArea.getValue(i));
-				
+				System.out.println(lbArea.getValue(i));
 			}
 		}
 	}
