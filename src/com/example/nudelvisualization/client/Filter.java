@@ -54,27 +54,7 @@ public class Filter {
 	 * die gleichen Items...
 	 */
 	 private void setItems() {
-	 dataAccessSocket.getItem(new AsyncCallback<String[][]>() {
-	 public void onFailure(Throwable caught) {
-	 System.out.println("Blah");
-	 }
-	
-	 public void onSuccess(String[][] result) {
-	 // indices of column "AreaCode" and "AreaName"
-	 int indexItemCode = 0;
-	 int indexItemName = 1;
-	
-	 /* We fill Area objects with the values of the columns "AreaCode"
-	 and "AreaName" and gather them in an arraylist(area).*/
-	 for (int j = 0; j < result.length; j++) {
-	 items.add(new Item(result[j][indexItemCode], result[j][indexItemName]));
-	 //System.out.println(items.get(j).getID());
-	 //System.out.println(items.get(j).getName());
-		lbItemsFilter.addItem(items.get(j).getName(), items.get(j).getID());
-
-	 }
-	 }
-	 });
+		 dataAccessSocket.getItem(new ItemCallbackHandler());
 	
 	 }
 
@@ -175,6 +155,27 @@ public class Filter {
 			}
 		}
 
+	}
+	
+	private class ItemCallbackHandler implements AsyncCallback<String[][]> {
+		public void onFailure(Throwable caught) {
+			 System.out.println("Blah");
+			 }
+		 public void onSuccess(String[][] result) {
+			 // indices of column "AreaCode" and "AreaName"
+			 int indexItemCode = 0;
+			 int indexItemName = 1;
+			
+			 /* We fill Area objects with the values of the columns "AreaCode"
+			 and "AreaName" and gather them in an arraylist(area).*/
+			 for (int j = 0; j < result.length; j++) {
+			 items.add(new Item(result[j][indexItemCode], result[j][indexItemName]));
+			 //System.out.println(items.get(j).getID());
+			 //System.out.println(items.get(j).getName());
+				lbItemsFilter.addItem(items.get(j).getName(), items.get(j).getID());
+
+			 }
+			 }
 	}
 
 }
