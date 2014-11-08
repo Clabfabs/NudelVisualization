@@ -8,6 +8,7 @@ public class Configuration {
 	private ArrayList<Item> selectedItems = new ArrayList<Item>();
 	private ArrayList<Year> selectedYears = new ArrayList<Year>();
 	private ArrayList<DataSeries> selectedDataSeries = new ArrayList<DataSeries>();
+	
 
 
 

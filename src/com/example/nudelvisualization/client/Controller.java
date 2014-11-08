@@ -45,9 +45,11 @@ public class Controller implements EntryPoint {
     private ListBox lbDataSeries = new ListBox(true);
     private ListBox lbItems = new ListBox(true);
     Filter filter = new Filter(lbArea, lbItems);
-    private List<String> selectedAreas = new ArrayList<String>();
-    private List<String> selectedYears = new ArrayList<String>();
-    private List<String> selectedDataSeries = new ArrayList<String>();
+    private ArrayList<String> selectedAreas = new ArrayList<String>();
+    private ArrayList<String> selectedYears = new ArrayList<String>();
+    private ArrayList<String> selectedDataSeries = new ArrayList<String>();
+    private ArrayList<String> selectedItems = new ArrayList<String>();
+
 
 
 
@@ -71,32 +73,55 @@ public class Controller implements EntryPoint {
 	   * Updates the Years Filter. Executed when user clicks the Update Button
 	 * @return 
 	   */
-	private final void updateFilter(ListBox lbArea, ListBox lbYear, ListBox lbDataSeries){
+	private final void updateFilter(ListBox lbArea, ListBox lbYear, ListBox lbDataSeries, ListBox lbItems){
 		
 		for (int i = 0; i < lbArea.getItemCount(); i++){
 			if (lbArea.isItemSelected( i) == true){
 				selectedAreas.add(lbArea.getValue(i));
-				System.out.println(lbArea.getValue(i));
+				//System.out.println("Land " + i+ lbArea.getValue(i));
 			}
 		}
 		
 		for (int j= 0; j<lbYear.getItemCount(); j++){
 			if (lbYear.isItemSelected(j)){
 				selectedYears.add(lbYear.getValue(j));
-				System.out.println(lbYear.getValue(j));
+				//System.out.println(lbYear.getValue(j));
 			}
 		}
 		
 		for (int n = 0; n<lbDataSeries.getItemCount(); n++){
 			if(lbDataSeries.isItemSelected(n)){
 				selectedDataSeries.add(lbDataSeries.getValue(n));
-				System.out.println(lbDataSeries.getValue(n));
+				//System.out.println(lbDataSeries.getValue(n));
+			}
+		}
+		
+		for (int m= 0; m< lbItems.getItemCount(); m++){
+			if(lbItems.isItemSelected(m)){
+				selectedItems.add(lbItems.getValue(m));
+				System.out.println(lbItems.getValue(m));
+
 			}
 		}
 		
 		
 	}
 	
+	public ArrayList<String> getSelectedAreas(){
+		return this.selectedAreas;
+	}
+	
+	public ArrayList<String> getSelectedItems(){
+		return this.selectedItems;
+	}
+	
+	public ArrayList<String> getSelectedDataSeries(){
+		return this.selectedDataSeries;
+	}
+	
+	public ArrayList<String> getSelectedYears(){
+		return this.selectedYears;
+	}
 	
 	/**
 	 * This is the entry point method.
@@ -173,7 +198,7 @@ public class Controller implements EntryPoint {
 	    	
 	    	@Override
 	    	public void onClick(ClickEvent event) {
-	    		updateFilter(lbArea, lbYear, lbDataSeries );
+	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
 	    	}
 	    });
 	    
