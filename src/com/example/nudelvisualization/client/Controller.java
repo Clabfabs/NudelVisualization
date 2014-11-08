@@ -41,6 +41,7 @@ public class Controller implements EntryPoint {
     private Grid gridYear = new Grid(3, 2);
     private Button buttonUpdateFilter = new Button("OK");
     private ListBox lbArea = new ListBox(true);
+    private ListBox lbYear = new ListBox(true);
    // private List<Composite> cbArea = new ArrayList <Composite>();
     Filter filter = new Filter(lbArea);
     private List<String> selectedAreas = new ArrayList<String>();
@@ -75,6 +76,8 @@ public class Controller implements EntryPoint {
 				System.out.println(lbArea.getValue(i));
 			}
 		}
+		
+		
 	}
 	
 	
@@ -142,6 +145,12 @@ public class Controller implements EntryPoint {
 //	    gridYear.setWidget(1,1,tbYearEnd);
 //	    gridYear.setWidget(2,1, buttonUpdateYear);
 	    
+		//Listbox Year
+		for (int i = 0; i< filter.getYears().size(); i++){
+			lbYear.addItem(Integer.toString(filter.getYears().get(i).getYear()));
+		}
+		
+		
 	    // Button to update Year Filter
 	    buttonUpdateFilter.addClickHandler(new ClickHandler() {
 	    	
@@ -152,9 +161,12 @@ public class Controller implements EntryPoint {
 	    });
 	    
 	    
+	    
 	    filterHorizontalPanel.add(gridYear);
 	    filterHorizontalPanel.add(lbArea);
+	    filterHorizontalPanel.add(lbYear);
 	    filterHorizontalPanel.add(buttonUpdateFilter);
+	    
 	    
 	    
 	

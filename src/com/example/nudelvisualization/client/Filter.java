@@ -20,6 +20,8 @@ public class Filter {
 	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	private Configuration config;
 	private ListBox lbAreaFilter = null;
+	private ListBox lbYearFilter = null;
+	private ListBox lbItemsFilter = null;
 	//public CheckBoxGroup cbgAreaFilter = null;
 
 	/**
@@ -29,12 +31,12 @@ public class Filter {
 	private final AccessDatabaseAsync dataAccessSocket = GWT
 			.create(AccessDatabase.class);
 
-	public Filter(ListBox cbArea) {
+	public Filter(ListBox lbArea ) {
 		setDataSeries();
 		setYears();
 		// setItems();
 		setArea();
-		lbAreaFilter = cbArea;
+		lbAreaFilter = lbArea;
 		// System.out.println(area.get(0).getName());
 	}
 
@@ -82,9 +84,11 @@ public class Filter {
 	private void setYears() {
 		int startYear = 1990;
 		int endYear = 2011;
+		
 		for (int j = 0; j <= endYear - startYear; j++) {
 			years.add(new Year(startYear + j));
 			// System.out.println(years.get(j).getYear());
+			//lbYearFilter.addItem("hi");
 		}
 	}
 
