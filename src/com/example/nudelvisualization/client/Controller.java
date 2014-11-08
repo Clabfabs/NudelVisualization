@@ -49,6 +49,7 @@ public class Controller implements EntryPoint {
     private ArrayList<String> selectedYears = new ArrayList<String>();
     private ArrayList<String> selectedDataSeries = new ArrayList<String>();
     private ArrayList<String> selectedItems = new ArrayList<String>();
+    private Configuration config = new Configuration();
 
 
 
@@ -78,27 +79,31 @@ public class Controller implements EntryPoint {
 		for (int i = 0; i < lbArea.getItemCount(); i++){
 			if (lbArea.isItemSelected( i) == true){
 				selectedAreas.add(lbArea.getValue(i));
-				//System.out.println("Land " + i+ lbArea.getValue(i));
+				config.addArea(lbArea.getValue(i));
+				System.out.println("Land " + i+ lbArea.getValue(i));
 			}
 		}
 		
 		for (int j= 0; j<lbYear.getItemCount(); j++){
 			if (lbYear.isItemSelected(j)){
 				selectedYears.add(lbYear.getValue(j));
-				//System.out.println(lbYear.getValue(j));
+				config.addYear(lbYear.getValue(j));
+				System.out.println(lbYear.getValue(j));
 			}
 		}
 		
 		for (int n = 0; n<lbDataSeries.getItemCount(); n++){
 			if(lbDataSeries.isItemSelected(n)){
 				selectedDataSeries.add(lbDataSeries.getValue(n));
-				//System.out.println(lbDataSeries.getValue(n));
+				config.addDataSeries(lbDataSeries.getValue(n));
+				System.out.println(lbDataSeries.getValue(n));
 			}
 		}
 		
 		for (int m= 0; m< lbItems.getItemCount(); m++){
 			if(lbItems.isItemSelected(m)){
 				selectedItems.add(lbItems.getValue(m));
+				config.addItem(lbItems.getValue(m));
 				System.out.println(lbItems.getValue(m));
 
 			}

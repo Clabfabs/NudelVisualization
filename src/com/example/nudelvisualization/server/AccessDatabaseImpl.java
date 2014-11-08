@@ -137,8 +137,8 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 
 				int i = 1;
 
-				// To do: better while loop.
-				while (i < 10000) {
+				// 
+				while (true) {
 					line = br.readLine();
 					if (line == null)
 						break;
@@ -148,7 +148,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 					dataRow = new String[firstLine.length];
 					
 					// Adds Rows to the ArrayList that have been selected by the User in the Filter
-						for(int f=0; f<config.getSelectedYearsList().size(); f++){
+						for(int f=0; f< config.getSelectedYearsList().size(); f++){
 							if(cells[8].equals(config.getSelectedYearsList().get(f).getYear())){
 								for(int g=0; g<config.getSelectedAreaList().size(); g++){
 									if(cells[2].equals(config.getSelectedAreaList().get(f).getID())){
