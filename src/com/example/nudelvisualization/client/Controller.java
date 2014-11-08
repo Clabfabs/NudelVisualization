@@ -44,7 +44,8 @@ public class Controller implements EntryPoint {
     private ListBox lbYear = new ListBox(true);
    // private List<Composite> cbArea = new ArrayList <Composite>();
     Filter filter = new Filter(lbArea);
-    private List<String> selectedAreas = new ArrayList<String>();
+    private List<Integer> selectedAreas = new ArrayList<Integer>();
+    private List<Integer> selectedYears = new ArrayList<Integer>();
 
 
 
@@ -68,12 +69,19 @@ public class Controller implements EntryPoint {
 	   * Updates the Years Filter. Executed when user clicks the Update Button
 	 * @return 
 	   */
-	private final void updateFilter(ListBox lbArea){
+	private final void updateFilter(ListBox lbArea, ListBox lbYear){
 		
 		for (int i = 0; i < lbArea.getItemCount(); i++){
 			if (lbArea.isItemSelected( i) == true){
-				selectedAreas.add(lbArea.getValue(i));
+				selectedAreas.add(Integer.parseInt(lbArea.getValue(i)));
 				System.out.println(lbArea.getValue(i));
+			}
+		}
+		
+		for (int j= 0; j<lbYear.getItemCount(); j++){
+			if (lbYear.isItemSelected(j)){
+				selectedYears.add(Integer.parseInt(lbYear.getValue(j)));
+				System.out.println(lbYear.getValue(j));
 			}
 		}
 		
@@ -147,7 +155,7 @@ public class Controller implements EntryPoint {
 	    
 		//Listbox Year
 		for (int i = 0; i< filter.getYears().size(); i++){
-			lbYear.addItem(Integer.toString(filter.getYears().get(i).getYear()));
+			lbYear.addItem(Integer.toString(filter.getYears().get(i).getYear()) + "       ");
 		}
 		
 		
@@ -156,7 +164,7 @@ public class Controller implements EntryPoint {
 	    	
 	    	@Override
 	    	public void onClick(ClickEvent event) {
-	    		updateFilter(lbArea );
+	    		updateFilter(lbArea, lbYear );
 	    	}
 	    });
 	    
