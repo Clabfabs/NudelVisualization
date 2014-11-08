@@ -20,7 +20,6 @@ public class Filter {
 	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	private Configuration config;
 	private ListBox lbAreaFilter = null;
-	private ListBox lbYearFilter = null;
 	private ListBox lbItemsFilter = null;
 	//public CheckBoxGroup cbgAreaFilter = null;
 
@@ -31,10 +30,11 @@ public class Filter {
 	private final AccessDatabaseAsync dataAccessSocket = GWT
 			.create(AccessDatabase.class);
 
-	public Filter(ListBox lbArea ) {
+	public Filter(ListBox lbArea, ListBox lbItems ) {
 		setDataSeries();
 		setYears();
-		// setItems();
+		setItems();
+		lbItemsFilter = lbItems;
 		setArea();
 		lbAreaFilter = lbArea;
 		// System.out.println(area.get(0).getName());
@@ -53,28 +53,30 @@ public class Filter {
 	 * von jedem Land einfach einmal jedes Item nimmt. Viele Länder haben aber
 	 * die gleichen Items...
 	 */
-	// private void setItems() {
-	// dataAccessSocket.getItem(new AsyncCallback<String[][]>() {
-	// public void onFailure(Throwable caught) {
-	// System.out.println("Blah");
-	// }
-	//
-	// public void onSuccess(String[][] result) {
-	// // indices of column "AreaCode" and "AreaName"
-	// int indexItemCode = 0;
-	// int indexItemName = 1;
-	//
-	// /* We fill Area objects with the values of the columns "AreaCode"
-	// and "AreaName" and gather them in an arraylist(area).*/
-	// for (int j = 0; j < result.length; j++) {
-	// items.add(new Item(result[j][indexItemCode], result[j][indexItemName]));
-	// //System.out.println(items.get(j).getID());
-	// //System.out.println(items.get(j).getName());
-	// }
-	// }
-	// });
-	//
-	// }
+	 private void setItems() {
+	 dataAccessSocket.getItem(new AsyncCallback<String[][]>() {
+	 public void onFailure(Throwable caught) {
+	 System.out.println("Blah");
+	 }
+	
+	 public void onSuccess(String[][] result) {
+	 // indices of column "AreaCode" and "AreaName"
+	 int indexItemCode = 0;
+	 int indexItemName = 1;
+	
+	 /* We fill Area objects with the values of the columns "AreaCode"
+	 and "AreaName" and gather them in an arraylist(area).*/
+	 for (int j = 0; j < result.length; j++) {
+	 items.add(new Item(result[j][indexItemCode], result[j][indexItemName]));
+	 //System.out.println(items.get(j).getID());
+	 //System.out.println(items.get(j).getName());
+		lbItemsFilter.addItem(items.get(j).getName(), items.get(j).getID());
+
+	 }
+	 }
+	 });
+	
+	 }
 
 	public ArrayList<Item> getItems() {
 		return this.items;

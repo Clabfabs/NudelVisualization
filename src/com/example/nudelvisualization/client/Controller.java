@@ -43,9 +43,11 @@ public class Controller implements EntryPoint {
     private ListBox lbArea = new ListBox(true);
     private ListBox lbYear = new ListBox(true);
     private ListBox lbDataSeries = new ListBox(true);
-    Filter filter = new Filter(lbArea);
+    private ListBox lbItems = new ListBox(true);
+    Filter filter = new Filter(lbArea, lbItems);
     private List<String> selectedAreas = new ArrayList<String>();
     private List<String> selectedYears = new ArrayList<String>();
+    private List<String> selectedDataSeries = new ArrayList<String>();
 
 
 
@@ -69,7 +71,7 @@ public class Controller implements EntryPoint {
 	   * Updates the Years Filter. Executed when user clicks the Update Button
 	 * @return 
 	   */
-	private final void updateFilter(ListBox lbArea, ListBox lbYear){
+	private final void updateFilter(ListBox lbArea, ListBox lbYear, ListBox lbDataSeries){
 		
 		for (int i = 0; i < lbArea.getItemCount(); i++){
 			if (lbArea.isItemSelected( i) == true){
@@ -82,6 +84,13 @@ public class Controller implements EntryPoint {
 			if (lbYear.isItemSelected(j)){
 				selectedYears.add(lbYear.getValue(j));
 				System.out.println(lbYear.getValue(j));
+			}
+		}
+		
+		for (int n = 0; n<lbDataSeries.getItemCount(); n++){
+			if(lbDataSeries.isItemSelected(n)){
+				selectedDataSeries.add(lbDataSeries.getValue(n));
+				System.out.println(lbDataSeries.getValue(n));
 			}
 		}
 		
@@ -146,12 +155,7 @@ public class Controller implements EntryPoint {
 //	    RootPanel.get().add(cb.get(i));
 //		}
 		
-//	    // create Grid for Year Filter
-//	    gridYear.setText(0,0, " Start Year");
-//	    gridYear.setWidget(0, 1, tbYearStart);;
-//	    gridYear.setText(1,0, " End Year");
-//	    gridYear.setWidget(1,1,tbYearEnd);
-//	    gridYear.setWidget(2,1, buttonUpdateYear);
+//
 	    
 		//Listbox Year
 		for (int i = 0; i< filter.getYears().size(); i++){
@@ -169,7 +173,7 @@ public class Controller implements EntryPoint {
 	    	
 	    	@Override
 	    	public void onClick(ClickEvent event) {
-	    		updateFilter(lbArea, lbYear );
+	    		updateFilter(lbArea, lbYear, lbDataSeries );
 	    	}
 	    });
 	    
@@ -178,9 +182,9 @@ public class Controller implements EntryPoint {
 	    filterHorizontalPanel.add(gridYear);
 	    filterHorizontalPanel.add(lbArea);
 	    filterHorizontalPanel.add(lbYear);
+	    filterHorizontalPanel.add(lbDataSeries);
+	    filterHorizontalPanel.add(lbItems);
 
-	    //filterHorizontalPanel.add(new CheckBox(filter.getItems().get(0).getName()));
-	    
 	    filterHorizontalPanel.add(buttonUpdateFilter);
 	    
 	    
