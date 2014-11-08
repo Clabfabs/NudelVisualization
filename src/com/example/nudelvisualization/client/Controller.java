@@ -1,6 +1,7 @@
 package com.example.nudelvisualization.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.nudelvisualization.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
@@ -25,6 +26,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.Composite;
+
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -36,11 +39,11 @@ public class Controller implements EntryPoint {
     private TextBox tbYearStart = new TextBox();
     private TextBox tbYearEnd = new TextBox();
     private Grid gridYear = new Grid(3, 2);
-    private Button buttonUpdateYear = new Button("Update");
-    //private ListBox lbArea = new ListBox();
-    private ArrayList<CheckBox> cbArea = new ArrayList <CheckBox>();
-    Filter filter = new Filter(cbArea);
-    
+    private Button buttonUpdateFilter = new Button("OK");
+    private ListBox lbArea = new ListBox(true);
+   // private List<Composite> cbArea = new ArrayList <Composite>();
+    Filter filter = new Filter(lbArea);
+    private ArrayList<String> selectedAreas = new ArrayList<String>();
 
 
 
@@ -64,11 +67,14 @@ public class Controller implements EntryPoint {
 	   * Updates the Years Filter. Executed when user clicks the Update Button
 	 * @return 
 	   */
-	private final void updateButtonYear(String start, String end){
-		int startYear=Integer.parseInt(start);
-		int endYear=Integer.parseInt(end);
+	private final void updateFilter(ListBox lbArea){
 		
-		System.out.println(start +" "+ end);
+		for (int i = 0; i < lbArea.getItemCount(); i++){
+			if (lbArea.isItemSelected( i) == true){
+				selectedAreas.add(lbArea.getValue(i));
+				
+			}
+		}
 	}
 	
 	
@@ -76,7 +82,7 @@ public class Controller implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		
+		new ListBox(true);
 		
 		// TODO Put this in a separate Class "Visualization"
 		dataAccessSocket.getSomeRows(20, new AsyncCallback<String[][]>() {
@@ -137,19 +143,18 @@ public class Controller implements EntryPoint {
 //	    gridYear.setWidget(2,1, buttonUpdateYear);
 	    
 	    // Button to update Year Filter
-	    buttonUpdateYear.addClickHandler(new ClickHandler() {
+	    buttonUpdateFilter.addClickHandler(new ClickHandler() {
 	    	
 	    	@Override
 	    	public void onClick(ClickEvent event) {
-	    		updateButtonYear(tbYearStart.getValue(),tbYearEnd.getValue());
+	    		updateFilter(lbArea );
 	    	}
 	    });
 	    
 	    
 	    filterHorizontalPanel.add(gridYear);
-	    for (int i = 0; i<cbArea.size(); i++){
-	    	filterHorizontalPanel.add(cbArea.get(i));
-	    }
+	    filterHorizontalPanel.add(lbArea);
+	    filterHorizontalPanel.add(buttonUpdateFilter);
 	    
 	    
 	
