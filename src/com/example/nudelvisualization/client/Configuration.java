@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Configuration {
 	
+	
+
 	private ArrayList<String> selectedArea = new ArrayList<String>();
 	private ArrayList<String> selectedItems = new ArrayList<String>();
 	private ArrayList<String> selectedYears = new ArrayList<String>();
@@ -11,7 +13,14 @@ public class Configuration {
 	
 	public Configuration(){}
 
-
+	public Configuration(ArrayList<String> selectedArea,
+			ArrayList<String> selectedItems, ArrayList<String> selectedYears,
+			ArrayList<String> selectedDataSeries) {
+		this.selectedArea = selectedArea;
+		this.selectedItems = selectedItems;
+		this.selectedYears = selectedYears;
+		this.selectedDataSeries = selectedDataSeries;
+	}
 
 public void addArea(String areaID){
 	selectedArea.add(areaID);	
