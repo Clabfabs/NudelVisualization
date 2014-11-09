@@ -50,8 +50,9 @@ public class FilterTest {
 		result.add(new Year("2010"));
 		result.add(new Year("2011"));
 		
-		Filter.addYears();
-		assertEquals(result, Filter.getYears());
+		Filter filter = new Filter(null, null);
+		filter.addYears();
+		assertEquals(result, filter.getYears());
 	}
 
 	
@@ -62,15 +63,16 @@ public class FilterTest {
 	 * 3)Arraylist dataSeries auf static setzen.
 	 * wieder rückgängig machen wenn Test korrekt. 
 	 */
-	
+	@Test
 	public void testSetDataSeries(){
 		ArrayList<DataSeries> result = new ArrayList<DataSeries>();
 		result.add(new DataSeries ("1", "export"));
 		result.add(new DataSeries ("2", "import"));
 		result.add(new DataSeries ("3", "production"));
 		
-		Filter.setDataSeries();
-		assertEquals(result, Filter.getDataSeries());
+		Filter filter = new Filter(null, null);
+		filter.setDataSeries();
+		assertEquals(result, filter.getDataSeries());
 		
 	}
 	
