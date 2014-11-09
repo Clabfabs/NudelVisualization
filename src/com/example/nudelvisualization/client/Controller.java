@@ -33,8 +33,7 @@ import com.google.gwt.user.client.ui.Composite;
  */
 public class Controller implements EntryPoint {
 
-	private FlexTable sampleTable = new FlexTable();
-	private VerticalPanel visualizationPanel = new VerticalPanel();
+	static VerticalPanel visualizationPanel = new VerticalPanel();
     private HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
     //private TextBox tbYearStart = new TextBox();
     //private TextBox tbYearEnd = new TextBox();
@@ -135,25 +134,7 @@ public class Controller implements EntryPoint {
 		new ListBox(true);
 		
 		// TODO Put this in a separate Class "Visualization"
-		dataAccessSocket.getSomeRows(20, new AsyncCallback<String[][]>() {
-			public void onFailure(Throwable caught) {
-				System.out.println("Blah");
-			}
 
-			public void onSuccess(String[][] result) {
-				for (int i = 0; i < result.length; i++) {
-					// Assumption: data is complete and a missing value in
-					// column 1 means there is no more data to fetch
-					if (result[i][1] != null) {
-						for (int j = 0; j < result[i].length; j++) {
-							sampleTable.setText(i + 1, j, result[i][j]);
-						}
-					}
-				}
-				
-				
-			}
-		});
 	
 		//create ListBox for Area
 		//for (int i = 0; i < filter.area.size(); i++){
@@ -217,13 +198,7 @@ public class Controller implements EntryPoint {
 
 	    filterHorizontalPanel.add(buttonUpdateFilter);
 	    
-	    
-	    
-	
 	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
-		sampleTable.setStyleName("tableVisualization");
-		sampleTable.getRowFormatter().addStyleName(1, "headOfTable");
-		visualizationPanel.add(sampleTable);
 		RootPanel.get("visualizationContainer").add(visualizationPanel);
 
 		// -----------------------------------------------------------------------

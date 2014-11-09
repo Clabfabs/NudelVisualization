@@ -135,7 +135,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 				firstLine = line2.split(cvsSplitBy);
 				dataList.add(firstLine);
 
-				int i = 1;
+				
 
 				// 
 				while (true) {
@@ -151,12 +151,11 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 						for(int f=0; f< config.getSelectedYearsList().size(); f++){
 							if(cells[8].equals(config.getSelectedYearsList().get(f))){
 								for(int g=0; g<config.getSelectedAreaList().size(); g++){
-									if(cells[2].equals(config.getSelectedAreaList().get(f))){
+									if(cells[2].equals(config.getSelectedAreaList().get(g))){
 										for(int h=0; h<config.getSelectedItemsList().size(); h++){
-											if(cells[6].equals(config.getSelectedItemsList().get(f))){
+											if(cells[6].equals(config.getSelectedItemsList().get(h))){
 												dataRow = line.split(cvsSplitBy);
 												dataList.add(dataRow);
-												i++;	
 											}
 										}			
 									}

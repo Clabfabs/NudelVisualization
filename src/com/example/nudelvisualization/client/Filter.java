@@ -129,9 +129,9 @@ public class Filter {
 	}*/
 
 	// to be done
-	public void visualize(Configuration config) {
-		Visualization visualization = new Visualization(config);
-		// visualization.draw();
+	public void visualize() {
+		Visualization visualization = new Visualization();
+		visualization.draw();
 	}
 
 	private class AreaCallbackHandler implements AsyncCallback<String[][]> {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-
+import com.example.nudelvisualization.client.Configuration;
 /**
  * The client-side stub for the RPC service.
  */
@@ -14,4 +14,5 @@ public interface AccessDatabase extends RemoteService {
   String[][] getSomeRows(int numberOfRows);
   String[][] getArea();
   String[][] getItem();
+  String[][] getSelectedRows(Configuration config);
 }

@@ -9,6 +9,7 @@ public class Configuration {
 	private ArrayList<String> selectedYears = new ArrayList<String>();
 	private ArrayList<String> selectedDataSeries = new ArrayList<String>();
 	
+	public Configuration(){}
 
 
 
