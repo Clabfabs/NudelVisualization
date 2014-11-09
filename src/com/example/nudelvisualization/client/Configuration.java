@@ -56,7 +56,7 @@ public ArrayList<String> getSelectedDataSeriesList(){
 
 //to be done
 public void loadConfig(){
-	
+	 
 }
 
 //to be done
