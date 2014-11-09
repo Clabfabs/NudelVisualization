@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.Composite;
  */
 public class Controller implements EntryPoint {
 
-	static VerticalPanel visualizationPanel = new VerticalPanel();
+	
     private HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
     //private TextBox tbYearStart = new TextBox();
     //private TextBox tbYearEnd = new TextBox();
@@ -48,7 +48,7 @@ public class Controller implements EntryPoint {
     private ArrayList<String> selectedYears = new ArrayList<String>();
     private ArrayList<String> selectedDataSeries = new ArrayList<String>();
     private ArrayList<String> selectedItems = new ArrayList<String>();
-    static Configuration config = new Configuration(); 
+    private Configuration config = new Configuration(); 
 
 
 
@@ -107,7 +107,7 @@ public class Controller implements EntryPoint {
 
 			}
 		}
-		
+		filter.visualize(config);
 		
 	}
 	
@@ -199,7 +199,7 @@ public class Controller implements EntryPoint {
 	    filterHorizontalPanel.add(buttonUpdateFilter);
 	    
 	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
-		RootPanel.get("visualizationContainer").add(visualizationPanel);
+		
 
 		// -----------------------------------------------------------------------
 		// //

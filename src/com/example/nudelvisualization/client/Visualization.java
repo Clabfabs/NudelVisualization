@@ -4,17 +4,24 @@ package com.example.nudelvisualization.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 
 
 
 public class Visualization{
-
+	private VerticalPanel visualizationPanel = new VerticalPanel();
 	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
 	private FlexTable visualizeTable = new FlexTable();
+	private Configuration config = null;
+	
+	public Visualization(Configuration config){
+		this.config = config;
+	}
 	
 	public void draw() {
-		dataAccessSocket.getSelectedRows(Controller.config, new CallbackHandler());
+		dataAccessSocket.getSelectedRows(config, new CallbackHandler());
 	 }
 
 
@@ -37,7 +44,8 @@ private class CallbackHandler implements AsyncCallback<String[][]>{
 			}
 		visualizeTable.setStyleName("tableVisualization");
 		visualizeTable.getRowFormatter().addStyleName(1, "headOfTable");
-		Controller.visualizationPanel.add(visualizeTable);
+		visualizationPanel.add(visualizeTable);
+		RootPanel.get("visualizationContainer").add(visualizationPanel);
 		}
 	}
 }

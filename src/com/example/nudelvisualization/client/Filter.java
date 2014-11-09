@@ -111,8 +111,8 @@ public class Filter {
 	 */
 
 	// to be done
-	public void visualize() {
-		Visualization visualization = new Visualization();
+	public void visualize(Configuration config) {
+		Visualization visualization = new Visualization(config);
 		visualization.draw();
 	}
 
