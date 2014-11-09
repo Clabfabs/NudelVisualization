@@ -33,7 +33,7 @@ h1 {
 	padding: 15px 5px 15px;
 }
 
-#visualizationContainer {
+.visualizationPanel {
 	border-bottom: 2px solid;
 	border-top: 2px solid;
 	margin: 20px 0px 20px;

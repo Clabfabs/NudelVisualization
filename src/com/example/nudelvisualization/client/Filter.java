@@ -16,6 +16,10 @@ public class Filter {
 	//Listbox for GUI which will offer the option to choose one of the Items in the Arraylist items. 
 	private ListBox lbItemsFilter = null;
 
+	/**
+	 * Create a remote service proxy to talk to the server-side database
+	 * service.
+	 */
 	private AccessDatabaseAsync dataAccessSocket = null;
 
 	public Filter(ListBox lbArea, ListBox lbItems) {
