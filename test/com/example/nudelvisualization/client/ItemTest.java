@@ -7,7 +7,7 @@ import org.junit.Test;
 public class ItemTest {
 
 	@Test
-	public void test() {
+	public void testItemClass() {
 		Item itemTester = new Item("1", "Crops");
 		assertEquals("1", itemTester.getID());
 		assertEquals("Crops", itemTester.getName());
