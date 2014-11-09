@@ -10,7 +10,7 @@ public class Filter {
 	private ArrayList<Area> area = new ArrayList<Area>(); 
 	private ArrayList<Item> items = new ArrayList<Item>();
 	private static ArrayList<Year> years = new ArrayList<Year>();
-	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
+	private static ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	//Listbox for GUI which will offer the option to choose one of the Areas in the Arraylist area. 
 	private ListBox lbAreaFilter = null; 
 	//Listbox for GUI which will offer the option to choose one of the Items in the Arraylist items. 
@@ -74,7 +74,7 @@ public class Filter {
 	}
 
 	// Adding all DataSeries-Objects
-	private void setDataSeries() {
+	public static void setDataSeries() {
 		DataSeries exports = new DataSeries("1", "export");
 		dataSeries.add(exports);
 		DataSeries imports = new DataSeries("2", "import");
@@ -83,8 +83,8 @@ public class Filter {
 		dataSeries.add(production);
 	}
 
-	public ArrayList<DataSeries> getDataSeries() {
-		return this.dataSeries;
+	public static ArrayList<DataSeries> getDataSeries() {
+		return dataSeries;
 	}
 
 	// adds all active Objects of the ArrayLists areas, items, years and

@@ -6,12 +6,20 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+/**
+ * @author nadinepiveteau
+ *
+ */
+/**
+ * @author nadinepiveteau
+ *
+ */
 public class FilterTest {
 
 	/**
 	 * Was geändert wurde um diesen Test zu ermöglichen:
-	 * 1)setYears() musste auf public gesetzt werden
-	 * 2)addYear() auf static setzen 
+	 * 1)getYears() musste auf static und public gesetzt werden
+	 * 2)addYear() auf static und public setzen 
 	 * 3)Arraylist years auf static setzen.
 	 * wieder rückgängig machen wenn Test korrekt. 
 	 */
@@ -45,6 +53,29 @@ public class FilterTest {
 		Filter.addYears();
 		assertEquals(result, Filter.getYears());
 	}
+
+	
+	/**
+	 * Was geändert wurde um diesen Test zu ermöglichen:
+	 * 1)getDataSeries() musste auf static  und this.dataSeries auf nur dataSeries gesetzt werden
+	 * 2)setDataSeries() auf static und public setzen 
+	 * 3)Arraylist dataSeries auf static setzen.
+	 * wieder rückgängig machen wenn Test korrekt. 
+	 */
+	
+	public void testSetDataSeries(){
+		ArrayList<DataSeries> result = new ArrayList<DataSeries>();
+		result.add(new DataSeries ("1", "export"));
+		result.add(new DataSeries ("2", "import"));
+		result.add(new DataSeries ("3", "production"));
+		
+		Filter.setDataSeries();
+		assertEquals(result, Filter.getDataSeries());
+		
+	}
+	
+	
+	
 	
 	
 
