@@ -214,7 +214,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			int counter = 1;
 			line = br.readLine();
 			String[] firstLine = line.split(cvsSplitBy);
-			stringList = new ArrayList<String>();//add the first row, so we can compare
+			stringList = new ArrayList<String>();//add the second row, so we can compare
 			stringList.add(firstLine[2]);
 			stringList.add(firstLine[3]);
 			dataAsArrayList.add(stringList);

@@ -36,8 +36,8 @@ public class Controller implements EntryPoint {
 	private FlexTable sampleTable = new FlexTable();
 	private VerticalPanel visualizationPanel = new VerticalPanel();
     private HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
-    private TextBox tbYearStart = new TextBox();
-    private TextBox tbYearEnd = new TextBox();
+    //private TextBox tbYearStart = new TextBox();
+    //private TextBox tbYearEnd = new TextBox();
     private Grid gridYear = new Grid(3, 2);
     private Button buttonUpdateFilter = new Button("OK");
     private ListBox lbArea = new ListBox(true);
@@ -49,7 +49,7 @@ public class Controller implements EntryPoint {
     private ArrayList<String> selectedYears = new ArrayList<String>();
     private ArrayList<String> selectedDataSeries = new ArrayList<String>();
     private ArrayList<String> selectedItems = new ArrayList<String>();
-    static Configuration config = new Configuration();
+    static Configuration config = new Configuration(); 
 
 
 
@@ -71,7 +71,7 @@ public class Controller implements EntryPoint {
 
 	
 	 /**
-	   * Updates the Years Filter. Executed when user clicks the Update Button
+	   * Updates the Filter. Executed when user clicks the Update Button
 	 * @return 
 	   */
 	private final void updateFilter(ListBox lbArea, ListBox lbYear, ListBox lbDataSeries, ListBox lbItems){
@@ -198,7 +198,7 @@ public class Controller implements EntryPoint {
 		}
 		
 		
-	    // Button to update Year Filter
+	    // Button to update Filter
 	    buttonUpdateFilter.addClickHandler(new ClickHandler() {
 	    	
 	    	@Override

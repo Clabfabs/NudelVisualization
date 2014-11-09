@@ -155,7 +155,7 @@ public class Filter {
 				// System.out.println(area.get(j).getName());
 				// System.out.println(area.get(j).getID());
 				// System.out.println(area.get(j).getName());
-					lbAreaFilter.addItem(area.get(j).getName(), area.get(j).getID());
+				lbAreaFilter.addItem(area.get(j).getName(), area.get(j).getID());
 			}
 		}
 
