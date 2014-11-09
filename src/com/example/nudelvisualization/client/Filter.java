@@ -9,23 +9,26 @@ public class Filter {
 
 	private ArrayList<Area> area = new ArrayList<Area>(); 
 	private ArrayList<Item> items = new ArrayList<Item>();
-	private static ArrayList<Year> years = new ArrayList<Year>();
-	private static ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
+	private ArrayList<Year> years = new ArrayList<Year>();
+	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	//Listbox for GUI which will offer the option to choose one of the Areas in the Arraylist area. 
 	private ListBox lbAreaFilter = null; 
 	//Listbox for GUI which will offer the option to choose one of the Items in the Arraylist items. 
 	private ListBox lbItemsFilter = null;
 
-	private final AccessDatabaseAsync dataAccessSocket = GWT
-			.create(AccessDatabase.class);
+	private AccessDatabaseAsync dataAccessSocket = null;
 
 	public Filter(ListBox lbArea, ListBox lbItems) {
+		lbItemsFilter = lbItems;
+		lbAreaFilter = lbArea;
+	}
+	
+	public void init(){
+		dataAccessSocket = GWT.create(AccessDatabase.class);
 		setDataSeries();
 		setYears();
 		setItems();
-		lbItemsFilter = lbItems;
 		setArea();
-		lbAreaFilter = lbArea;
 	}
 
 	private void setArea() {
@@ -58,7 +61,7 @@ public class Filter {
 	}
 
 	// Adding all Years in the ArrayList
-	public static void addYears() {
+	public void addYears() {
 		int startYear = 1990;
 		int endYear = 2011;
 
@@ -69,12 +72,12 @@ public class Filter {
 		}
 	}
 
-	public static ArrayList<Year> getYears() {
-		return Filter.years;
+	public ArrayList<Year> getYears() {
+		return years;
 	}
 
 	// Adding all DataSeries-Objects
-	public static void setDataSeries() {
+	public void setDataSeries() {
 		DataSeries exports = new DataSeries("1", "export");
 		dataSeries.add(exports);
 		DataSeries imports = new DataSeries("2", "import");
@@ -83,7 +86,7 @@ public class Filter {
 		dataSeries.add(production);
 	}
 
-	public static ArrayList<DataSeries> getDataSeries() {
+	public ArrayList<DataSeries> getDataSeries() {
 		return dataSeries;
 	}
 

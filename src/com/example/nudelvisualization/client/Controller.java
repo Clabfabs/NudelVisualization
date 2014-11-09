@@ -43,7 +43,7 @@ public class Controller implements EntryPoint {
     private ListBox lbYear = new ListBox(true);
     private ListBox lbDataSeries = new ListBox(true);
     private ListBox lbItems = new ListBox(true);
-    Filter filter = new Filter(lbArea, lbItems);
+    private Filter filter = null;
     private ArrayList<String> selectedAreas = new ArrayList<String>();
     private ArrayList<String> selectedYears = new ArrayList<String>();
     private ArrayList<String> selectedDataSeries = new ArrayList<String>();
@@ -131,7 +131,6 @@ public class Controller implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		new ListBox(true);
 		
 		// TODO Put this in a separate Class "Visualization"
 
@@ -167,7 +166,9 @@ public class Controller implements EntryPoint {
 //		}
 		
 //
-	    
+		filter = new Filter(lbArea, lbItems);
+		filter.init();
+		
 		//Listbox Year
 		for (int i = 0; i< filter.getYears().size(); i++){
 			lbYear.addItem(filter.getYears().get(i).getYear() + "       ");
