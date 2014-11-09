@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 /**
@@ -14,17 +16,9 @@ import org.junit.Test;
  * @author nadinepiveteau
  *
  */
-public class FilterTest {
+public class FilterTest{
 
-	/**
-	 * Was geändert wurde um diesen Test zu ermöglichen:
-	 * 1)getYears() musste auf static und public gesetzt werden
-	 * 2)addYear() auf static und public setzen 
-	 * 3)Arraylist years auf static setzen.
-	 * wieder rückgängig machen wenn Test korrekt. 
-	 */
 	@Test
-	
 	public void testAddYears() {
 		ArrayList<Year> result = new ArrayList<Year>();
 		result.add(new Year("1990"));
@@ -56,13 +50,7 @@ public class FilterTest {
 	}
 
 	
-	/**
-	 * Was geändert wurde um diesen Test zu ermöglichen:
-	 * 1)getDataSeries() musste auf static  und this.dataSeries auf nur dataSeries gesetzt werden
-	 * 2)setDataSeries() auf static und public setzen 
-	 * 3)Arraylist dataSeries auf static setzen.
-	 * wieder rückgängig machen wenn Test korrekt. 
-	 */
+
 	@Test
 	public void testSetDataSeries(){
 		ArrayList<DataSeries> result = new ArrayList<DataSeries>();
