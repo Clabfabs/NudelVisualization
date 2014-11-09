@@ -16,7 +16,7 @@ public class Filter {
 
 	private ArrayList<Area> area = new ArrayList<Area>();
 	private ArrayList<Item> items = new ArrayList<Item>();
-	static ArrayList<Year> years = new ArrayList<Year>();
+	private ArrayList<Year> years = new ArrayList<Year>();
 	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	private Configuration config;
 	private ListBox lbAreaFilter = null;
@@ -39,9 +39,7 @@ public class Filter {
 		lbAreaFilter = lbArea;
 		// System.out.println(area.get(0).getName());
 	}
-	public Filter(){
-		
-	}
+	
 
 	private void setArea() {
 		dataAccessSocket.getArea(new AreaCallbackHandler());
@@ -70,7 +68,7 @@ public class Filter {
 		addYears();
 	}
 
-	static void addYears() {
+	private void addYears() {
 		int startYear = 1990;
 		int endYear = 2011;
 		
@@ -127,9 +125,9 @@ public class Filter {
 		}
 	}*/
 
-	public Configuration getConfig() {
+	/*public Configuration getConfig() {
 		return this.config;
-	}
+	}*/
 
 	// to be done
 	public void visualize(Configuration config) {
