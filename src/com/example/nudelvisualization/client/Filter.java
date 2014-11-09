@@ -18,15 +18,12 @@ public class Filter {
 	private ArrayList<Item> items = new ArrayList<Item>();
 	private ArrayList<Year> years = new ArrayList<Year>();
 	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
-	private Configuration config;
+	//private Configuration config;
 	private ListBox lbAreaFilter = null;
 	private ListBox lbItemsFilter = null;
 	//public CheckBoxGroup cbgAreaFilter = null;
 
-	/**
-	 * Create a remote service proxy to talk to the server-side Greeting
-	 * service.
-	 */
+	
 	private final AccessDatabaseAsync dataAccessSocket = GWT
 			.create(AccessDatabase.class);
 
@@ -63,11 +60,12 @@ public class Filter {
 		return this.items;
 	}
 
-	// Gather all Years in an arraylist
+	
 	private void setYears() {
 		addYears();
 	}
-
+	
+	//Adding all Years in the ArrayList
 	private void addYears() {
 		int startYear = 1990;
 		int endYear = 2011;
@@ -82,7 +80,8 @@ public class Filter {
 	public ArrayList<Year> getYears() {
 		return this.years;
 	}
-
+	
+	//Adding all DataSeries-Objects
 	private void setDataSeries() {
 		DataSeries exports = new DataSeries("1", "export");
 		dataSeries.add(exports);
@@ -167,17 +166,17 @@ public class Filter {
 			 System.out.println("Blah");
 			 }
 		 public void onSuccess(String[][] result) {
-			 // indices of column "AreaCode" and "AreaName"
+			 // indices of column "ItemCode" and "ItemName"
 			 int indexItemCode = 0;
 			 int indexItemName = 1;
 			
-			 /* We fill Area objects with the values of the columns "AreaCode"
-			 and "AreaName" and gather them in an arraylist(area).*/
+			 /* We fill Item objects with the values of the columns "ItemCode"
+			 and "ItemName" and gather them in an arraylist(items).*/
 			 for (int j = 0; j < result.length; j++) {
 			 items.add(new Item(result[j][indexItemCode], result[j][indexItemName]));
 			 //System.out.println(items.get(j).getID());
 			 //System.out.println(items.get(j).getName());
-				lbItemsFilter.addItem(items.get(j).getName(), items.get(j).getID());
+			 lbItemsFilter.addItem(items.get(j).getName(), items.get(j).getID());
 
 			 }
 			 }
