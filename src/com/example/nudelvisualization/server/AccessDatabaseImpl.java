@@ -16,7 +16,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		AccessDatabase {
-
+	private boolean testphase = false;
 	/**
 	 * Client reaches out to Server to get rows that pass the filter
 	 * 
@@ -57,8 +57,8 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			if (line2 != null) {
 				firstLine = line2.split(cvsSplitBy);
 				dataList.add(firstLine);
-
-				while (true) {
+				
+				while (true) {					
 					line = br.readLine();
 					if (line == null)
 						break;
@@ -106,15 +106,13 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		for (int j = 0; j < dataList.size(); j++) {
 			for (int k = 0; k < firstLine.length; k++) {
 				data[j][k] = dataList.get(j)[k];
-
 			}
-
 		}
 		return data;
 	}
 
 	public String[][] getArea() {
-
+		
 		// Stuff we need for csv import
 		String csvFile = "data/production1990-2011.csv";
 		BufferedReader br = null;
@@ -140,7 +138,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			/*Fills only the AreaCode-column and the AreaName-column 
 				in a multidimensional ArrayList (dataAsArrayList) and takes 
 				every Area and ID just once*/
-			while (br.readLine() != null) {
+			while (true) {
 				line = br.readLine();
 				
 				if (line == null)
@@ -155,7 +153,11 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 				}else{
 	
 				}
-				
+				if (testphase) {
+					if (counter >= 10) {
+						break;
+					}					
+				}
 			}
 			
 			/*converts mulitdimensional ArrayList (dataAsArrayList) 
@@ -198,7 +200,8 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		ArrayList<ArrayList<String>> dataAsArrayList = null;
 		ArrayList<String> stringList = null;
 		String[][] dataAsArray = null;
-
+		int cnt = 0;
+		
 		try {
 			br = new BufferedReader(new FileReader(csvFile));
 			String line = br.readLine(); // ignore first row.
@@ -214,22 +217,30 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			/*Fills only the ItemCode-column and the ItemName-column 
 				in a multidimensional ArrayList (dataAsArrayList) and takes 
 				every Item and ID just once*/
-			while (br.readLine() != null) {
+			while (true) {
+				cnt = 0;
 				line = br.readLine();
-				
+
 				if (line == null)
 					break;
 				String[] firstLine2 = line.split(cvsSplitBy);
 				stringList = new ArrayList<String>();
-				if (dataAsArrayList.get(counter-1).get(0).compareTo(firstLine2[6]) != 0){
+				for (int i = 0; i < dataAsArrayList.size(); i++) {
+					if (dataAsArrayList.get(i).get(0).equals(firstLine2[6])){
+						cnt++;
+					}
+				}
+				if (cnt == 0) {
 					stringList.add(firstLine2[6]);
 					stringList.add(firstLine2[7]);
 					dataAsArrayList.add(stringList);
-					counter++;
-				}else{
-	
+					counter++;		
 				}
-				
+				if (testphase) {
+					if (counter >= 10) {
+						break;
+					}					
+				}
 			}
 			
 			/*converts mulitdimensional ArrayList (dataAsArrayList) 

@@ -47,27 +47,28 @@ public class Visualization{
 		dataAccessSocket.getSelectedRows(areaIDs, itemIDs, years, dataSeries, new CallbackHandler());
 	 }
 
-private class CallbackHandler implements AsyncCallback<String[][]>{
-	
-	
-	public void onFailure(Throwable caught) {
-		System.out.println("Blah");
-	}
+	private class CallbackHandler implements AsyncCallback<String[][]>{
 
-	public void onSuccess(String[][] result) {
-		
-		for (int i = 0; i < result.length; i++) {
-			if (result[i][1] != null) {
-				for (int j = 0; j < result[i].length; j++) {
-					visualizeTable.setText(i + 1, j, result[i][j]);
+
+		public void onFailure(Throwable caught) {
+			System.out.println("Communication with server failed");
+		}
+
+		public void onSuccess(String[][] result) {
+
+			for (int i = 0; i < result.length; i++) {
+				if (result[i][1] != null) {
+					for (int j = 0; j < result[i].length; j++) {
+						visualizeTable.setText(i + 1, j, result[i][j]);
 					}
 				}
 			}
-		visualizeTable.setStyleName("tableVisualization");
-		visualizeTable.getRowFormatter().addStyleName(1, "headOfTable");
-		visualizationPanel.add(visualizeTable);
-		visualizationPanel.setStyleName("visualizationPanel");
-		RootPanel.get("visualizationContainer").add(visualizationPanel);
+			visualizeTable.setStyleName("tableVisualization");
+			visualizeTable.getRowFormatter().addStyleName(1, "headOfTable");
+			visualizationPanel.add(visualizeTable);
+			visualizationPanel.setStyleName("visualizationPanel");
+			RootPanel.get("visualizationContainer").clear();
+			RootPanel.get("visualizationContainer").add(visualizationPanel);
 		}
 	}
 }

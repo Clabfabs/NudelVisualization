@@ -1,32 +1,29 @@
 package com.example.nudelvisualization.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.example.nudelvisualization.shared.FieldVerifier;
+// import com.example.nudelvisualization.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
+// import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+// import com.google.gwt.event.dom.client.KeyCodes;
+// import com.google.gwt.event.dom.client.KeyUpEvent;
+// import com.google.gwt.event.dom.client.KeyUpHandler;
+// import com.google.gwt.user.client.Window;
+// import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlexTable;
+// import com.google.gwt.user.client.ui.CheckBox;
+// import com.google.gwt.user.client.ui.DialogBox;
+// import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
+// import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
+// import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.Composite;
+// import com.google.gwt.user.client.ui.TextBox;
+// import com.google.gwt.user.client.ui.VerticalPanel;
+// import com.google.gwt.user.client.ui.Widget;
+// import com.google.gwt.user.client.ui.Composite;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -48,21 +45,23 @@ public class Controller implements EntryPoint {
     private ArrayList<String> selectedYears = new ArrayList<String>();
     private ArrayList<String> selectedDataSeries = new ArrayList<String>();
     private ArrayList<String> selectedItems = new ArrayList<String>();*/
-    private Configuration config = new Configuration(); 
+    private Configuration config = null; 
 
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
 	 */
-	private static final String SERVER_ERROR = "An error occurred while "
+	/*private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
-			+ "connection and try again.";
+			+ "connection and try again.";*/
 	
 	 /**
 	 * Updates the Filter. Executed when user clicks the Update Button
 	 * @return 
 	 */
 	private final void updateFilter(ListBox lbArea, ListBox lbYear, ListBox lbDataSeries, ListBox lbItems){
+		
+		config = new Configuration();
 		
 		for (int i = 0; i < lbArea.getItemCount(); i++){
 			if (lbArea.isItemSelected( i) == true){

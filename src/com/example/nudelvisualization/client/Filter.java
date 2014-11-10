@@ -126,7 +126,7 @@ public class Filter {
 	private class AreaCallbackHandler implements AsyncCallback<String[][]> {
 
 		public void onFailure(Throwable caught) {
-			System.out.println("Blah");
+			System.out.println("Communication with server failed");
 		}
 
 		public void onSuccess(String[][] result) {
@@ -153,7 +153,7 @@ public class Filter {
 
 	private class ItemCallbackHandler implements AsyncCallback<String[][]> {
 		public void onFailure(Throwable caught) {
-			System.out.println("Blah");
+			System.out.println("Communication with server failed");
 		}
 
 		public void onSuccess(String[][] result) {
