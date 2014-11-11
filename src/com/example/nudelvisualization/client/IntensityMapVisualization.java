@@ -1,7 +1,12 @@
 package com.example.nudelvisualization.client;
 
+/*
+ * Entry point classes define <code>onModuleLoad()</code>.
+ */
+public class IntensityMapVisualization extends Visualization{
 
-public class IntensityMapVisualization extends Visualization {
+  // GWT module entry point method.
+  
 
 	public IntensityMapVisualization(Configuration config) {
 		super(config);
@@ -9,7 +14,8 @@ public class IntensityMapVisualization extends Visualization {
 
 	@Override
 	public void draw() {
-	
+		
+		
 		
 	}
 	

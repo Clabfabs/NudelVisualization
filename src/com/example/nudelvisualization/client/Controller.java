@@ -19,12 +19,20 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 // import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.maps.gwt.client.GoogleMap;
+import com.google.maps.gwt.client.LatLng;
+import com.google.maps.gwt.client.MapOptions;
+import com.google.maps.gwt.client.MapTypeId;
 // import com.google.gwt.user.client.ui.TextBox;
 // import com.google.gwt.user.client.ui.VerticalPanel;
 // import com.google.gwt.user.client.ui.Widget;
 // import com.google.gwt.user.client.ui.Composite;
-
+//import com.google.gwt.dom.client.Style.Unit;
+//import com.google.gwt.user.client.ui.DockLayoutPanel;
+//import com.google.gwt.user.client.ui.RootLayoutPanel;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -116,10 +124,13 @@ public class Controller implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		
-		// TODO Put this in a separate Class "Visualization"
+	
+	
 
 	
+		 
+		  
+
 		//create ListBox for Area
 		//for (int i = 0; i < filter.area.size(); i++){
 		//	lbArea.addItem(filter.area.get(i).getName());
@@ -186,5 +197,28 @@ public class Controller implements EntryPoint {
 	    filterHorizontalPanel.add(buttonUpdateFilter);
 	    
 	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
+	    
+	    /*
+	    MapOptions options  = MapOptions.create() ;
+
+	    double lngCenter = 0;
+		double latCenter = 0;
+		options.setCenter(LatLng.create( latCenter, lngCenter ));   
+	    options.setZoom( 6 ) ;
+	    options.setMapTypeId( MapTypeId.ROADMAP );
+	    options.setDraggable(true);
+	    options.setMapTypeControl(true);
+	    options.setScaleControl(true) ;
+	    options.setScrollwheel(true) ;
+
+	    SimplePanel widg = new SimplePanel() ;
+
+	    widg.setSize("50%","50%");
+
+	    GoogleMap theMap = GoogleMap.create( widg.getElement(), options ) ;
+
+	    RootLayoutPanel.get().add( widg ) ; */
+		
+	    
 	}
 }
