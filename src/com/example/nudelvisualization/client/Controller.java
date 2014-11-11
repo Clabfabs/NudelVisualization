@@ -124,12 +124,6 @@ public class Controller implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-	
-	
-
-	
-		 
-		  
 
 		//create ListBox for Area
 		//for (int i = 0; i < filter.area.size(); i++){
@@ -198,13 +192,13 @@ public class Controller implements EntryPoint {
 	    
 	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
 	    
-	    /*
+	    
 	    MapOptions options  = MapOptions.create() ;
 
-	    double lngCenter = 0;
-		double latCenter = 0;
+	    double lngCenter = 5;
+		double latCenter = 5;
 		options.setCenter(LatLng.create( latCenter, lngCenter ));   
-	    options.setZoom( 6 ) ;
+	    options.setZoom( 0 ) ;
 	    options.setMapTypeId( MapTypeId.ROADMAP );
 	    options.setDraggable(true);
 	    options.setMapTypeControl(true);
@@ -217,7 +211,7 @@ public class Controller implements EntryPoint {
 
 	    GoogleMap theMap = GoogleMap.create( widg.getElement(), options ) ;
 
-	    RootLayoutPanel.get().add( widg ) ; */
+	    RootLayoutPanel.get().add( widg ) ; 
 		
 	    
 	}
