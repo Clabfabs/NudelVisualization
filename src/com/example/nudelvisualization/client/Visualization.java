@@ -93,11 +93,12 @@ public class Visualization{
 		    		else if(icol == 5){
 		    			p = 1;
 		    		}
-		    		//change TextHeader
+		    		//changes TextHeader
 		    		result[0][5] = "Element Name";
 		    		result[0][7] = "Item Name";
 		    		result[0][3] = "Area Name";
-		    		visualizeTable.addColumn(new IndexedColumn(p), new TextHeader(result[0][p]));
+		    		IndexedColumn iColumn = new IndexedColumn(p);
+		    		visualizeTable.addColumn(iColumn, new TextHeader(result[0][p]));
 		    	}
 		    }
 		    final ListDataProvider<ArrayList<String>> dataProvider = new ListDataProvider<ArrayList<String>>(rowsL);
