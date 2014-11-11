@@ -92,7 +92,7 @@ public class Controller implements EntryPoint {
 		}
 		
 		// initialize visualization
-		filter.visualize(config);
+		filter.visualizeAsTable(config);
 		
 	}
 	

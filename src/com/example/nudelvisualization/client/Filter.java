@@ -118,8 +118,8 @@ public class Filter {
 	 */
 
 	// to be done
-	public void visualize(Configuration config) {
-		Visualization visualization = new Visualization(config);
+	public void visualizeAsTable(Configuration config) {
+		Visualization visualization = new TableVisualization(config);
 		visualization.draw();
 	}
 
