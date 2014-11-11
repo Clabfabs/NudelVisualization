@@ -146,6 +146,7 @@ public class Filter {
 				// System.out.println(area.get(j).getName());
 				lbAreaFilter
 						.addItem(area.get(j).getName(), area.get(j).getID());
+				lbAreaFilter.setVisibleItemCount(10);
 			}
 		}
 
@@ -170,6 +171,7 @@ public class Filter {
 						result[j][indexItemName]));
 				lbItemsFilter.addItem(items.get(j).getName(), items.get(j)
 						.getID());
+				lbItemsFilter.setVisibleItemCount(10);
 
 			}
 		}
