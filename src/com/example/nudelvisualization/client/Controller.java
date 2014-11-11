@@ -158,12 +158,13 @@ public class Controller implements EntryPoint {
 		for (int i = 0; i< filter.getYears().size(); i++){
 			lbYear.addItem(filter.getYears().get(i).getYear() + "       ");
 		}
+		lbYear.setVisibleItemCount(10);
 		
 		//Listbox DataSeries
 		for (int i = 0; i<filter.getDataSeries().size(); i++){
 			lbDataSeries.addItem(filter.getDataSeries().get(i).getName(), filter.getDataSeries().get(i).getID());
 		}
-		
+		lbDataSeries.setVisibleItemCount(10);
 		
 	    // Button to update Filter
 	    buttonUpdateFilter.addClickHandler(new ClickHandler() {
