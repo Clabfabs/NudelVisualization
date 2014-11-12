@@ -181,5 +181,10 @@ public class Filter {
 		Visualization visualization = new SampleMapVisualization(config);
 		visualization.draw();
 	}
+	
+	public void drawIntensityMap(Configuration config){
+		IntensityMapVisualization map = new IntensityMapVisualization(config);
+		map.draw();
+	}
 
 }

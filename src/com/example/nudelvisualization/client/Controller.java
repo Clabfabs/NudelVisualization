@@ -1,5 +1,4 @@
 package com.example.nudelvisualization.client;
-
 // import com.example.nudelvisualization.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 // import com.google.gwt.core.client.GWT;
@@ -19,13 +18,13 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 // import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
+//import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.maps.gwt.client.GoogleMap;
-import com.google.maps.gwt.client.LatLng;
-import com.google.maps.gwt.client.MapOptions;
-import com.google.maps.gwt.client.MapTypeId;
+//import com.google.gwt.user.client.ui.SimplePanel;
+//import com.google.maps.gwt.client.GoogleMap;
+//import com.google.maps.gwt.client.LatLng;
+//import com.google.maps.gwt.client.MapOptions;
+//import com.google.maps.gwt.client.MapTypeId;
 // import com.google.gwt.user.client.ui.TextBox;
 // import com.google.gwt.user.client.ui.VerticalPanel;
 // import com.google.gwt.user.client.ui.Widget;
@@ -102,6 +101,7 @@ public class Controller implements EntryPoint {
 		// initialize visualization
 		filter.visualizeAsTable(config);
 		filter.drawSampleMap(config);
+		filter.drawIntensityMap(config);	
 		
 	}
 	
@@ -192,5 +192,6 @@ public class Controller implements EntryPoint {
 	    filterHorizontalPanel.add(buttonTableVisualization);
 	    
 	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
+	    	    
 	}
 }
