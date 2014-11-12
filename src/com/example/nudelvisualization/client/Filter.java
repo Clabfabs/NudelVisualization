@@ -177,4 +177,9 @@ public class Filter {
 		}
 	}
 
+	public void drawSampleMap(Configuration config) {
+		Visualization visualization = new SampleMapVisualization(config);
+		visualization.draw();
+	}
+
 }

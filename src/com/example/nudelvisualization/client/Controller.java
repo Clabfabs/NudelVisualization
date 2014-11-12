@@ -43,7 +43,7 @@ public class Controller implements EntryPoint {
     //private TextBox tbYearStart = new TextBox();
     //private TextBox tbYearEnd = new TextBox();
     private Grid gridYear = new Grid(3, 2);
-    private Button buttonUpdateFilter = new Button("OK");
+    private Button buttonTableVisualization = new Button("OK");
     private ListBox lbArea = new ListBox(true);
     private ListBox lbYear = new ListBox(true);
     private ListBox lbDataSeries = new ListBox(true);
@@ -101,6 +101,7 @@ public class Controller implements EntryPoint {
 		
 		// initialize visualization
 		filter.visualizeAsTable(config);
+		filter.drawSampleMap(config);
 		
 	}
 	
@@ -172,7 +173,7 @@ public class Controller implements EntryPoint {
 		lbDataSeries.setVisibleItemCount(10);
 		
 	    // Button to update Filter
-	    buttonUpdateFilter.addClickHandler(new ClickHandler() {
+	    buttonTableVisualization.addClickHandler(new ClickHandler() {
 	    	
 	    	@Override
 	    	public void onClick(ClickEvent event) {
@@ -188,31 +189,8 @@ public class Controller implements EntryPoint {
 	    filterHorizontalPanel.add(lbDataSeries);
 	    filterHorizontalPanel.add(lbItems);
 
-	    filterHorizontalPanel.add(buttonUpdateFilter);
+	    filterHorizontalPanel.add(buttonTableVisualization);
 	    
 	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
-	    
-	    
-	    MapOptions options  = MapOptions.create() ;
-
-	    double lngCenter = 5;
-		double latCenter = 5;
-		options.setCenter(LatLng.create( latCenter, lngCenter ));   
-	    options.setZoom( 0 ) ;
-	    options.setMapTypeId( MapTypeId.ROADMAP );
-	    options.setDraggable(true);
-	    options.setMapTypeControl(true);
-	    options.setScaleControl(true) ;
-	    options.setScrollwheel(true) ;
-
-	    SimplePanel widg = new SimplePanel() ;
-
-	    widg.setSize("50%","50%");
-
-	    GoogleMap theMap = GoogleMap.create( widg.getElement(), options ) ;
-
-	    RootLayoutPanel.get().add( widg ) ; 
-		
-	    
 	}
 }

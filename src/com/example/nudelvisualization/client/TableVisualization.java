@@ -80,8 +80,8 @@ public class TableVisualization extends Visualization {
 		    dataProvider.addDataDisplay(visualizeTable);
 		    
 		    visualizationPanel.add(visualizeTable);
-		    RootPanel.get().clear();
-			RootPanel.get().add(visualizationPanel);
+		    RootPanel.get("visualizationContainer").clear();
+			RootPanel.get("visualizationContainer").add(visualizationPanel);
 		}
 	}
 	
