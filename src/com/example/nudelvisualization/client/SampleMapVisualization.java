@@ -1,6 +1,5 @@
 package com.example.nudelvisualization.client;
 
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -22,7 +21,9 @@ public class SampleMapVisualization extends Visualization {
 		GoogleMap map;
 		VerticalPanel mapVp = new VerticalPanel();
 		mapVp.setSize("50%", "50%");
-		RootPanel.get("sampleMap").add(mapVp);
+		RootPanel.get("sampleMap").add(mapVp, 800, 0);
+		// Die Position als Zahlen braucht es leider noch, sonst wird das widget nicht angezeigt.
+		// das "sampleMap" (das würde der html-Position <div id="sampleMap"></div> entsprechen!) wird grossartig ignoriert...
 
 		/*VerticalPanel mapVp2 = new VerticalPanel();
 		RootPanel.get("sampleMap").add(mapVp2);
@@ -35,7 +36,7 @@ public class SampleMapVisualization extends Visualization {
 		MapOptions myOptions = MapOptions.create();
 		myOptions.setZoom(3);
 		myOptions.setCenter(myLatLng);
-		myOptions.setMapTypeId(MapTypeId.TERRAIN);
+		myOptions.setMapTypeId(MapTypeId.ROADMAP);
 		myOptions.setMapTypeControl(true);
 		map = GoogleMap.create(mapVp.getElement(), myOptions);
 	
