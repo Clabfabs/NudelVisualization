@@ -1,6 +1,7 @@
 package com.example.nudelvisualization.client;
 
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
@@ -16,6 +17,7 @@ import com.google.gwt.visualization.client.visualizations.IntensityMap;
 import com.google.gwt.visualization.client.visualizations.MapVisualization;
 import com.google.gwt.visualization.client.visualizations.MotionChart;
 import com.google.gwt.visualization.client.visualizations.OrgChart;
+import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 
 /*
@@ -41,20 +43,25 @@ public class IntensityMapVisualization extends Visualization{
 		        Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
 		        ImageLineChart.PACKAGE, ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE,
 		        ImagePieChart.PACKAGE, IntensityMap.PACKAGE,
-		        MapVisualization.PACKAGE, MotionChart.PACKAGE, OrgChart.PACKAGE,
+		        MapVisualization.PACKAGE, MotionChart.PACKAGE, OrgChart.PACKAGE,Table.PACKAGE,
 		        ImageSparklineChart.PACKAGE);
 
 		  }
 
 		  private void draw2() {
 
-		    ImageChart.Options options = ImageChart.Options.create();
-		    options.set("chs", "400x400");
-		    options.set("cht", "qr");
-		    options.set("chl", "Hello+world");
+		    IntensityMap.Options options = IntensityMap.Options.create();
+		    options.setRegion(IntensityMap.Region.WORLD);
 
-		    DataTable dataTable = DataTable.create();
-		    ImageChart widget = new ImageChart(dataTable, options);
+		    DataTable data = DataTable.create();
+		    data.addColumn(ColumnType.STRING, "3", "Armenia");
+		    data.addColumn(ColumnType.NUMBER, "Bla");
+		    data.addRows(2);
+		    data.setValue(0, 1, 10);
+		    
+		    data.setValue(1, 1, 0);
+
+		    IntensityMap widget = new IntensityMap(data, options);
 
 		    RootPanel.get("sampleMap").add(widget);
 
