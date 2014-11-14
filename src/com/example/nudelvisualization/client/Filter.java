@@ -117,12 +117,6 @@ public class Filter {
 	 * public Configuration getConfig() { return this.config; }
 	 */
 
-	// to be done
-	public void visualizeAsTable(Configuration config) {
-		Visualization visualization = new TableVisualization(config);
-		visualization.draw();
-	}
-
 	private class AreaCallbackHandler implements AsyncCallback<String[][]> {
 
 		public void onFailure(Throwable caught) {
@@ -177,6 +171,11 @@ public class Filter {
 		}
 	}
 
+	public void drawTable(Configuration config) {
+		Visualization visualization = new TableVisualization(config);
+		visualization.draw();
+	}
+	
 	public void drawSampleMap(Configuration config) {
 		Visualization visualization = new SampleMapVisualization(config);
 		visualization.draw();
@@ -186,5 +185,4 @@ public class Filter {
 		IntensityMapVisualization map = new IntensityMapVisualization(config);
 		map.draw();
 	}
-
 }

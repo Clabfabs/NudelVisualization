@@ -23,10 +23,10 @@ import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 /*
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class IntensityMapVisualization extends Visualization{
+public class IntensityMapVisualization extends Visualization {
 
-  // GWT module entry point method.
-  
+	// GWT module entry point method.
+
 
 	public IntensityMapVisualization(Configuration config) {
 		super(config);
@@ -34,42 +34,38 @@ public class IntensityMapVisualization extends Visualization{
 
 	@Override
 	public void draw() {
-	    VisualizationUtils.loadVisualizationApi(
-		        new Runnable() {
-		          public void run() {
-		            draw2();
-		          }
-		        }, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
-		        Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
-		        ImageLineChart.PACKAGE, ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE,
-		        ImagePieChart.PACKAGE, IntensityMap.PACKAGE,
-		        MapVisualization.PACKAGE, MotionChart.PACKAGE, OrgChart.PACKAGE,Table.PACKAGE,
-		        ImageSparklineChart.PACKAGE);
+		VisualizationUtils.loadVisualizationApi(
+				new Runnable() {
+					public void run() {
+						draw2();
+					}
+				}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
+				Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
+				ImageLineChart.PACKAGE, ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE,
+				ImagePieChart.PACKAGE, IntensityMap.PACKAGE,
+				MapVisualization.PACKAGE, MotionChart.PACKAGE, OrgChart.PACKAGE,Table.PACKAGE,
+				ImageSparklineChart.PACKAGE);
 
-		  }
-
-		  private void draw2() {
-
-		    IntensityMap.Options options = IntensityMap.Options.create();
-		    options.setRegion(IntensityMap.Region.WORLD);
-
-		    DataTable data = DataTable.create();
-		    data.addColumn(ColumnType.STRING, "3", "Armenia");
-		    data.addColumn(ColumnType.NUMBER, "Bla");
-		    data.addRows(2);
-		    data.setValue(0, 1, 10);
-		    
-		    data.setValue(1, 1, 0);
-
-		    IntensityMap widget = new IntensityMap(data, options);
-
-		    RootPanel.get("sampleMap").add(widget);
-
-		    System.out.println("finished");
-		  }	
-		
-		
 	}
-	
-	
+
+	private void draw2() {
+
+		IntensityMap.Options options = IntensityMap.Options.create();
+		options.setRegion(IntensityMap.Region.WORLD);
+
+		DataTable data = DataTable.create();
+		data.addColumn(ColumnType.STRING, "3", "Armenia");
+		data.addColumn(ColumnType.NUMBER, "Bla");
+		data.addRows(2);
+		data.setValue(0, 1, 10);
+
+		data.setValue(1, 1, 0);
+
+		IntensityMap widget = new IntensityMap(data, options);
+		RootPanel.get("visualizationContainer").clear();
+		RootPanel.get("visualizationContainer").add(widget);
+	}	
+}
+
+
 

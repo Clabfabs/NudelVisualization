@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 //import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 //import com.google.gwt.user.client.ui.SimplePanel;
 //import com.google.maps.gwt.client.GoogleMap;
 //import com.google.maps.gwt.client.LatLng;
@@ -42,7 +43,8 @@ public class Controller implements EntryPoint {
     //private TextBox tbYearStart = new TextBox();
     //private TextBox tbYearEnd = new TextBox();
     private Grid gridYear = new Grid(3, 2);
-    private Button buttonTableVisualization = new Button("OK");
+    private Button buttonTable = new Button("Table");
+    private Button buttonIntensityMap = new Button("IntensityMap");
     private ListBox lbArea = new ListBox(true);
     private ListBox lbYear = new ListBox(true);
     private ListBox lbDataSeries = new ListBox(true);
@@ -99,9 +101,9 @@ public class Controller implements EntryPoint {
 		}
 		
 		// initialize visualization
-		filter.visualizeAsTable(config);
-		filter.drawSampleMap(config);
-		filter.drawIntensityMap(config);	
+		// filter.visualizeAsTable(config);
+		// filter.drawSampleMap(config);
+		// filter.drawIntensityMap(config);	
 		
 	}
 	
@@ -172,24 +174,36 @@ public class Controller implements EntryPoint {
 		}
 		lbDataSeries.setVisibleItemCount(10);
 		
-	    // Button to update Filter
-	    buttonTableVisualization.addClickHandler(new ClickHandler() {
+	    // Button to initialize TableVis
+	    buttonTable.addClickHandler(new ClickHandler() {
 	    	
 	    	@Override
 	    	public void onClick(ClickEvent event) {
 	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
+	    		filter.drawTable(config);
 	    	}
 	    });
 	    
+	    buttonIntensityMap.addClickHandler(new ClickHandler() {
+	    	
+	    	@Override
+	    	public void onClick(ClickEvent event) {
+	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
+	    		filter.drawIntensityMap(config);
+	    	}
+	    });
 	    
+	    VerticalPanel buttons = new VerticalPanel();
+	    buttons.add(buttonTable);
+	    buttons.add(buttonIntensityMap);
 	    
 	    filterHorizontalPanel.add(gridYear);
 	    filterHorizontalPanel.add(lbArea);
 	    filterHorizontalPanel.add(lbYear);
 	    filterHorizontalPanel.add(lbDataSeries);
 	    filterHorizontalPanel.add(lbItems);
-
-	    filterHorizontalPanel.add(buttonTableVisualization);
+	    
+	    filterHorizontalPanel.add(buttons);
 	    
 	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
 	    	    

@@ -1,11 +1,16 @@
 package com.example.nudelvisualization.client;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Configuration {
+public class Configuration implements Serializable {
 	
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<String> selectedArea = new ArrayList<String>();
 	private ArrayList<String> selectedItems = new ArrayList<String>();
 	private ArrayList<String> selectedYears = new ArrayList<String>();
