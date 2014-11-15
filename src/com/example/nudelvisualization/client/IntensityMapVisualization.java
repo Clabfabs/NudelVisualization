@@ -1,9 +1,8 @@
 package com.example.nudelvisualization.client;
 
-import java.sql.Date;
 
-import com.google.api.server.spi.BackendService.Properties;
-import com.google.gwt.core.ext.linker.impl.PropertiesMappingArtifact;
+
+
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
@@ -41,7 +40,7 @@ public class IntensityMapVisualization extends Visualization {
 		VisualizationUtils.loadVisualizationApi(
 				new Runnable() {
 					public void run() {
-						draw2();
+						drawMap();
 					}
 				}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
 				Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
@@ -52,10 +51,11 @@ public class IntensityMapVisualization extends Visualization {
 
 	}
 
-	private void draw2() {
+	private void drawMap() {
 
 		IntensityMap.Options options = IntensityMap.Options.create();
-		options.setRegion(IntensityMap.Region.WORLD);
+		options.setRegion(IntensityMap.Region.EUROPE);
+		
 
 		DataTable data = DataTable.create();
 		data.addColumn(ColumnType.STRING, "Country");
@@ -72,7 +72,7 @@ public class IntensityMapVisualization extends Visualization {
 		data.setValue(1, 2, 300);
 		data.setValue(1, 3 ,100);
 		data.setValue(2, 0, "CH");
-		data.setValue(2, 1,250);
+		data.setValue(2, 1, 250);
 		data.setValue(2, 2, 500);
 		data.setValue(2, 3 , 800);
 		data.setValue(3, 0, "US");
@@ -83,7 +83,6 @@ public class IntensityMapVisualization extends Visualization {
 		data.setValue(4, 1, 30);
 		data.setValue(4, 2, 10);
 		data.setValue(4, 3 ,500);
-		
 		
 		IntensityMap widget = new IntensityMap(data, options);
 		RootPanel.get("visualizationContainer").clear();
