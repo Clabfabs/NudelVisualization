@@ -1,5 +1,8 @@
 package com.example.nudelvisualization.client;
 
+
+
+
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
@@ -37,7 +40,7 @@ public class IntensityMapVisualization extends Visualization {
 		VisualizationUtils.loadVisualizationApi(
 				new Runnable() {
 					public void run() {
-						draw2();
+						drawMap();
 					}
 				}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
 				Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
@@ -48,19 +51,39 @@ public class IntensityMapVisualization extends Visualization {
 
 	}
 
-	private void draw2() {
+	private void drawMap() {
 
 		IntensityMap.Options options = IntensityMap.Options.create();
-		options.setRegion(IntensityMap.Region.WORLD);
+		options.setRegion(IntensityMap.Region.EUROPE);
+		
 
 		DataTable data = DataTable.create();
-		data.addColumn(ColumnType.STRING, "3", "Armenia");
-		data.addColumn(ColumnType.NUMBER, "Bla");
-		data.addRows(2);
-		data.setValue(0, 1, 10);
-
-		data.setValue(1, 1, 0);
-
+		data.addColumn(ColumnType.STRING, "Country");
+		data.addColumn(ColumnType.NUMBER, "Import");
+		data.addColumn(ColumnType.NUMBER, "Export");
+		data.addColumn(ColumnType.NUMBER, "Production");
+		data.addRows(5);//Anzahl Länder
+		data.setValue(0, 0, "GB");//(Land 1 2etc. , 0= Lädercode 1=import 2 = export 3= production, Wert)
+		data.setValue(0, 1, 0);
+		data.setValue(0, 2, 200);
+		data.setValue(0, 3 ,500);
+		data.setValue(1, 0 ,"FR");
+		data.setValue(1, 1, 50);
+		data.setValue(1, 2, 300);
+		data.setValue(1, 3 ,100);
+		data.setValue(2, 0, "CH");
+		data.setValue(2, 1, 250);
+		data.setValue(2, 2, 500);
+		data.setValue(2, 3 , 800);
+		data.setValue(3, 0, "US");
+		data.setValue(3, 1, 40);
+		data.setValue(3, 2, 350);
+		data.setValue(3, 3 ,100);
+		data.setValue(4, 0, "RU");
+		data.setValue(4, 1, 30);
+		data.setValue(4, 2, 10);
+		data.setValue(4, 3 ,500);
+		
 		IntensityMap widget = new IntensityMap(data, options);
 		RootPanel.get("visualizationContainer").clear();
 		RootPanel.get("visualizationContainer").add(widget);
