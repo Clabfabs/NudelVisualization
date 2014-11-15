@@ -10,5 +10,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface AccessDatabase extends RemoteService {
   String[][] getArea();
   String[][] getItem();
-  String[][] getSelectedRows(String[] areaIDs, String[] itemIDs, String[] years, String[] dataSeries);
+  String[][] getSelectedRows(Configuration config);
 }

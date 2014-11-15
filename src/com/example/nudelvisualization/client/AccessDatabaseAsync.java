@@ -8,5 +8,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface AccessDatabaseAsync {
   void getArea(AsyncCallback<String[][]> callback);
   void getItem(AsyncCallback<String[][]> callback);
-  void getSelectedRows(String[] areaIDs, String[] itemIDs, String[] years, String[] dataSeries, AsyncCallback<String[][]> callback);
+  void getSelectedRows(Configuration config, AsyncCallback<String[][]> callback);
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.nudelvisualization.client.AccessDatabase;
+import com.example.nudelvisualization.client.Configuration;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -27,7 +28,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 	 *
 	 * @return a 2-dimensional String Array with the rows
 	 */
-	public String[][] getSelectedRows(String[] areaIDs, String[] itemIDs, String[] years, String[] dataSeries) {
+	public String[][] getSelectedRows(Configuration config) {
 
 		/*
 		 * // TODO Verify that the input is valid. Example Code: if
@@ -68,12 +69,12 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 					dataRow = new String[firstLine.length];
 					
 					// Adds Rows to the ArrayList that have been selected by the User in the Filter
-					for(int f=0; f < areaIDs.length; f++){
-						if(cells[2].equals(areaIDs[f])){
-							for(int g=0; g < itemIDs.length; g++){
-								if(cells[6].equals(itemIDs[g])){
-									for(int h=0; h < years.length; h++){
-										if(cells[8].equals(years[h])){
+					for(String f : config.getSelectedAreaList()){
+						if(cells[2].equals(f)){
+							for(String g : config.getSelectedItemsList()){
+								if(cells[6].equals(g)){
+									for(String h : config.getSelectedYearsList()){
+										if(cells[8].equals(h)){
 											dataRow = line.split(cvsSplitBy);
 											dataList.add(dataRow);
 										}

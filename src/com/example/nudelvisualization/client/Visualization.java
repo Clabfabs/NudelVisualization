@@ -1,14 +1,18 @@
 package com.example.nudelvisualization.client;
 
+import java.util.ArrayList;
+
 public abstract class Visualization {	
 	
-	protected String[] areaIDs = null;
+	/*protected String[] areaIDs = null;
 	protected String[] itemIDs = null;
 	protected String[] years = null;
-	protected String[] dataSeries = null;
+	protected String[] dataSeries = null;*/
+	protected Configuration configToVisualize = null;
 	
-	public Visualization(Configuration config){
-		int numberOfAreas = config.getSelectedAreaList().size();
+	public Visualization(Configuration config) {
+		configToVisualize = config;
+		/*int numberOfAreas = config.getSelectedAreaList().size();
 		int numberOfItems = config.getSelectedItemsList().size();
 		int numberOfYears = config.getSelectedYearsList().size();
 		int numberOfDataSeries = config.getSelectedDataSeriesList().size();
@@ -28,16 +32,16 @@ public abstract class Visualization {
 		}
 		for (int i = 0; i < numberOfDataSeries; i++) {
 			dataSeries[i] = config.getSelectedDataSeriesList().get(i);
-		}
+		}*/
 	}
 	
 	public abstract void draw();
 
-	public String[] getAreaIDs() {
-		return areaIDs;
+	public ArrayList<String> getAreaIDs() {
+		return configToVisualize.getSelectedAreaList();
 	}
 
-	public String[] getItemIDs() {
-		return itemIDs;
+	public ArrayList<String> getItemIDs() {
+		return configToVisualize.getSelectedItemsList();
 	}
 }
