@@ -1,38 +1,14 @@
 package com.example.nudelvisualization.client;
-// import com.example.nudelvisualization.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
-// import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-// import com.google.gwt.event.dom.client.KeyCodes;
-// import com.google.gwt.event.dom.client.KeyUpEvent;
-// import com.google.gwt.event.dom.client.KeyUpHandler;
-// import com.google.gwt.user.client.Window;
-// import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-// import com.google.gwt.user.client.ui.CheckBox;
-// import com.google.gwt.user.client.ui.DialogBox;
-// import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
-// import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-// import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-//import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-//import com.google.gwt.user.client.ui.SimplePanel;
-//import com.google.maps.gwt.client.GoogleMap;
-//import com.google.maps.gwt.client.LatLng;
-//import com.google.maps.gwt.client.MapOptions;
-//import com.google.maps.gwt.client.MapTypeId;
-// import com.google.gwt.user.client.ui.TextBox;
-// import com.google.gwt.user.client.ui.VerticalPanel;
-// import com.google.gwt.user.client.ui.Widget;
-// import com.google.gwt.user.client.ui.Composite;
-//import com.google.gwt.dom.client.Style.Unit;
-//import com.google.gwt.user.client.ui.DockLayoutPanel;
-//import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -40,20 +16,15 @@ public class Controller implements EntryPoint {
 
 	
     private HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
-    //private TextBox tbYearStart = new TextBox();
-    //private TextBox tbYearEnd = new TextBox();
     private Grid gridYear = new Grid(3, 2);
     private Button buttonTable = new Button("Table");
     private Button buttonIntensityMap = new Button("IntensityMap");
+    private Button buttonColumnChart = new Button("Chart");
     private ListBox lbArea = new ListBox(true);
     private ListBox lbYear = new ListBox(true);
     private ListBox lbDataSeries = new ListBox(true);
     private ListBox lbItems = new ListBox(true);
     private Filter filter = null;
-    /*private ArrayList<String> selectedAreas = new ArrayList<String>();
-    private ArrayList<String> selectedYears = new ArrayList<String>();
-    private ArrayList<String> selectedDataSeries = new ArrayList<String>();
-    private ArrayList<String> selectedItems = new ArrayList<String>();*/
     private Configuration config = null; 
 
 	/**
@@ -128,37 +99,6 @@ public class Controller implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
-		//create ListBox for Area
-		//for (int i = 0; i < filter.area.size(); i++){
-		//	lbArea.addItem(filter.area.get(i).getName());
-		//}
-	    
-	    
-//		for (int j = 0; j < filter.getArea().size(); j++) {
-//			cb.add(new CheckBox(filter.getArea().get(j).getName()));
-//		}
-		
-//		for (int j = 0; j < cb.size(); j++) {
-//			cb.get(j).setValue(false);
-//		}
-	    
-
-		// Hook up a handler to find out when it's clicked.
-//		for (int j = 0; j < cb.size(); j++){
-//			cb.get(j).addClickHandler(new ClickHandler() {
-//				@Override
-//				public void onClick(ClickEvent event) {
-//					boolean checked = ((CheckBox) event.getSource()).getValue();
-//					Window.alert("It is " + (checked ? "" : "not ") + "checked");
-//				}
-//			});
-//		}
-//	    // Add it to the root panel.
-//		for (int i = 0; i<cb.size(); i++){
-//	    RootPanel.get().add(cb.get(i));
-//		}
-		
-//
 		filter = new Filter(lbArea, lbItems);
 		filter.init();
 		
@@ -193,9 +133,21 @@ public class Controller implements EntryPoint {
 	    	}
 	    });
 	    
+	    buttonColumnChart.addClickHandler(new ClickHandler(){
+	    	@Override
+	    	public void onClick(ClickEvent event) {
+	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
+	    		filter.drawColumnChart(config);
+	    	}
+	    });
+	    
+	    
+	    
+	    
 	    VerticalPanel buttons = new VerticalPanel();
 	    buttons.add(buttonTable);
 	    buttons.add(buttonIntensityMap);
+	    buttons.add(buttonColumnChart);
 	    
 	    filterHorizontalPanel.add(gridYear);
 	    filterHorizontalPanel.add(lbArea);

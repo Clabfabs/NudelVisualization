@@ -1,19 +1,30 @@
 package com.example.nudelvisualization.client;
 
 import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
+import com.google.gwt.visualization.client.DataTable;
+import com.google.gwt.visualization.client.VisualizationUtils;
+import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
+import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
+import com.google.gwt.visualization.client.visualizations.corechart.Options;
+
 
 public class Filter {
 
-	private ArrayList<Area> area = new ArrayList<Area>(); 
+	private ArrayList<Area> area = new ArrayList<Area>();
 	private ArrayList<Item> items = new ArrayList<Item>();
 	private ArrayList<Year> years = new ArrayList<Year>();
 	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
-	//Listbox for GUI which will offer the option to choose one of the Areas in the Arraylist area. 
-	private ListBox lbAreaFilter = null; 
-	//Listbox for GUI which will offer the option to choose one of the Items in the Arraylist items. 
+	// Listbox for GUI which will offer the option to choose one of the Areas in
+	// the Arraylist area.
+	private ListBox lbAreaFilter = null;
+	// Listbox for GUI which will offer the option to choose one of the Items in
+	// the Arraylist items.
 	private ListBox lbItemsFilter = null;
 
 	/**
@@ -26,8 +37,8 @@ public class Filter {
 		lbItemsFilter = lbItems;
 		lbAreaFilter = lbArea;
 	}
-	
-	public void init(){
+
+	public void init() {
 		dataAccessSocket = GWT.create(AccessDatabase.class);
 		setDataSeries();
 		setYears();
@@ -175,14 +186,43 @@ public class Filter {
 		Visualization visualization = new TableVisualization(config);
 		visualization.draw();
 	}
-	
+
 	public void drawSampleMap(Configuration config) {
 		Visualization visualization = new SampleMapVisualization(config);
 		visualization.draw();
 	}
-	
-	public void drawIntensityMap(Configuration config){
+
+	public void drawIntensityMap(Configuration config) {
 		IntensityMapVisualization map = new IntensityMapVisualization(config);
 		map.draw();
+	}
+
+	public void drawColumnChart(Configuration config) {
+		
+		// Load the visualization api, passing the onLoadCallback to be called when loading is done.
+	    VisualizationUtils.loadVisualizationApi(new ColumnChartRunnable(), ColumnChart.PACKAGE);
+	}
+	
+	private class ColumnChartRunnable implements Runnable{
+
+		@Override
+		public void run() {
+			DataTable dataTable = DataTable.create();
+			dataTable.addColumn(ColumnType.NUMBER, "Aple");
+			dataTable.addColumn(ColumnType.NUMBER, "Potatoes");
+			dataTable.addColumn(ColumnType.NUMBER, "Banana");
+			dataTable.addRow();
+			dataTable.setCell(0, 0, 3, null, null);
+			dataTable.setCell(0, 1, 5, null, null);
+			dataTable.setCell(0, 2, 9, null, null);
+
+			Options options = CoreChart.createOptions();
+
+			ColumnChart colChart = new ColumnChart(dataTable, options);
+			colChart.draw(dataTable, options);
+			
+			RootPanel.get("visualizationContainer").clear();
+			RootPanel.get("visualizationContainer").add(colChart);
+		}
 	}
 }
