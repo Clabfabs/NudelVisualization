@@ -27,7 +27,7 @@ public class TableVisualization extends Visualization {
 	}
 
 	public void draw() {
-		dataAccessSocket.getSelectedRows(configToVisualize, new CallbackHandler());
+		dataAccessSocket.getSelectedRows(config, new CallbackHandler());
 	 }
 
 	private class CallbackHandler implements AsyncCallback<String[][]>{
