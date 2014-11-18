@@ -44,8 +44,27 @@ public class Filter {
 		setYears();
 		setItems();
 		setArea();
+		//testSql();
 	}
 
+	private void testSql() {
+		dataAccessSocket.getSQLSelection(null, new AsyncCallback<String[][]>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(String[][] result) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+	}
+	
 	private void setArea() {
 		dataAccessSocket.getArea(new AreaCallbackHandler());
 	}

@@ -157,7 +157,6 @@ public class Controller implements EntryPoint {
 	    
 	    filterHorizontalPanel.add(buttons);
 	    
-	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
-	    	    
+	    RootPanel.get("filterContainer").add(filterHorizontalPanel);	    	    
 	}
 }

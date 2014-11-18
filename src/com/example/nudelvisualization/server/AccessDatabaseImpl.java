@@ -6,9 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
 
 import com.example.nudelvisualization.client.AccessDatabase;
 import com.example.nudelvisualization.client.Configuration;
+import com.google.appengine.api.utils.SystemProperty;
+import com.google.cloud.sql.jdbc.Connection;
+import com.google.cloud.sql.jdbc.ResultSet;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -28,6 +32,46 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 	 *
 	 * @return a 2-dimensional String Array with the rows
 	 */
+
+	public String[][] getSQLSelection(Configuration config) {
+		String url = null;
+		if (SystemProperty.environment.value() ==
+		    SystemProperty.Environment.Value.Production) {
+		  // Load the class that provides the new "jdbc:google:mysql://" prefix.
+		  try {
+			Class.forName("com.mysql.jdbc.GoogleDriver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  url = "jdbc:google:mysql://norse-voice-758:nudeldatabase?user=root";
+		} else {
+		  // Local MySQL instance to use during development.
+			try {
+				Class.forName("com.mysql.jdbc.GoogleDriver");
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		  url = "jdbc:mysql://173.194.242.3:3306?user=root";
+		}
+
+		java.sql.Connection conn;
+		try {
+			conn = DriverManager.getConnection(url);
+			java.sql.ResultSet rs = conn.createStatement().executeQuery(
+					"SELECT AreaCode, AreaName FROM countries");
+			while (rs.next()) {
+				System.out.println(rs.getString("AreaCode") + "\t" + rs.getString("AreaName"));
+			}
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public String[][] getSelectedRows(Configuration config) {
 
 		/*
