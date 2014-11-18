@@ -1,11 +1,14 @@
 package com.example.nudelvisualization.client;
 
+import java.awt.TextField;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
@@ -26,13 +29,11 @@ import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 
 /*
- * TO DOS: 	- Zusammenzählen von Daten wenn mehrere Länder und Jahre gewählt sind.
+ * TO DOS: 	
  * 			- Karte grösser.
  * 			- alle Länder IsoCodes.
- * 			- Daten in Verhältnis zu Population
- * 			- exception wenn keine Daten beheben.
- * 			- wenn Land ausgewählt wurde, es aber keine Daten dazu hat, dann 0 einfüllen. (wahrscheinlich nicht wirklich lösbar...)
- * 			- Kommentar, welche Daten angezeigt werden. 
+ * 			- Daten in Verhältnis zu Population --> nötig?
+ * 			- Kommentar, welche Daten angezeigt werden optimieren. --> Items nicht als Zahl... 
  * 			- Methoden testen und kommentieren. 
  * 			
  */
@@ -41,23 +42,12 @@ public class IntensityMapVisualization extends Visualization {
 
 	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
 	String [][] IsoCodes = new String[96][2];
-	String [] years = new String[22];
 	
 	public IntensityMapVisualization(Configuration config) {
 		super(config);
 		setIsoCodes();
-		setYears();
 	}
-	private void setYears(){
-			int startYear = 1990;
-			int endYear = 2011;
 
-			for (int j = 0; j <= endYear - startYear; j++) {
-				int x = startYear + j;
-				Integer n = new Integer(x);
-				years[j] = n.toString();
-			}	
-	}
 	private void setIsoCodes(){
 		IsoCodes[0][0] = "1"; IsoCodes[0][1] = "AM"; IsoCodes[1][0] = "2"; IsoCodes[1][1]= "AF";
 		IsoCodes[2][0]="3"; IsoCodes[2][1] ="AL"; IsoCodes[3][0] ="4"; IsoCodes[3][1]="DZ";
@@ -123,40 +113,71 @@ public class IntensityMapVisualization extends Visualization {
 		}
 
 		public void onSuccess(final String[][] result) {
-			
-
+		
 		    VisualizationUtils.loadVisualizationApi(
 		    		new Runnable() {
 		    			public void run() {
+		    						//create IntensityMap
 		    						IntensityMap.Options options = IntensityMap.Options.create();
 		    						options.setRegion(IntensityMap.Region.WORLD);
 		    						options.setSize(440, 220);
-		    						// 2= areacode, 3 = land, 5 = dataserie, 7=item, 8=year, 10 =value
+		    						
+		    						//add Data to IntensityMap
 		    						DataTable data = DataTable.create();
 		    						data.addColumn(ColumnType.STRING, "Country");
-		    					
-		    						data.addColumn(ColumnType.NUMBER, result[1][8]);
-		    					
-		    						int counter = 0;
+		    						data.addColumn(ColumnType.NUMBER, "Production");
 		    						
-		    						for (int i = 0; i<result.length; i++){
+		    						//get all isoCodes of the selectedAreas
+		    						String [] isoCodes = new String[config.getSelectedAreaList().size()];
+		    						for (int i = 0; i<isoCodes.length; i++){
 		    							for (int j= 0; j<IsoCodes.length; j++){
-		    							if (result[i][2].equals(IsoCodes[j][0])){
-		    								data.addRow();
-		    								data.setValue(counter, 0, IsoCodes[j][1]);
-		    								data.setValue(counter, 1, result[i][10]);
-		    								counter++;
-		  
-		    								}else{
-		    									
+		    								if (config.getSelectedAreaList().get(i).equals(IsoCodes[j][0])){
+		    									isoCodes[i] = IsoCodes[j][1];
 		    								}
+		    							}
 		    						}
-		    						}
-		    	
 		    						
+		    						//iterate through all selected Areas
+		    						double sumAllData = 0;
+		    						for (int j = 0; j<config.getSelectedAreaList().size(); j++){
+		    							//if there is data for the Area add it up:
+		    							for (int i= 1; i< result.length; i++){
+		    							if (result[i][2].equals(config.getSelectedAreaList().get(j))){
+		    								String dataValue = result[i][10];
+		    								if (dataValue.isEmpty()){ //get rid of exceptions...
+		    									sumAllData = 0 + sumAllData;
+		    								}else{
+		    								double dataAsDouble = Double.valueOf(dataValue);
+		    								sumAllData = sumAllData + dataAsDouble;
+		    								}
+		    							}
+		    							}
+		    							//add selected Area with sumAllData. If there is no data, sumAllData = 0.
+		    							data.addRow();
+		    							data.setValue(j, 0, isoCodes[j]);
+		    							data.setValue(j, 1, sumAllData);
+		    							sumAllData = 0;	
+		    						}
+		    						
+		    						String allSelectedYears = "";
+		    						for (int i = 0; i<config.getSelectedYearsList().size(); i++){
+		    							allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i)) +" ";	
+		    						}
+		    						String allSelectedItems = "";
+		    						for (int i = 0; i<config.getSelectedItemsList().size(); i++){
+		    							allSelectedItems = allSelectedItems.concat(config.getSelectedItemsList().get(i)) +" ";	
+		    						}
+		    						
+		    						TextArea text = new TextArea();
+		    						text.removeStyleName("TextArea");//doesn't function yet
+		    						text.addStyleName("TextAreaNew");//doesn't function yet
+		    						text.setReadOnly(true);
+		    						text.setPixelSize(430, 30);
+		    						text.setText(result[1][5] + " in tonnes of " + allSelectedItems + " in " + allSelectedYears + ".");
 		    						IntensityMap widget = new IntensityMap(data, options);
 		    						RootPanel.get("visualizationContainer").clear();
 		    						RootPanel.get("visualizationContainer").add(widget);
+		    						RootPanel.get("visualizationContainer").add(text);
 		    					}
 		    				}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
 		    				Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
@@ -164,14 +185,7 @@ public class IntensityMapVisualization extends Visualization {
 		    				ImagePieChart.PACKAGE, IntensityMap.PACKAGE,
 		    				MapVisualization.PACKAGE, MotionChart.PACKAGE, OrgChart.PACKAGE,Table.PACKAGE,
 		    				ImageSparklineChart.PACKAGE);		
-		    		
-		    	}
-		    }
-		    	   
-		
 	}
-		
-
-
-
+}
+}
 
