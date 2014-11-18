@@ -111,7 +111,7 @@ public class IntensityMapVisualization extends Visualization {
 	}
 	@Override
 	public void draw() {
-		dataAccessSocket.getSelectedRows(configToVisualize, new CallbackHandler());
+		dataAccessSocket.getSelectedRows(config, new CallbackHandler());
 	}
 
 	
