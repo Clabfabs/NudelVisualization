@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Configuration implements Serializable {
-	
-	
 
 	/**
 	 * 
@@ -14,6 +12,8 @@ public class Configuration implements Serializable {
 	private ArrayList<String> selectedItems = new ArrayList<String>();
 	private ArrayList<String> selectedYears = new ArrayList<String>();
 	private ArrayList<String> selectedDataSeries = new ArrayList<String>();
+	private ArrayList<String> titles = new ArrayList<String>();
+
 	
 	public Configuration(){}
 
@@ -26,45 +26,57 @@ public class Configuration implements Serializable {
 		this.selectedDataSeries = selectedDataSeries;
 	}
 
-public void addArea(String areaID){
-	selectedArea.add(areaID);	
-}
+	public void addTitles(String areaID){
+		titles.add(areaID);	
+	}
 
-public void addItem(String itemID){
-	selectedItems.add(itemID);	
-}
+	public void addArea(String areaID){
+		selectedArea.add(areaID);	
+	}
 
-public void addYear(String year){
-	selectedYears.add(year);
-}
+	public void addItem(String itemID){
+		selectedItems.add(itemID);	
+	}
 
-public void addDataSeries(String dataSerieID){
-	selectedDataSeries.add(dataSerieID);
-}
+	public void addYear(String year){
+		selectedYears.add(year);
+	}
 
-public ArrayList<String> getSelectedAreaList(){
-	return selectedArea;
-}
+	public void addDataSeries(String dataSerieID){
+		selectedDataSeries.add(dataSerieID);
+	}
 
-public ArrayList<String> getSelectedItemsList(){
-	return selectedItems;
-}
+	public ArrayList<String> getSelectedAreaList(){
+		return selectedArea;
+	}
 
-public ArrayList<String> getSelectedYearsList(){
-	return selectedYears;
-}
+	public ArrayList<String> getSelectedItemsList(){
+		return selectedItems;
+	}
 
-public ArrayList<String> getSelectedDataSeriesList(){
-	return selectedDataSeries;
-}
+	public ArrayList<String> getSelectedYearsList(){
+		return selectedYears;
+	}
 
-//to be done
-public void loadConfig(){
-	 
-}
+	public ArrayList<String> getSelectedDataSeriesList(){
+		return selectedDataSeries;
+	}
 
-//to be done
-public void saveConfig(){
-	
-}
+	public ArrayList<String> getSelectedTitles(){
+		if (titles.size() == 0) {
+			return null;
+		} else {
+			return titles;		
+		}
+	}
+
+	//to be done
+	public void loadConfig(){
+
+	}
+
+	//to be done
+	public void saveConfig(){
+
+	}
 }

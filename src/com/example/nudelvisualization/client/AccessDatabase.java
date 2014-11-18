@@ -8,7 +8,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("accessDatabase")
 public interface AccessDatabase extends RemoteService {
-  String[][] getArea();
-  String[][] getItem();
-  String[][] getSelectedRows(Configuration config);
+	String[][] getArea();
+	String[][] getItem();
+	String[][] getYears();
+	String[][] getSelectedRows(Configuration config);
 }

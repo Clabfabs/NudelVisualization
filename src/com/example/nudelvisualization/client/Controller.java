@@ -18,8 +18,9 @@ public class Controller implements EntryPoint {
     private HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
     private Grid gridYear = new Grid(3, 2);
     private Button buttonTable = new Button("Table");
-    private Button buttonIntensityMap = new Button("IntensityMap");
+    private Button buttonIntensityMap = new Button("Intensity Map");
     private Button buttonColumnChart = new Button("Chart");
+    private Button buttonLineChart = new Button("Line Chart");
     private ListBox lbArea = new ListBox(true);
     private ListBox lbYear = new ListBox(true);
     private ListBox lbDataSeries = new ListBox(true);
@@ -99,7 +100,7 @@ public class Controller implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
-		filter = new Filter(lbArea, lbItems);
+		filter = new Filter(lbArea, lbItems, lbYear);
 		filter.init();
 		
 		//Listbox Year
@@ -133,6 +134,15 @@ public class Controller implements EntryPoint {
 	    	}
 	    });
 	    
+	    buttonLineChart.addClickHandler(new ClickHandler() {
+	    	
+	    	@Override
+	    	public void onClick(ClickEvent event) {
+	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
+	    		filter.drawLineChart(config);
+	    	}
+	    });
+	    
 	    buttonColumnChart.addClickHandler(new ClickHandler(){
 	    	@Override
 	    	public void onClick(ClickEvent event) {
@@ -148,7 +158,7 @@ public class Controller implements EntryPoint {
 	    buttons.add(buttonTable);
 	    buttons.add(buttonIntensityMap);
 	    buttons.add(buttonColumnChart);
-	    
+	    buttons.add(buttonLineChart);
 	    filterHorizontalPanel.add(gridYear);
 	    filterHorizontalPanel.add(lbArea);
 	    filterHorizontalPanel.add(lbYear);
@@ -157,7 +167,6 @@ public class Controller implements EntryPoint {
 	    
 	    filterHorizontalPanel.add(buttons);
 	    
-	    RootPanel.get("filterContainer").add(filterHorizontalPanel);
-	    	    
+	    RootPanel.get("filterContainer").add(filterHorizontalPanel);	    	    
 	}
 }

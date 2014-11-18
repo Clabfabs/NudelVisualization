@@ -2,6 +2,50 @@
 
 
 /** Example rules used by the template application (remove for your app) */
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .stations, .stations svg {
+            position: absolute;
+        }
+
+        .stations svg {
+            width: 60px;
+            height: 20px;
+            padding-right: 100px;
+            font: 10px sans-serif;
+        }
+
+        .stations circle {
+            fill: brown;
+            stroke: black;
+            stroke-width: 1.5px;
+        }
+
+        #slider {
+
+        }
+
+        #sliderwrapper {
+            position: fixed;
+            bottom: 100px;
+            left: 50px;
+            width: 800px;
+            padding: 20px;
+            background: #fff;
+        }
+
+        .marker {
+            overflow: visible;
+        }
+
+        .marker text {
+            text-anchor: middle;
+        }
 h1 {
   font-size: 2em;
   font-weight: bold;

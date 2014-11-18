@@ -27,6 +27,13 @@ public class TableVisualization extends Visualization {
 	}
 
 	public void draw() {
+		config.addTitles("ElementName");
+		config.addTitles("AreaName");
+		config.addTitles("Domain");
+		config.addTitles("ItemName");
+		config.addTitles("Year");
+		config.addTitles("Value");
+		config.addTitles("Unit");
 		dataAccessSocket.getSelectedRows(config, new CallbackHandler());
 	 }
 
@@ -43,37 +50,15 @@ public class TableVisualization extends Visualization {
 		    int ncols = result[0].length;
 		    ArrayList rowsL = new ArrayList(nrows);
 		    //List rowsL = new ArrayList(nrows);
-		    for (int irow = 1; irow < nrows; irow++) {		    	
+		    for (int irow = 0; irow < nrows; irow++) {		    	
 		        List<String> rowL = Arrays.asList(result[irow]);
 		        rowsL.add(rowL);
 		    }
 		    
 		    // Create table columns
-		    int p = 0;
 		    for (int icol = 0; icol < ncols; icol++) {
-		    	// extracts columns we need 
-		    	if (icol == 1 || icol == 3 || icol == 5 || icol == 7 || icol == 8 || icol == 9 || icol == 10 ){
-		    		
-		    		// exchanges columns value & unit and ElementName & Domain
-		    		p = icol;
-		    		if (icol == 9) { 
-		    			p = 10; 
-		    		} else if(icol == 10){
-		    			p = 9; 
-		    		} else if(icol == 1){
-		    			p = 5;
-		    		} else if(icol == 5){
-		    			p = 1;
-		    		}
-		    		
-		    		//changes TextHeader
-		    		result[0][5] = "Element Name";
-		    		result[0][7] = "Item Name";
-		    		result[0][3] = "Area Name";
-		    		
-		    		IndexedColumn iColumn = new IndexedColumn(p);
-		    		visualizeTable.addColumn(iColumn, new TextHeader(result[0][p]));
-		    	}
+		    		IndexedColumn iColumn = new IndexedColumn(icol);
+		    		visualizeTable.addColumn(iColumn, new TextHeader(config.getSelectedTitles().get(icol)));
 		    }
 		    
 		    final ListDataProvider<ArrayList<String>> dataProvider = new ListDataProvider<ArrayList<String>>(rowsL);

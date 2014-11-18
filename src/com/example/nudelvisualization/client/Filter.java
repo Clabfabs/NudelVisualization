@@ -23,9 +23,13 @@ public class Filter {
 	// Listbox for GUI which will offer the option to choose one of the Areas in
 	// the Arraylist area.
 	private ListBox lbAreaFilter = null;
+	// Listbox for GUI which will offer the option to choose one of the Years in
+	// the Arraylist items.
+	private ListBox lbYearsFilter = null;
 	// Listbox for GUI which will offer the option to choose one of the Items in
 	// the Arraylist items.
 	private ListBox lbItemsFilter = null;
+	
 
 	/**
 	 * Create a remote service proxy to talk to the server-side database
@@ -33,11 +37,11 @@ public class Filter {
 	 */
 	private AccessDatabaseAsync dataAccessSocket = null;
 
-	public Filter(ListBox lbArea, ListBox lbItems) {
-		lbItemsFilter = lbItems;
+	public Filter(ListBox lbArea, ListBox lbItem, ListBox lbYear) {
 		lbAreaFilter = lbArea;
+		lbItemsFilter = lbItem;
+		lbYearsFilter = lbYear;
 	}
-
 	public void init() {
 		dataAccessSocket = GWT.create(AccessDatabase.class);
 		setDataSeries();
@@ -45,36 +49,51 @@ public class Filter {
 		setItems();
 		setArea();
 	}
-
+	
 	private void setArea() {
 		dataAccessSocket.getArea(new AreaCallbackHandler());
 	}
+	
+	// Returns the arraylist which consists of all Year Objects
+	private void setYears() {
+		dataAccessSocket.getYears(new YearCallbackHandler());
+		//addYears();
+	}
+	
 
+	// Gather all Items in an arraylist
+	private void setItems() {
+		dataAccessSocket.getItem(new ItemCallbackHandler());
+	}
+
+	// Adding all DataSeries-Objects
+	public void setDataSeries() {
+		DataSeries exports = new DataSeries("1", "population");
+		dataSeries.add(exports);
+		DataSeries imports = new DataSeries("2", "production");
+		dataSeries.add(imports);
+		DataSeries production = new DataSeries("3", "tradeNOTTOBEUSEDYET!!");
+		dataSeries.add(production);
+	}
+		
 	public ArrayList<Area> getArea() {
 		return this.area;
 	}
-
-	/*
-	 * Gather all Items in an arraylist--> hat noch viele Items doppelt, da es
-	 * von jedem Land einfach einmal jedes Item nimmt. Viele Länder haben aber
-	 * die gleichen Items...Dieses Problem wird mit einer Datenbank gelöst-->
-	 * warten auf Sprint 2
-	 */
-	private void setItems() {
-		dataAccessSocket.getItem(new ItemCallbackHandler());
-
+	
+	public ArrayList<Year> getYears() {
+		return years;
 	}
 
 	// Returns the arraylist of all Item Objects
 	public ArrayList<Item> getItems() {
-		return this.items;
+		return items;
 	}
 
-	// Returns the arraylist which consists of all Year Objects
-	private void setYears() {
-		addYears();
+	public ArrayList<DataSeries> getDataSeries() {
+		return dataSeries;
 	}
 
+	
 	// Adding all Years in the ArrayList
 	public void addYears() {
 		int startYear = 1990;
@@ -86,48 +105,6 @@ public class Filter {
 			years.add(new Year(n.toString()));
 		}
 	}
-
-	public ArrayList<Year> getYears() {
-		return years;
-	}
-
-	// Adding all DataSeries-Objects
-	public void setDataSeries() {
-		DataSeries exports = new DataSeries("1", "export");
-		dataSeries.add(exports);
-		DataSeries imports = new DataSeries("2", "import");
-		dataSeries.add(imports);
-		DataSeries production = new DataSeries("3", "production");
-		dataSeries.add(production);
-	}
-
-	public ArrayList<DataSeries> getDataSeries() {
-		return dataSeries;
-	}
-
-	// adds all active Objects of the ArrayLists areas, items, years and
-	// DataSeries to the Configuration config.
-	/*
-	 * public void createConfiguration() {
-	 * 
-	 * for (int i = 0; i < area.size(); i++) { if (area.get(i).isActive()) {
-	 * config.addArea(area.get(i)); } }
-	 * 
-	 * for (int i = 0; i < items.size(); i++) { if (items.get(i).isActive()) {
-	 * config.addItem(items.get(i)); } }
-	 * 
-	 * for (int i = 0; i < years.size(); i++) { if (years.get(i).isActive()) {
-	 * config.addYear(years.get(i)); } }
-	 * 
-	 * for (int i = 0; i < dataSeries.size(); i++) { if
-	 * (dataSeries.get(i).isActive()) { config.addDataSeries(dataSeries.get(i));
-	 * } } }
-	 */
-
-	/*
-	 * public Configuration getConfig() { return this.config; }
-	 */
-
 	private class AreaCallbackHandler implements AsyncCallback<String[][]> {
 
 		public void onFailure(Throwable caught) {
@@ -146,9 +123,6 @@ public class Filter {
 			for (int j = 0; j < result.length; j++) {
 				area.add(new Area(result[j][indexAreaCode],
 						result[j][indexAreaName]));
-				// System.out.println(area.get(j).getName());
-				// System.out.println(area.get(j).getID());
-				// System.out.println(area.get(j).getName());
 				lbAreaFilter
 						.addItem(area.get(j).getName(), area.get(j).getID());
 				lbAreaFilter.setVisibleItemCount(10);
@@ -181,6 +155,24 @@ public class Filter {
 			}
 		}
 	}
+	
+	private class YearCallbackHandler implements AsyncCallback<String[][]> {
+
+		public void onFailure(Throwable caught) {
+			System.out.println("Communication with server failed");
+		}
+
+		public void onSuccess(String[][] result) {
+			/*
+			 * We fill Year object
+			 */
+			for (int j = 0; j < result.length; j++) {
+				years.add(new Year(result[j][0]));
+				lbYearsFilter.addItem(years.get(j).getYear());
+				lbYearsFilter.setVisibleItemCount(10);
+			}
+		}
+	}
 
 	public void drawTable(Configuration config) {
 		Visualization visualization = new TableVisualization(config);
@@ -194,6 +186,11 @@ public class Filter {
 
 	public void drawIntensityMap(Configuration config) {
 		IntensityMapVisualization map = new IntensityMapVisualization(config);
+		map.draw();
+	}
+	
+	public void drawLineChart(Configuration config) {
+		LineChartVisualization map = new LineChartVisualization(config);
 		map.draw();
 	}
 

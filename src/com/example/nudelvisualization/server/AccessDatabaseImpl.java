@@ -1,14 +1,16 @@
 package com.example.nudelvisualization.server;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.example.nudelvisualization.client.AccessDatabase;
 import com.example.nudelvisualization.client.Configuration;
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -17,258 +19,163 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		AccessDatabase {
-	private boolean testphase = false;
+	private Connection conn = null;
+	
+	public AccessDatabaseImpl() {
+		String url = null;
+		String user = null;
+		String password = null;
+		try {
+			if (SystemProperty.environment.value() ==
+					SystemProperty.Environment.Value.Production) {
+				// Load the class that provides the new "jdbc:google:mysql://" prefix.
+				Class.forName("com.mysql.jdbc.GoogleDriver");
+				url = "jdbc:google:mysql://norse-voice-758:nudeldatabase?user=root";
+				user = "root";
+				password = "";
+			} else {
+				// Local MySQL instance to use during development.
+				Class.forName("com.mysql.jdbc.Driver");
+				url = "jdbc:mysql://173.194.242.3:3306";
+				user = "root";
+				password = "welovenoodles";
+						
+			} 
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	    try {
+	      conn = DriverManager.getConnection(url, user, password);
+	    } catch (SQLException e) {
+	      System.out.println("couldn't get connection ");
+	      e.printStackTrace();
+	    }
+	}
+	public String[][] getArea() {
+	    String sql = "SELECT AreaCode, AreaName FROM nudeldb.countries";
+	    return simpleQuery(sql);
+	}
+	public String[][] getItem() {
+		String sql = "SELECT ItemCode, ItemName FROM nudeldb.items";
+	    return simpleQuery(sql);
+	}
+	public String[][] getYears() {
+		String sql = "SELECT * FROM nudeldb.years ORDER BY year";
+	    return simpleQuery(sql);
+	}
+	
 	/**
 	 * Client reaches out to Server to get rows that pass the filter
 	 * 
-	 * @param areaIDs the string array with the IDs of the selected areas
-	 * @param itemIDs the string array with the IDs of the selected items
-	 * @param years the string array with the IDs of the selected years
-	 * @param dataSeries the string array with the selected dataseries
+	 * @param config The Configuration object with the IDs of the selected parameters
 	 *
 	 * @return a 2-dimensional String Array with the rows
 	 */
 	public String[][] getSelectedRows(Configuration config) {
 
-		/*
-		 * // TODO Verify that the input is valid. Example Code: if
-		 * (!FieldVerifier.isValidName(input)) { // If the input is not valid,
-		 * throw an IllegalArgumentException back to // the client. throw new
-		 * IllegalArgumentException( "Name must be at least 4 characters long");
-		 * }
-		 */
-
-		// Stuff we need for csv import
-		String csvFile = "data/production1990-2011.csv";
-		BufferedReader br = null;
-		String cvsSplitBy = ",";
-
-		// The data we want to fill
-		String[] dataRow = null;
-		ArrayList<String[]> dataList = new ArrayList<String[]>();
-		String[] firstLine = null;
-		try {
-			br = new BufferedReader(new FileReader(csvFile));
-			String line = br.readLine();
-
-			// workaround to get rid of the first 3 annoying characters -> to be
-			// improved! :-)
-			String line2 = line.substring(3);
-
-			if (line2 != null) {
-				firstLine = line2.split(cvsSplitBy);
-				dataList.add(firstLine);
-				
-				while (true) {					
-					line = br.readLine();
-					if (line == null)
-						break;
-
-					String[] cells = line.split(cvsSplitBy);
-
-					dataRow = new String[firstLine.length];
-					
-					// Adds Rows to the ArrayList that have been selected by the User in the Filter
-					for(String f : config.getSelectedAreaList()){
-						if(cells[2].equals(f)){
-							for(String g : config.getSelectedItemsList()){
-								if(cells[6].equals(g)){
-									for(String h : config.getSelectedYearsList()){
-										if(cells[8].equals(h)){
-											dataRow = line.split(cvsSplitBy);
-											dataList.add(dataRow);
-										}
-									}			
-								}
-							}		
-						}
-					}
-				}
-			} else {
-				System.out.println("First line failure");
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		String[][] data = new String[dataList.size()][firstLine.length];
-
-		// converts ArrayList<String[]> into String[][]
-		for (int j = 0; j < dataList.size(); j++) {
-			for (int k = 0; k < firstLine.length; k++) {
-				data[j][k] = dataList.get(j)[k];
-			}
-		}
-		return data;
-	}
-
-	public String[][] getArea() {
-		
-		// Stuff we need for csv import
-		String csvFile = "data/production1990-2011.csv";
-		BufferedReader br = null;
-		String cvsSplitBy = ",";
-
-		// The data we want to fill
-		ArrayList<ArrayList<String>> dataAsArrayList = null;
-		ArrayList<String> stringList = null;
-		String[][] dataAsArray = null;
-
-		try {
-			br = new BufferedReader(new FileReader(csvFile));
-			String line = br.readLine(); // ignore first row.
-			dataAsArrayList = new ArrayList<ArrayList<String>>();
-			int counter = 1;
-			line = br.readLine();
-			String[] firstLine = line.split(cvsSplitBy);
-			stringList = new ArrayList<String>();//add the second row, so we can compare
-			stringList.add(firstLine[2]);
-			stringList.add(firstLine[3]);
-			dataAsArrayList.add(stringList);
-				
-			/*Fills only the AreaCode-column and the AreaName-column 
-				in a multidimensional ArrayList (dataAsArrayList) and takes 
-				every Area and ID just once*/
-			while (true) {
-				line = br.readLine();
-				
-				if (line == null)
-					break;
-				String[] firstLine2 = line.split(cvsSplitBy);
-				stringList = new ArrayList<String>();
-				if (dataAsArrayList.get(counter-1).get(0).compareTo(firstLine2[2]) != 0){
-					stringList.add(firstLine2[2]);
-					stringList.add(firstLine2[3]);
-					dataAsArrayList.add(stringList);
-					counter++;
-				}else{
-	
-				}
-				if (testphase) {
-					if (counter >= 10) {
-						break;
-					}					
-				}
-			}
-			
-			/*converts mulitdimensional ArrayList (dataAsArrayList) 
-			 into multidimensional Array (dataAsArray)*/
-			String[][] dataArray = new String[dataAsArrayList.size()][];
-			List<String> areaList = dataAsArrayList.get(0);
-			dataArray[0] = areaList.toArray(new String[areaList.size()]);
-			for (int i = 1; i < dataAsArrayList.size(); i++) {
-				List<String> areaList2 = dataAsArrayList.get(i);
-				dataArray[i] = areaList2.toArray(new String[areaList.size()]);
-				}
-			
-			dataAsArray = dataArray;
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return dataAsArray;
+		ArrayList<String[]> returnValue = new ArrayList<>();
+		int nCol = 0;
+	    System.out.println("trying query");
+	    StringBuilder query = new StringBuilder();
+	    query.append("SELECT");
+	    if (config.getSelectedTitles() == null) {
+	    	query.append(" * ");
+	    } else {
+	    	int count = 0;
+	    	for (int i = 0; i < config.getSelectedTitles().size()-1; i++) {
+		    	query.append(" " + config.getSelectedTitles().get(count++) + ",");
+		    }
+		    query.append(" " +  config.getSelectedTitles().get(count) + " ");
+	    }
+	    query.append("FROM");
+	    // To be uncommented later!
+	    /*for (int i = 0; i < config.getSelectedDataSeriesList().size()-1; i++) {
+	    	query.append(" nudeldb." + config.getSelectedDataSeriesList().get(i) + ",");
+	    }*/
+	    query.append(" nudeldb.production");
+	    query.append(" WHERE (AreaCode =");
+	    for (int i = 0; i < config.getSelectedAreaList().size()-1; i++) {
+	    	query.append(" ? OR AreaCode =");
+	    }
+	    query.append(" ?)");
+	    query.append(" AND (Year =");
+	    for (int i = 0; i < config.getSelectedYearsList().size()-1; i++) {
+	    	query.append(" ? OR Year =");
+	    }
+	    query.append(" ?)");
+	    query.append(" AND (ItemCode =");
+	    for (int i = 0; i < config.getSelectedItemsList().size()-1; i++) {
+	    	query.append(" ? OR ItemCode =");
+	    }
+	    query.append(" ?)");
+	    System.out.println(query.toString());
+	    try {
+	      PreparedStatement select = conn.prepareStatement(query.toString());
+	      int count = 1;
+	      for (String s : config.getSelectedAreaList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      for (String s : config.getSelectedYearsList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      for (String s : config.getSelectedItemsList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      System.out.println(select.toString());
+	      ResultSet result = select.executeQuery();
+	      nCol = result.getMetaData().getColumnCount();	      
+	      while (result.next()) {
+	    	  String[] row = new String[nCol];
+	    	  for(int iCol = 1; iCol <= nCol; iCol++ ){
+	    	        row[iCol-1] = result.getString(iCol);
+	    	    }
+	    	    returnValue.add(row);
+	      }
+	      result.close();
+	      result = null;
+	      select.close();
+	      select = null;
+	    } catch (SQLException e) {
+	      System.err.println("Error: queryColumns(): " + query.toString());
+	      e.printStackTrace();
+	    }
+	    
+	    String[][] returnValuesStrings = new String[returnValue.size()][nCol];
+	    for (int i = 0; i < returnValue.size(); i++) {
+	    	returnValuesStrings[i] = returnValue.get(i);
+	    }
+		return returnValuesStrings;
 	}
 	
-	
-	public String[][] getItem() {
-
-		// Stuff we need for csv import
-		String csvFile = "data/production1990-2011.csv";
-		BufferedReader br = null;
-		String cvsSplitBy = ",";
-
-		// The data we want to fill
-		ArrayList<ArrayList<String>> dataAsArrayList = null;
-		ArrayList<String> stringList = null;
-		String[][] dataAsArray = null;
-		int cnt = 0;
-		
-		try {
-			br = new BufferedReader(new FileReader(csvFile));
-			String line = br.readLine(); // ignore first row.
-			dataAsArrayList = new ArrayList<ArrayList<String>>();
-			int counter = 1;
-			line = br.readLine();
-			String[] firstLine = line.split(cvsSplitBy);
-			stringList = new ArrayList<String>();//add the first row, so we can compare
-			stringList.add(firstLine[6]);
-			stringList.add(firstLine[7]);
-			dataAsArrayList.add(stringList);
-				
-			/*Fills only the ItemCode-column and the ItemName-column 
-				in a multidimensional ArrayList (dataAsArrayList) and takes 
-				every Item and ID just once*/
-			while (true) {
-				cnt = 0;
-				line = br.readLine();
-
-				if (line == null)
-					break;
-				String[] firstLine2 = line.split(cvsSplitBy);
-				stringList = new ArrayList<String>();
-				for (int i = 0; i < dataAsArrayList.size(); i++) {
-					if (dataAsArrayList.get(i).get(0).equals(firstLine2[6])){
-						cnt++;
-					}
-				}
-				if (cnt == 0) {
-					stringList.add(firstLine2[6]);
-					stringList.add(firstLine2[7]);
-					dataAsArrayList.add(stringList);
-					counter++;		
-				}
-				if (testphase) {
-					if (counter >= 10) {
-						break;
-					}					
-				}
-			}
-			
-			/*converts mulitdimensional ArrayList (dataAsArrayList) 
-			 into multidimensional Array (dataAsArray)*/
-			String[][] dataArray = new String[dataAsArrayList.size()][];
-			List<String> areaList = dataAsArrayList.get(0);
-			dataArray[0] = areaList.toArray(new String[areaList.size()]);
-			for (int i = 1; i < dataAsArrayList.size(); i++) {
-				List<String> areaList2 = dataAsArrayList.get(i);
-				dataArray[i] = areaList2.toArray(new String[areaList.size()]);
-				}
-			
-			dataAsArray = dataArray;
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return dataAsArray;
+	public String[][] simpleQuery(String sql) {
+		ArrayList<String[]> returnValue = new ArrayList<>();
+		int nCol = 0;
+	    System.out.println("trying query");
+	    try {
+	      Statement select = conn.createStatement();
+	      ResultSet result = select.executeQuery(sql);
+	      nCol = result.getMetaData().getColumnCount();	      
+	      while (result.next()) {
+	    	  String[] row = new String[nCol];
+	    	  for( int iCol = 1; iCol <= nCol; iCol++ ){
+	    	        row[iCol-1] = result.getString(iCol);
+	    	    }
+	    	    returnValue.add(row);
+	      }
+	      result.close();
+	      result = null;
+	      select.close();
+	      select = null;
+	    } catch (SQLException e) {
+	      System.err.println("Error: queryColumns(): " + sql);
+	      e.printStackTrace();
+	    }
+	    
+	    String[][] returnValuesStrings = new String[returnValue.size()][nCol];
+	    for (int i = 0; i < returnValue.size(); i++) {
+	    	returnValuesStrings[i] = returnValue.get(i);
+	    }
+		return returnValuesStrings;
 	}
 }
