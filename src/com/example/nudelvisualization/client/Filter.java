@@ -44,7 +44,7 @@ public class Filter {
 		setYears();
 		setItems();
 		setArea();
-		//testSql();
+		testSql();
 	}
 
 	private void testSql() {

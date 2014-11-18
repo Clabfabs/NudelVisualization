@@ -6,13 +6,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.example.nudelvisualization.client.AccessDatabase;
 import com.example.nudelvisualization.client.Configuration;
 import com.google.appengine.api.utils.SystemProperty;
-import com.google.cloud.sql.jdbc.Connection;
-import com.google.cloud.sql.jdbc.ResultSet;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -34,41 +36,57 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 	 */
 
 	public String[][] getSQLSelection(Configuration config) {
-		String url = null;
-		if (SystemProperty.environment.value() ==
-		    SystemProperty.Environment.Value.Production) {
-		  // Load the class that provides the new "jdbc:google:mysql://" prefix.
-		  try {
-			Class.forName("com.mysql.jdbc.GoogleDriver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		  url = "jdbc:google:mysql://norse-voice-758:nudeldatabase?user=root";
-		} else {
-		  // Local MySQL instance to use during development.
-			try {
-				Class.forName("com.mysql.jdbc.GoogleDriver");
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		  url = "jdbc:mysql://173.194.242.3:3306?user=root";
-		}
 
-		java.sql.Connection conn;
+		String url = null;
+		String user = null;
+		String password = null;
 		try {
-			conn = DriverManager.getConnection(url);
-			java.sql.ResultSet rs = conn.createStatement().executeQuery(
-					"SELECT AreaCode, AreaName FROM countries");
-			while (rs.next()) {
-				System.out.println(rs.getString("AreaCode") + "\t" + rs.getString("AreaName"));
-			}
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			if (SystemProperty.environment.value() ==
+					SystemProperty.Environment.Value.Production) {
+				// Load the class that provides the new "jdbc:google:mysql://" prefix.
+				Class.forName("com.mysql.jdbc.GoogleDriver");
+				url = "jdbc:google:mysql://norse-voice-758:nudeldatabase?user=root";
+				user = "root";
+				password = "";
+			} else {
+				// Local MySQL instance to use during development.
+				Class.forName("com.mysql.jdbc.Driver");
+				url = "jdbc:mysql://173.194.242.3:3306";
+				user = "root";
+				password = "welovenoodles";
+						
+			} 
 		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		Connection conn = null;
+	    try {
+	      conn = DriverManager.getConnection(url, user, password);
+	    } catch (SQLException e) {
+	      System.out.println("couldn't get connection ");
+	      e.printStackTrace();
+	    }
+	    System.out.println("trying query");
+	    String sql = "SELECT * FROM nudeldb.countries";
+	    try {
+	      Statement select = conn.createStatement();
+	      ResultSet result = select.executeQuery(sql);
+	      while (result.next()) {
+	        String s1 = result.getString(1);
+	        String s2 = result.getString(2);
+	        String s3 = result.getString(2);
+	        System.out.println(s1 + "\t" + s2 + "\t" + s3);
+	      }
+	      result.close();
+	      result = null;
+	      select.close();
+	      select = null;
+	    } catch (SQLException e) {
+	      System.err.println("Error: queryColumns(): " + sql);
+	      e.printStackTrace();
+	    }
 		return null;
 	}
 	
