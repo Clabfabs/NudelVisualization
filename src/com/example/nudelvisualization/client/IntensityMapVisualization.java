@@ -173,7 +173,7 @@ public class IntensityMapVisualization extends Visualization {
 		    						text.addStyleName("TextAreaNew");//doesn't function yet
 		    						text.setReadOnly(true);
 		    						text.setPixelSize(430, 30);
-		    						text.setText(result[1][5] + " in tonnes of " + allSelectedItems + " in " + allSelectedYears + ".");
+		    						text.setText("Production" + " in tonnes of " + allSelectedItems + " in " + allSelectedYears + ".");
 		    						IntensityMap widget = new IntensityMap(data, options);
 		    						RootPanel.get("visualizationContainer").clear();
 		    						RootPanel.get("visualizationContainer").add(widget);
