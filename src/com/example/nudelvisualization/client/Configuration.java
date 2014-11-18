@@ -8,7 +8,7 @@ public class Configuration implements Serializable {
 	/**
 	 * 
 	 */
-	private ArrayList<String> selectedArea = new ArrayList<String>();
+	private ArrayList<String> selectedArea = new ArrayList<>();
 	private ArrayList<String> selectedItems = new ArrayList<String>();
 	private ArrayList<String> selectedYears = new ArrayList<String>();
 	private ArrayList<String> selectedDataSeries = new ArrayList<String>();
@@ -30,8 +30,8 @@ public class Configuration implements Serializable {
 		titles.add(areaID);	
 	}
 
-	public void addArea(String areaID){
-		selectedArea.add(areaID);	
+	public void addArea(String area){
+		selectedArea.add(area);	
 	}
 
 	public void addItem(String itemID){

@@ -128,7 +128,6 @@ public class Filter {
 				lbAreaFilter.setVisibleItemCount(10);
 			}
 		}
-
 	}
 
 	private class ItemCallbackHandler implements AsyncCallback<String[][]> {

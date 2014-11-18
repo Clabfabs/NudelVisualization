@@ -10,4 +10,5 @@ public interface AccessDatabaseAsync {
 	void getItem(AsyncCallback<String[][]> callback);
 	void getYears(AsyncCallback<String[][]> callback);
 	void getSelectedRows(Configuration config, AsyncCallback<String[][]> callback);
+	void getISOCodes(Configuration config, AsyncCallback<String[][]> callback);
 }

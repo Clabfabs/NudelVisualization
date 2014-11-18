@@ -12,4 +12,5 @@ public interface AccessDatabase extends RemoteService {
 	String[][] getItem();
 	String[][] getYears();
 	String[][] getSelectedRows(Configuration config);
+	String[][] getISOCodes(Configuration config);
 }
