@@ -100,7 +100,7 @@ public class Controller implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
-		filter = new Filter(lbArea, lbItems);
+		filter = new Filter(lbArea, lbItems, lbYear);
 		filter.init();
 		
 		//Listbox Year
