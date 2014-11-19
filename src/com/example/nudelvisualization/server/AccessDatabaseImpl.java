@@ -64,6 +64,11 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		String sql = "SELECT * FROM nudeldb.years ORDER BY year";
 	    return simpleQuery(sql);
 	}
+	public String[][] getISOCodes(Configuration config) {
+		// Config not considered yet
+		String sql = "SELECT AreaCode, ISOCode FROM nudeldb.countries";
+		return simpleQuery(sql);
+	}
 	
 	/**
 	 * Client reaches out to Server to get rows that pass the filter
