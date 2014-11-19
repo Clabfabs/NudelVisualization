@@ -30,7 +30,9 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 					SystemProperty.Environment.Value.Production) {
 				// Load the class that provides the new "jdbc:google:mysql://" prefix.
 				Class.forName("com.mysql.jdbc.GoogleDriver");
-				url = "jdbc:google:mysql://norse-voice-758:nudeldatabase?user=root";
+				url = "jdbc:google:mysql://norse-voice-758:nudeldatabase";
+				user = "root";
+				password = "";
 			} else {
 				// Local MySQL instance to use during development.
 				Class.forName("com.mysql.jdbc.Driver");
@@ -44,12 +46,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			e.printStackTrace();
 		}
 	    try {
-	    	if (SystemProperty.environment.value() ==
-					SystemProperty.Environment.Value.Production) {
-	    		conn = DriverManager.getConnection("jdbc:google:mysql://norse-voice-758:nudeldatabase?user=root");
-	    	} else {
-	    		conn = DriverManager.getConnection(url, user, password);	    		
-	    	}
+    		conn = DriverManager.getConnection(url, user, password);	    		
 	    } catch (SQLException e) {
 	      System.out.println("couldn't get connection ");
 	      e.printStackTrace();
@@ -69,7 +66,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 	}
 	public String[][] getISOCodes(Configuration config) {
 		// Config not considered yet
-		String sql = "SELECT AreaCode, ISOCode FROM nudeldb.countries";
+		String sql = "SELECT AreaCode, ISOCode FROM nudeldb.countries WHERE ISOCode IS NOT NULL";
 		return simpleQuery(sql);
 	}
 	
