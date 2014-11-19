@@ -31,8 +31,6 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 				// Load the class that provides the new "jdbc:google:mysql://" prefix.
 				Class.forName("com.mysql.jdbc.GoogleDriver");
 				url = "jdbc:google:mysql://norse-voice-758:nudeldatabase?user=root";
-				user = "root";
-				password = "";
 			} else {
 				// Local MySQL instance to use during development.
 				Class.forName("com.mysql.jdbc.Driver");
@@ -46,7 +44,12 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			e.printStackTrace();
 		}
 	    try {
-	      conn = DriverManager.getConnection(url, user, password);
+	    	if (SystemProperty.environment.value() ==
+					SystemProperty.Environment.Value.Production) {
+	    		conn = DriverManager.getConnection("jdbc:google:mysql://norse-voice-758:nudeldatabase?user=root");
+	    	} else {
+	    		conn = DriverManager.getConnection(url, user, password);	    		
+	    	}
 	    } catch (SQLException e) {
 	      System.out.println("couldn't get connection ");
 	      e.printStackTrace();
