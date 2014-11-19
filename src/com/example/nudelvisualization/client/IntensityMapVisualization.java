@@ -69,6 +69,8 @@ public class IntensityMapVisualization extends Visualization {
 			VisualizationUtils.loadVisualizationApi(
 					new Runnable() {
 						public void run() {
+							
+							
 							//create IntensityMap
 							IntensityMap.Options options = IntensityMap.Options.create();
 							options.setRegion(IntensityMap.Region.WORLD);
@@ -80,18 +82,23 @@ public class IntensityMapVisualization extends Visualization {
 							data.addColumn(ColumnType.NUMBER, "Production");
 
 							//get all isoCodes of the selectedAreas
-							String [] isoCodes = new String[config.getSelectedAreaList().size()];
-							for (int i = 0; i<isoCodes.length; i++){
-								for (int j= 0; j<IsoCodes.length; j++){
-									if (config.getSelectedAreaList().get(i).equals(IsoCodes[j][0])){
-										isoCodes[i] = IsoCodes[j][1];
+							String [] configIsoCodes = new String[config.getSelectedAreaList().size()];
+							for (int i = 0; i<configIsoCodes.length; i++){
+								for (int j= 0; j< IsoCodes.length; j++){
+									if (config.getSelectedAreaList().get(i).equals(IsoCodes[j][0])&&((IsoCodes[j][1] == null) ==false)){
+										configIsoCodes[i] = IsoCodes[j][1];
+									}else{
+										configIsoCodes[i] = "null";
 									}
 								}
 							}
-
+							for (int i = 0; i<configIsoCodes.length; i++){
+								
+								System.out.println(configIsoCodes[i]);
+							}
 							//iterate through all selected Areas
 							double sumAllData = 0;
-							for (int j = 0; j<config.getSelectedAreaList().size(); j++){
+							for (int j = 0; j<configIsoCodes.length; j++){
 								//if there is data for the Area add it up:
 								for (int i= 1; i< result.length; i++){
 									if (result[i][2].equals(config.getSelectedAreaList().get(j))){
@@ -105,10 +112,12 @@ public class IntensityMapVisualization extends Visualization {
 									}
 								}
 								//add selected Area with sumAllData. If there is no data, sumAllData = 0.
+								if (configIsoCodes[j].equals("null") == false){
 								data.addRow();
-								data.setValue(j, 0, isoCodes[j]);
+								data.setValue(j, 0, configIsoCodes[j]);
 								data.setValue(j, 1, sumAllData);
-								sumAllData = 0;	
+								sumAllData = 0;
+								}
 							}
 
 							String allSelectedYears = "";
