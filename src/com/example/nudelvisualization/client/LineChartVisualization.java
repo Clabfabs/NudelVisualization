@@ -49,7 +49,7 @@ public class LineChartVisualization extends Visualization{
 					new Runnable() {
 						public void run() {
 	    						ImageLineChart.Options options = ImageLineChart.Options.create();
-	    						options.setSize(1000, 400);
+	    						options.setSize(1000, 450);
 	    						// 2= areacode, 3 = area, 5 = dataserie, 7=item, 8=year, 10 =value
 	    						DataTable data = DataTable.create();
 	    						
@@ -60,6 +60,7 @@ public class LineChartVisualization extends Visualization{
 	    						data.addRows(22);
 	    						
 	    						// PRODUCTION
+	    						int f=0;
 	    						int j = 0;
 	    						// adding items in different colors to the LineChart
 	    						for(int i=0; i<result.length; i++){
@@ -67,11 +68,14 @@ public class LineChartVisualization extends Visualization{
 	    							data.addColumn(ColumnType.NUMBER, result[i][7]);
 	    							currentItem = result[i][7];
 	    							j++;
+	    							f = 0;
 	    							}
+	    						
 	    						//adding Years to x-Axis
-	    						data.setValue(i, 0, result[i][8]);
+	    						data.setValue(f, 0, result[i][8]);
 	    						//adding values
-	    						data.setCell(i, j, result[i][10], null, null);
+	    						data.setCell(f, j, result[i][10], null, null);
+	    						f++;
 	    						}
 	    						
 	    						ImageLineChart widget = new ImageLineChart(data, options);
