@@ -71,29 +71,8 @@ public class Controller implements EntryPoint {
 				config.addItem(lbItems.getValue(m));
 			}
 		}
-		
-		// initialize visualization
-		// filter.visualizeAsTable(config);
-		// filter.drawSampleMap(config);
-		// filter.drawIntensityMap(config);	
-		
 	}
 	
-	/*public ArrayList<String> getSelectedAreas(){
-		return this.selectedAreas;
-	}
-	
-	public ArrayList<String> getSelectedItems(){
-		return this.selectedItems;
-	}
-	
-	public ArrayList<String> getSelectedDataSeries(){
-		return this.selectedDataSeries;
-	}
-	
-	public ArrayList<String> getSelectedYears(){
-		return this.selectedYears;
-	}*/
 	
 	/**
 	 * This is the entry point method.
@@ -117,42 +96,60 @@ public class Controller implements EntryPoint {
 		
 	    // Button to initialize TableVis
 	    buttonTable.addClickHandler(new ClickHandler() {
-	    	
 	    	@Override
 	    	public void onClick(ClickEvent event) {
 	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
-	    		filter.drawTable(config);
+	    		if (!config.getSelectedAreaList().isEmpty()
+	    				&& !config.getSelectedItemsList().isEmpty()
+	    				&& !config.getSelectedYearsList().isEmpty()
+	    				&& !config.getSelectedDataSeriesList().isEmpty()) {
+	    			filter.drawTable(config);
+	    		}
 	    	}
 	    });
 	    
+	    // Button to initialize IntensityMap
 	    buttonIntensityMap.addClickHandler(new ClickHandler() {
-	    	
 	    	@Override
 	    	public void onClick(ClickEvent event) {
 	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
-	    		filter.drawIntensityMap(config);
+	    		if (!config.getSelectedAreaList().isEmpty()
+	    				&& !config.getSelectedItemsList().isEmpty()
+	    				&& !config.getSelectedYearsList().isEmpty()
+	    				&& !config.getSelectedDataSeriesList().isEmpty()) {
+	    			filter.drawIntensityMap(config);
+	    		}
 	    	}
 	    });
 	    
+	    // Button to initialize LineChart
 	    buttonLineChart.addClickHandler(new ClickHandler() {
-	    	
 	    	@Override
 	    	public void onClick(ClickEvent event) {
 	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
-	    		filter.drawLineChart(config);
+	    		if (!config.getSelectedAreaList().isEmpty()
+	    				&& !config.getSelectedItemsList().isEmpty()
+	    				&& !config.getSelectedYearsList().isEmpty()
+	    				&& !config.getSelectedDataSeriesList().isEmpty()) {
+	    			filter.drawLineChart(config);
+	    		}
 	    	}
 	    });
 	    
+	    // Button to initialize ColumnChart
 	    buttonColumnChart.addClickHandler(new ClickHandler(){
 	    	@Override
 	    	public void onClick(ClickEvent event) {
-	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
-	    		filter.drawColumnChart(config);
+	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems);
+	    		if (!config.getSelectedAreaList().isEmpty()
+	    				&& !config.getSelectedItemsList().isEmpty()
+	    				&& !config.getSelectedYearsList().isEmpty()
+	    				&& !config.getSelectedDataSeriesList().isEmpty()) {
+	    			filter.drawColumnChart(config);
+	    		}
+	    		
 	    	}
 	    });
-	    
-	    
-	    
 	    
 	    VerticalPanel buttons = new VerticalPanel();
 	    buttons.add(buttonTable);
@@ -164,7 +161,6 @@ public class Controller implements EntryPoint {
 	    filterHorizontalPanel.add(lbYear);
 	    filterHorizontalPanel.add(lbDataSeries);
 	    filterHorizontalPanel.add(lbItems);
-	    
 	    filterHorizontalPanel.add(buttons);
 	    
 	    RootPanel.get("filterContainer").add(filterHorizontalPanel);	    	    

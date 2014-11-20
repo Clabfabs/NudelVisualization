@@ -59,7 +59,6 @@ public class Filter {
 		dataAccessSocket.getYears(new YearCallbackHandler());
 		//addYears();
 	}
-	
 
 	// Gather all Items in an arraylist
 	private void setItems() {
@@ -68,11 +67,11 @@ public class Filter {
 
 	// Adding all DataSeries-Objects
 	public void setDataSeries() {
-		DataSeries exports = new DataSeries("1", "population");
+		DataSeries exports = new DataSeries("1", "import");
 		dataSeries.add(exports);
-		DataSeries imports = new DataSeries("2", "production");
+		DataSeries imports = new DataSeries("2", "export");
 		dataSeries.add(imports);
-		DataSeries production = new DataSeries("3", "tradeNOTTOBEUSEDYET!!");
+		DataSeries production = new DataSeries("3", "trade");
 		dataSeries.add(production);
 	}
 		

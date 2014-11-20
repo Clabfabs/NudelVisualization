@@ -51,10 +51,18 @@ public class IntensityMapVisualization extends Visualization {
 		dataAccessSocket.getDataForIntensityMap(config, new AsyncCallback<HashMap<String, String[][]>>() {
 			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
 			public void onSuccess(final HashMap<String, String[][]> data) { 
-				result = data.get("data");
 				IsoCodes = data.get("IsoCode");
 				populationData = data.get("population");
-				draw();
+				
+				/* Idea how you could draw your visualizations per dataseries
+				for (String s : config.getSelectedDataSeriesList()) {
+					result = data.get(s);
+					draw();
+				}
+				*/
+				
+				// Until then, let's just take "production"
+				result = data.get("production");
 			}	
 		});	
 	}
