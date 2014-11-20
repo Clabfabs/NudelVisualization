@@ -36,11 +36,103 @@ public class Controller implements EntryPoint {
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";*/
 	
-	 /**
+	/**
+	 * This is the entry point method.
+	 */
+	public void onModuleLoad() {
+
+		filter = new Filter(lbArea, lbItems, lbYear);
+		filter.init();
+		
+		//Listbox Year
+		for (int i = 0; i< filter.getYears().size(); i++){
+			lbYear.addItem(filter.getYears().get(i).getYear() + "       ");
+		}
+		lbYear.setVisibleItemCount(10);
+		
+		//Listbox DataSeries
+		for (int i = 0; i<filter.getDataSeries().size(); i++){
+			lbDataSeries.addItem(filter.getDataSeries().get(i).getName(), filter.getDataSeries().get(i).getID());
+		}
+		lbDataSeries.setVisibleItemCount(10);
+		
+	    // Button to initialize TableVis
+	    buttonTable.addClickHandler(new ClickHandler() {
+	    	@Override
+	    	public void onClick(ClickEvent event) {
+	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
+	    		if (isValidInput()) {
+	    			filter.drawTable(config);
+	    		} else System.out.println("Invalid input");
+
+	    	}
+	    });
+	    
+	    // Button to initialize IntensityMap
+	    buttonIntensityMap.addClickHandler(new ClickHandler() {
+	    	@Override
+	    	public void onClick(ClickEvent event) {
+	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
+	    		if (isValidInput()) {
+	    			filter.drawIntensityMap(config);
+	    		} else System.out.println("Invalid input");
+
+	    	}
+	    });
+	    
+	    // Button to initialize LineChart
+	    buttonLineChart.addClickHandler(new ClickHandler() {
+	    	@Override
+	    	public void onClick(ClickEvent event) {
+	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
+	    		if (isValidInput()) {
+	    			filter.drawLineChart(config);
+	    		} else System.out.println("Invalid input");
+
+	    	} 
+	    });
+	    
+	    // Button to initialize ColumnChart
+	    buttonColumnChart.addClickHandler(new ClickHandler(){
+	    	@Override
+	    	public void onClick(ClickEvent event) {
+	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems);
+	    		if (isValidInput()) {
+	    			filter.drawColumnChart(config);	    			
+	    		} else System.out.println("Invalid input");
+	    	}
+	    });
+	    
+	    VerticalPanel buttons = new VerticalPanel();
+	    buttons.add(buttonTable);
+	    buttons.add(buttonIntensityMap);
+	    buttons.add(buttonColumnChart);
+	    buttons.add(buttonLineChart);
+	    filterHorizontalPanel.add(gridYear);
+	    filterHorizontalPanel.add(lbArea);
+	    filterHorizontalPanel.add(lbYear);
+	    filterHorizontalPanel.add(lbDataSeries);
+	    filterHorizontalPanel.add(lbItems);
+	    filterHorizontalPanel.add(buttons);
+	    
+	    RootPanel.get("filterContainer").add(filterHorizontalPanel);	    	    
+	}
+	
+	private boolean isValidInput() {
+		if (config.getSelectedAreaList().isEmpty()
+				// || config.getSelectedDataSeriesList()
+				|| config.getSelectedItemsList().isEmpty()
+				|| config.getSelectedYearsList().isEmpty()) {
+			return false;
+		} else
+			return true;
+	}
+	
+	/**
 	 * Updates the Filter. Executed when user clicks the Update Button
 	 * @return 
 	 */
-	private final void updateFilter(ListBox lbArea, ListBox lbYear, ListBox lbDataSeries, ListBox lbItems){
+	private void updateFilter(ListBox lbArea, ListBox lbYear, ListBox lbDataSeries, ListBox lbItems){
 		
 		config = new Configuration();
 		
@@ -73,96 +165,4 @@ public class Controller implements EntryPoint {
 		}
 	}
 	
-	
-	/**
-	 * This is the entry point method.
-	 */
-	public void onModuleLoad() {
-
-		filter = new Filter(lbArea, lbItems, lbYear);
-		filter.init();
-		
-		//Listbox Year
-		for (int i = 0; i< filter.getYears().size(); i++){
-			lbYear.addItem(filter.getYears().get(i).getYear() + "       ");
-		}
-		lbYear.setVisibleItemCount(10);
-		
-		//Listbox DataSeries
-		for (int i = 0; i<filter.getDataSeries().size(); i++){
-			lbDataSeries.addItem(filter.getDataSeries().get(i).getName(), filter.getDataSeries().get(i).getID());
-		}
-		lbDataSeries.setVisibleItemCount(10);
-		
-	    // Button to initialize TableVis
-	    buttonTable.addClickHandler(new ClickHandler() {
-	    	@Override
-	    	public void onClick(ClickEvent event) {
-	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
-	    		// if (!config.getSelectedAreaList().isEmpty()
-	    		// 	&& !config.getSelectedItemsList().isEmpty()
-	    		// 	&& !config.getSelectedYearsList().isEmpty()
-	    		// 	&& !config.getSelectedDataSeriesList().isEmpty()) {
-	    			filter.drawTable(config);
-	    			// }
-	    	}
-	    });
-	    
-	    // Button to initialize IntensityMap
-	    buttonIntensityMap.addClickHandler(new ClickHandler() {
-	    	@Override
-	    	public void onClick(ClickEvent event) {
-	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
-	    		// if (!config.getSelectedAreaList().isEmpty()
-	    		// 	&& !config.getSelectedItemsList().isEmpty()
-	    		// 	&& !config.getSelectedYearsList().isEmpty()
-	    		// 	&& !config.getSelectedDataSeriesList().isEmpty()) {
-	    			filter.drawIntensityMap(config);
-	    		// }
-	    	}
-	    });
-	    
-	    // Button to initialize LineChart
-	    buttonLineChart.addClickHandler(new ClickHandler() {
-	    	@Override
-	    	public void onClick(ClickEvent event) {
-	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
-	    		// if (!config.getSelectedAreaList().isEmpty()
-	    		// 	&& !config.getSelectedItemsList().isEmpty()
-	    		// 	&& !config.getSelectedYearsList().isEmpty()
-	    		// 	&& !config.getSelectedDataSeriesList().isEmpty()) {
-	    			filter.drawLineChart(config);
-	    		// }
-	    	}
-	    });
-	    
-	    // Button to initialize ColumnChart
-	    buttonColumnChart.addClickHandler(new ClickHandler(){
-	    	@Override
-	    	public void onClick(ClickEvent event) {
-	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems);
-	    		// if (!config.getSelectedAreaList().isEmpty()
-	    		// 	&& !config.getSelectedItemsList().isEmpty()
-	    		// 	&& !config.getSelectedYearsList().isEmpty()
-	    		// 	&& !config.getSelectedDataSeriesList().isEmpty()) {
-	    			filter.drawColumnChart(config);
-	    		// }
-	    		
-	    	}
-	    });
-	    
-	    VerticalPanel buttons = new VerticalPanel();
-	    buttons.add(buttonTable);
-	    buttons.add(buttonIntensityMap);
-	    buttons.add(buttonColumnChart);
-	    buttons.add(buttonLineChart);
-	    filterHorizontalPanel.add(gridYear);
-	    filterHorizontalPanel.add(lbArea);
-	    filterHorizontalPanel.add(lbYear);
-	    filterHorizontalPanel.add(lbDataSeries);
-	    filterHorizontalPanel.add(lbItems);
-	    filterHorizontalPanel.add(buttons);
-	    
-	    RootPanel.get("filterContainer").add(filterHorizontalPanel);	    	    
-	}
 }
