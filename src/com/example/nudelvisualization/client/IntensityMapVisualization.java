@@ -62,7 +62,7 @@ public class IntensityMapVisualization extends Visualization {
 	@Override
 	public void draw() {
 		// Shows how the data is given
-		for (int i = 0; i < 5 && i < IsoCodes.length; i++) {
+		for (int i = 0; i < IsoCodes.length; i++) {
 			for (int j = 0; j < IsoCodes[i].length; j++) {
 				System.out.print(IsoCodes[i][j] + "\t");
 			}
@@ -98,15 +98,15 @@ public class IntensityMapVisualization extends Visualization {
 						String [] configIsoCodes = new String[config.getSelectedAreaList().size()];
 						for (int i = 0; i< configIsoCodes.length; i++){
 							for (int j= 0; j< IsoCodes.length; j++){
-								if (config.getSelectedAreaList().get(i).equals(IsoCodes[j][0])&&((IsoCodes[j][1] == null) ==false)){
+								if (config.getSelectedAreaList().get(i).equals(IsoCodes[j][0])){
 									configIsoCodes[i] = IsoCodes[j][1];
-								}else{
-									configIsoCodes[i] = "null";
 								}
+							}
+							if (configIsoCodes[i] == ".."){
+								configIsoCodes[i] = "keinIsoCode";
 							}
 						}
 						for (int i = 0; i<configIsoCodes.length; i++){
-							
 							System.out.println(configIsoCodes[i]);
 						}
 						//iterate through all selected Areas
@@ -125,14 +125,14 @@ public class IntensityMapVisualization extends Visualization {
 								}
 							}
 							//add selected Area with sumAllData. If there is no data, sumAllData = 0.
-							if (configIsoCodes[j].equals("null") == false){
+							if(!(configIsoCodes[j].equals("keinIsoCode"))){
 							data.addRow();
 							data.setValue(j, 0, configIsoCodes[j]);
 							data.setValue(j, 1, sumAllData);
 							sumAllData = 0;
 							}
+							
 						}
-
 						String allSelectedYears = "";
 						for (int i = 0; i<config.getSelectedYearsList().size(); i++){
 							allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i)) +" ";	
@@ -153,13 +153,13 @@ public class IntensityMapVisualization extends Visualization {
 						RootPanel.get("visualizationContainer").add(widget);
 						RootPanel.get("visualizationContainer").add(text);
 					}
+					
 				}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
 				Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
 				ImageLineChart.PACKAGE, ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE,
 				ImagePieChart.PACKAGE, IntensityMap.PACKAGE,
 				MapVisualization.PACKAGE, MotionChart.PACKAGE, OrgChart.PACKAGE,Table.PACKAGE,
 				ImageSparklineChart.PACKAGE);		
+	
 	}
-
 }
-
