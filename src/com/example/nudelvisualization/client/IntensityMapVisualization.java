@@ -28,7 +28,6 @@ import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 /*
  * TO DOS: 	
  * 			- Karte grösser.
- * 			- alle Länder IsoCodes.
  * 			- Daten in Verhältnis zu Population --> nötig?
  * 			- Kommentar, welche Daten angezeigt werden optimieren. --> Items nicht als Zahl... 
  * 			- Methoden testen und kommentieren. 
