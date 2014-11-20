@@ -99,12 +99,12 @@ public class Controller implements EntryPoint {
 	    	@Override
 	    	public void onClick(ClickEvent event) {
 	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
-	    		if (!config.getSelectedAreaList().isEmpty()
-	    				&& !config.getSelectedItemsList().isEmpty()
-	    				&& !config.getSelectedYearsList().isEmpty()
-	    				&& !config.getSelectedDataSeriesList().isEmpty()) {
+	    		// if (!config.getSelectedAreaList().isEmpty()
+	    		// 	&& !config.getSelectedItemsList().isEmpty()
+	    		// 	&& !config.getSelectedYearsList().isEmpty()
+	    		// 	&& !config.getSelectedDataSeriesList().isEmpty()) {
 	    			filter.drawTable(config);
-	    		}
+	    			// }
 	    	}
 	    });
 	    
@@ -113,12 +113,12 @@ public class Controller implements EntryPoint {
 	    	@Override
 	    	public void onClick(ClickEvent event) {
 	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
-	    		if (!config.getSelectedAreaList().isEmpty()
-	    				&& !config.getSelectedItemsList().isEmpty()
-	    				&& !config.getSelectedYearsList().isEmpty()
-	    				&& !config.getSelectedDataSeriesList().isEmpty()) {
+	    		// if (!config.getSelectedAreaList().isEmpty()
+	    		// 	&& !config.getSelectedItemsList().isEmpty()
+	    		// 	&& !config.getSelectedYearsList().isEmpty()
+	    		// 	&& !config.getSelectedDataSeriesList().isEmpty()) {
 	    			filter.drawIntensityMap(config);
-	    		}
+	    		// }
 	    	}
 	    });
 	    
@@ -127,12 +127,12 @@ public class Controller implements EntryPoint {
 	    	@Override
 	    	public void onClick(ClickEvent event) {
 	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
-	    		if (!config.getSelectedAreaList().isEmpty()
-	    				&& !config.getSelectedItemsList().isEmpty()
-	    				&& !config.getSelectedYearsList().isEmpty()
-	    				&& !config.getSelectedDataSeriesList().isEmpty()) {
+	    		// if (!config.getSelectedAreaList().isEmpty()
+	    		// 	&& !config.getSelectedItemsList().isEmpty()
+	    		// 	&& !config.getSelectedYearsList().isEmpty()
+	    		// 	&& !config.getSelectedDataSeriesList().isEmpty()) {
 	    			filter.drawLineChart(config);
-	    		}
+	    		// }
 	    	}
 	    });
 	    
@@ -141,12 +141,12 @@ public class Controller implements EntryPoint {
 	    	@Override
 	    	public void onClick(ClickEvent event) {
 	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems);
-	    		if (!config.getSelectedAreaList().isEmpty()
-	    				&& !config.getSelectedItemsList().isEmpty()
-	    				&& !config.getSelectedYearsList().isEmpty()
-	    				&& !config.getSelectedDataSeriesList().isEmpty()) {
+	    		// if (!config.getSelectedAreaList().isEmpty()
+	    		// 	&& !config.getSelectedItemsList().isEmpty()
+	    		// 	&& !config.getSelectedYearsList().isEmpty()
+	    		// 	&& !config.getSelectedDataSeriesList().isEmpty()) {
 	    			filter.drawColumnChart(config);
-	    		}
+	    		// }
 	    		
 	    	}
 	    });
