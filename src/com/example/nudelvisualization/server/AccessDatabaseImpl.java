@@ -83,7 +83,10 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		HashMap<String, String[][]> data = new HashMap<String, String[][]>();
 		
 		// Fill data
-		data.put("data", getReducedData(config));
+		/*for (String s : config.getSelectedDataSeriesList()) {
+			data.put(s, getReducedData(config));			
+		}*/
+		data.put("production", getReducedData(config));
 		data.put("IsoCode", getISOCodes(config));
 		data.put("population", getPopulation(config));
 

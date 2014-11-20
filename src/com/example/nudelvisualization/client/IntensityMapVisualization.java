@@ -56,12 +56,12 @@ public class IntensityMapVisualization extends Visualization {
 				/* Idea how you could draw your visualizations per dataseries
 				for (String s : config.getSelectedDataSeriesList()) {
 					result = data.get(s);
-					draw();
 				}
 				*/
 				
 				// Until then, let's just take "production"
 				result = data.get("production");
+				draw();
 			}	
 		});	
 	}
