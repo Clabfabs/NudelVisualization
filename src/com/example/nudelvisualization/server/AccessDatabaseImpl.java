@@ -1,6 +1,7 @@
 package com.example.nudelvisualization.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -68,6 +69,83 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		// Config not considered yet
 		String sql = "SELECT AreaCode, ISOCode FROM nudeldb.countries WHERE ISOCode IS NOT NULL";
 		return simpleQuery(sql);
+	}
+	public String[][] getPopulation(Configuration config) {
+		// Config not considered yet
+		String sql = "SELECT AreaCode, Year, Value FROM nudeldb.population";
+		return simpleQuery(sql);
+	}
+	
+	public HashMap<String, String[][]> getDataForIntensityMap(Configuration config) {
+		
+		ArrayList<String[]> returnValue = new ArrayList<>();
+		int nCol = 0;
+	    System.out.println("trying query");
+	    StringBuilder query = new StringBuilder();
+	    query.append("SELECT * FROM");
+	    // To be uncommented later!
+	    /*for (int i = 0; i < config.getSelectedDataSeriesList().size()-1; i++) {
+	    	query.append(" nudeldb." + config.getSelectedDataSeriesList().get(i) + ",");
+	    }*/
+	    query.append(" nudeldb.production");
+	    query.append(" WHERE (AreaCode =");
+	    for (int i = 0; i < config.getSelectedAreaList().size()-1; i++) {
+	    	query.append(" ? OR AreaCode =");
+	    }
+	    query.append(" ?)");
+	    query.append(" AND (Year =");
+	    for (int i = 0; i < config.getSelectedYearsList().size()-1; i++) {
+	    	query.append(" ? OR Year =");
+	    }
+	    query.append(" ?)");
+	    query.append(" AND (ItemCode =");
+	    for (int i = 0; i < config.getSelectedItemsList().size()-1; i++) {
+	    	query.append(" ? OR ItemCode =");
+	    }
+	    query.append(" ?)");
+	    System.out.println(query.toString());
+	    try {
+	      PreparedStatement select = conn.prepareStatement(query.toString());
+	      int count = 1;
+	      for (String s : config.getSelectedAreaList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      for (String s : config.getSelectedYearsList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      for (String s : config.getSelectedItemsList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      System.out.println(select.toString());
+	      ResultSet result = select.executeQuery();
+	      nCol = result.getMetaData().getColumnCount();	      
+	      while (result.next()) {
+	    	  String[] row = new String[nCol];
+	    	  for(int iCol = 1; iCol <= nCol; iCol++ ){
+	    	        row[iCol-1] = result.getString(iCol);
+	    	    }
+	    	    returnValue.add(row);
+	      }
+	      result.close();
+	      result = null;
+	      select.close();
+	      select = null;
+	    } catch (SQLException e) {
+	      System.err.println("Error: queryColumns(): " + query.toString());
+	      e.printStackTrace();
+	    }
+	    
+	    String[][] returnValuesStrings = new String[returnValue.size()][nCol];
+	    for (int i = 0; i < returnValue.size(); i++) {
+	    	returnValuesStrings[i] = returnValue.get(i);
+	    }
+	    
+	    HashMap<String, String[][]> data = new HashMap<String, String[][]>();
+	    data.put("data", returnValuesStrings);
+	    data.put("IsoCode", getISOCodes(config));
+	    data.put("population", getPopulation(config));
+	    
+		return data;
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package com.example.nudelvisualization.client;
 
+import java.util.HashMap;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -11,4 +13,6 @@ public interface AccessDatabaseAsync {
 	void getYears(AsyncCallback<String[][]> callback);
 	void getSelectedRows(Configuration config, AsyncCallback<String[][]> callback);
 	void getISOCodes(Configuration config, AsyncCallback<String[][]> callback);
+	void getPopulation(Configuration config, AsyncCallback<String[][]> callback);
+	void getDataForIntensityMap(Configuration config, AsyncCallback<HashMap<String, String[][]>> callback);
 }

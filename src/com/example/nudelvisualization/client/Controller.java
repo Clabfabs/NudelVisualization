@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Controller implements EntryPoint {
-
 	
     private HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
     private Grid gridYear = new Grid(3, 2);
