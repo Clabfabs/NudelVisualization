@@ -27,6 +27,7 @@ public class LineChartVisualization extends Visualization{
 	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);
 	
 	private String currentItem = null;
+	private String currentArea = null;
 	
 	public LineChartVisualization(Configuration config) {
 		super(config);
@@ -59,30 +60,52 @@ public class LineChartVisualization extends Visualization{
 	    						// to do: eventually change 22 it to result.length
 	    						data.addRows(22);
 	    						
-	    						// PRODUCTION
-	    						int f=0;
-	    						int j = 0;
-	    						// adding items in different colors to the LineChart
-	    						for(int i=0; i<result.length; i++){
-	    							if(!result[i][7].equals(currentItem)){
-	    							data.addColumn(ColumnType.NUMBER, result[i][7]);
-	    							currentItem = result[i][7];
-	    							j++;
-	    							f = 0;
+	    						if(result[0][5].equals("Total Population - Both sexes")){
+	    							//POPULATION START
+	    							int f=0;
+	    							int j=0;
+	    							// adding Areas in different colors to the LineChart
+	    							for(int i=0; i<result.length; i++){
+	    								if(!result[i][3].equals(currentArea)){
+	    									data.addColumn(ColumnType.NUMBER, result[i][3]);
+	    									currentArea = result[i][3];
+	    									j++;
+	    									f = 0;
+	    								}
+	    								//adding Years to x-Axis
+	    								data.setValue(f, 0, result[i][8]);
+	    								//adding values
+	    								data.setCell(f, j, result[i][10], null, null);
+	    								f++;
 	    							}
-	    						
-	    						//adding Years to x-Axis
-	    						data.setValue(f, 0, result[i][8]);
-	    						//adding values
-	    						data.setCell(f, j, result[i][10], null, null);
-	    						f++;
 	    						}
+	    						else if(result[0][5].equals("Production")){
+	    							// PRODUCTION START
+	    							int f=0;
+	    							int j = 0;
+	    							// adding items in different colors to the LineChart
+	    							for(int i=0; i<result.length; i++){
+	    								if(!result[i][7].equals(currentItem)){
+	    									data.addColumn(ColumnType.NUMBER, result[i][7]);
+	    									currentItem = result[i][7];
+	    									j++;
+	    									f = 0;
+	    								}
+	    						
+	    								//adding Years to x-Axis
+	    								data.setValue(f, 0, result[i][8]);
+	    								//adding values
+	    								data.setCell(f, j, result[i][10], null, null);
+	    								f++;
+	    							}
+	    						}
+	    						//PRODUCTION END
 	    						
 	    						ImageLineChart widget = new ImageLineChart(data, options);
 	    						RootPanel.get("visualizationContainer").clear();
 	    						RootPanel.get("visualizationContainer").add(widget);
 	    					}
-
+						
 					
 	    				}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
 	    				Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
