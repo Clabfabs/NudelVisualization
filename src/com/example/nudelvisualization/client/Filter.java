@@ -67,11 +67,11 @@ public class Filter {
 
 	// Adding all DataSeries-Objects
 	public void setDataSeries() {
-		DataSeries exports = new DataSeries("1", "import");
+		DataSeries exports = new DataSeries("1", "production");
 		dataSeries.add(exports);
-		DataSeries imports = new DataSeries("2", "export");
+		DataSeries imports = new DataSeries("2", "import");
 		dataSeries.add(imports);
-		DataSeries production = new DataSeries("3", "trade");
+		DataSeries production = new DataSeries("3", "export");
 		dataSeries.add(production);
 	}
 		
