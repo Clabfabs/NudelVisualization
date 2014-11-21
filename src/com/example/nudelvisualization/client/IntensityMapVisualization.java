@@ -30,7 +30,8 @@ import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
  * 			- Karte grösser.
  * 			- Daten in Verhältnis zu Population --> nötig?
  * 			- Kommentar, welche Daten angezeigt werden optimieren. --> Items nicht als Zahl... 
- * 			- Methoden testen und kommentieren. 
+ * 			- Methoden testen und kommentieren.
+ * 			- Daten nicht nehmen, wenn kein IsoCode vorhanden stimmt noch nicht. Vielleicht aber auch so lassen.  
  * 			
  */
 public class IntensityMapVisualization extends Visualization {
@@ -109,8 +110,8 @@ public class IntensityMapVisualization extends Visualization {
 									configIsoCodes[i] = IsoCodes[j][1];
 								}
 							}
-							if (configIsoCodes[i] == ".."){
-								configIsoCodes[i] = "keinIsoCode";
+							if (configIsoCodes[i].equals("..") || configIsoCodes[i].isEmpty()){
+								configIsoCodes[i] = "..";
 							}
 						}
 						for (int i = 0; i<configIsoCodes.length; i++){
@@ -119,10 +120,11 @@ public class IntensityMapVisualization extends Visualization {
 						//iterate through all selected Areas
 						double sumAllData = 0;
 						for (int j = 0; j<configIsoCodes.length; j++){
+							if (configIsoCodes.equals("..") == false){
 							//if there is data for the Area add it up:
 							for (int i= 1; i< result.length; i++){
-								if (result[i][2].equals(config.getSelectedAreaList().get(j))){
-									String dataValue = result[i][10];
+								if (result[i][0].equals(config.getSelectedAreaList().get(j))){
+									String dataValue = result[i][3];
 									if (dataValue.isEmpty()){ //get rid of exceptions...
 										sumAllData = 0 + sumAllData;
 									}else{
@@ -131,14 +133,12 @@ public class IntensityMapVisualization extends Visualization {
 									}
 								}
 							}
-							//add selected Area with sumAllData. If there is no data, sumAllData = 0.
-							if(!(configIsoCodes[j].equals("keinIsoCode"))){
+							//add selected Area with sumAllData. If there is no data, sumAllData = 0
 							data.addRow();
 							data.setValue(j, 0, configIsoCodes[j]);
 							data.setValue(j, 1, sumAllData);
-							sumAllData = 0;
-							}
-							
+							sumAllData = 0;	
+						}
 						}
 						String allSelectedYears = "";
 						for (int i = 0; i<config.getSelectedYearsList().size(); i++){
