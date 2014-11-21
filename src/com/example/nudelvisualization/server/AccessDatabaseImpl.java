@@ -79,17 +79,41 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 	 * @return a HashMap  with all the required tables as 2-dimensional String arrays
 	 */
 	public HashMap<String, String[][]> getDataForIntensityMap(Configuration config) {
-
+		for (String s : config.getSelectedDataSeriesList()) {
+			System.out.println(config.getSelectedDataSeriesList());
+		}
 		HashMap<String, String[][]> data = new HashMap<String, String[][]>();
 		
-		// Fill data
-		/*for (String s : config.getSelectedDataSeriesList()) {
-			data.put(s, getReducedData(config));			
-		}*/
-		data.put("production", getReducedData(config));
+		if (config.getSelectedDataSeriesList().contains("1")) {
+			data.put("production", getProductionIMData(config));			
+		}
+		if (config.getSelectedDataSeriesList().contains("2")) {
+			data.put("import", getTradeIMData(config, 5610));			
+		}
+		if (config.getSelectedDataSeriesList().contains("3")) {
+			data.put("export", getTradeIMData(config, 5910));			
+		}
+		
 		data.put("IsoCode", getISOCodes(config));
 		data.put("population", getPopulation(config));
 
+		return data;
+	}
+	
+	public HashMap<String, String[][]> getDataForLineChart(Configuration config) {
+
+		HashMap<String, String[][]> data = new HashMap<String, String[][]>();
+		
+		if (config.getSelectedDataSeriesList().contains("2")) {
+			data.put("import", getTradeLCData(config, 5610));			
+		}
+		if (config.getSelectedDataSeriesList().contains("1")) {
+			data.put("production", getProductionLCData(config));			
+		}
+		if (config.getSelectedDataSeriesList().contains("3")) {
+			data.put("export", getTradeLCData(config, 5910));			
+		}
+		
 		return data;
 	}
 	
@@ -187,17 +211,12 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		return returnValuesStrings;
 	}
 	
-	private String[][] getReducedData(Configuration config) {
+	private String[][] getProductionIMData(Configuration config) {
 		ArrayList<String[]> returnValue = new ArrayList<>();
 		int nCol = 0;
 	    System.out.println("trying query");
 	    StringBuilder query = new StringBuilder();
-	    query.append("SELECT AreaCode, Year, ItemName, Value FROM");
-	    // To be uncommented later!
-	    /*for (int i = 0; i < config.getSelectedDataSeriesList().size()-1; i++) {
-	    	query.append(" nudeldb." + config.getSelectedDataSeriesList().get(i) + ",");
-	    }*/
-	    query.append(" nudeldb.production");
+	    query.append("SELECT AreaCode, Year, ItemName, Value FROM nudeldb.production NATURAL JOIN nudeldb.items");
 	    query.append(" WHERE (AreaCode =");
 	    for (int i = 0; i < config.getSelectedAreaList().size()-1; i++) {
 	    	query.append(" ? OR AreaCode =");
@@ -217,6 +236,188 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 	    try {
 	      PreparedStatement select = conn.prepareStatement(query.toString());
 	      int count = 1;
+	      for (String s : config.getSelectedAreaList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      for (String s : config.getSelectedYearsList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      for (String s : config.getSelectedItemsList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      System.out.println(select.toString());
+	      ResultSet result = select.executeQuery();
+	      nCol = result.getMetaData().getColumnCount();	      
+	      while (result.next()) {
+	    	  String[] row = new String[nCol];
+	    	  for(int iCol = 1; iCol <= nCol; iCol++ ){
+	    	        row[iCol-1] = result.getString(iCol);
+	    	    }
+	    	    returnValue.add(row);
+	      }
+	      result.close();
+	      result = null;
+	      select.close();
+	      select = null;
+	    } catch (SQLException e) {
+	      System.err.println("Error: queryColumns(): " + query.toString());
+	      e.printStackTrace();
+	    }
+	    
+	    String[][] returnValuesStrings = new String[returnValue.size()][nCol];
+	    for (int i = 0; i < returnValue.size(); i++) {
+	    	returnValuesStrings[i] = returnValue.get(i);
+	    }
+		return returnValuesStrings;
+	}
+	
+	private String[][] getTradeIMData(Configuration config, int code) {
+		ArrayList<String[]> returnValue = new ArrayList<>();
+		int nCol = 0;
+	    System.out.println("trying query");
+	    StringBuilder query = new StringBuilder();
+	    query.append("SELECT AreaCode, Year, ItemName, Value FROM nudeldb.trade NATURAL JOIN nudeldb.items");
+	    query.append(" WHERE (ElementCode = ?) AND (AreaCode =");
+	    for (int i = 0; i < config.getSelectedAreaList().size()-1; i++) {
+	    	query.append(" ? OR AreaCode =");
+	    }
+	    query.append(" ?)");
+	    query.append(" AND (Year =");
+	    for (int i = 0; i < config.getSelectedYearsList().size()-1; i++) {
+	    	query.append(" ? OR Year =");
+	    }
+	    query.append(" ?)");
+	    query.append(" AND (ItemCode =");
+	    for (int i = 0; i < config.getSelectedItemsList().size()-1; i++) {
+	    	query.append(" ? OR ItemCode =");
+	    }
+	    query.append(" ?)");
+	    System.out.println(query.toString());
+	    try {
+	      PreparedStatement select = conn.prepareStatement(query.toString());
+	      int count = 1;
+	      select.setInt(count++, code);
+	      for (String s : config.getSelectedAreaList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      for (String s : config.getSelectedYearsList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      for (String s : config.getSelectedItemsList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      System.out.println(select.toString());
+	      ResultSet result = select.executeQuery();
+	      nCol = result.getMetaData().getColumnCount();	      
+	      while (result.next()) {
+	    	  String[] row = new String[nCol];
+	    	  for(int iCol = 1; iCol <= nCol; iCol++ ){
+	    	        row[iCol-1] = result.getString(iCol);
+	    	    }
+	    	    returnValue.add(row);
+	      }
+	      result.close();
+	      result = null;
+	      select.close();
+	      select = null;
+	    } catch (SQLException e) {
+	      System.err.println("Error: queryColumns(): " + query.toString());
+	      e.printStackTrace();
+	    }
+	    
+	    String[][] returnValuesStrings = new String[returnValue.size()][nCol];
+	    for (int i = 0; i < returnValue.size(); i++) {
+	    	returnValuesStrings[i] = returnValue.get(i);
+	    }
+		return returnValuesStrings;
+	}
+		
+	private String[][] getProductionLCData(Configuration config) {
+		ArrayList<String[]> returnValue = new ArrayList<>();
+		int nCol = 0;
+	    System.out.println("trying query");
+	    StringBuilder query = new StringBuilder();
+	    query.append("SELECT ElementName, AreaName, Year, Value FROM nudeldb.production NATURAL JOIN nudeldb.elements");
+	    query.append(" WHERE (AreaCode =");
+	    for (int i = 0; i < config.getSelectedAreaList().size()-1; i++) {
+	    	query.append(" ? OR AreaCode =");
+	    }
+	    query.append(" ?)");
+	    query.append(" AND (Year =");
+	    for (int i = 0; i < config.getSelectedYearsList().size()-1; i++) {
+	    	query.append(" ? OR Year =");
+	    }
+	    query.append(" ?)");
+	    query.append(" AND (ItemCode =");
+	    for (int i = 0; i < config.getSelectedItemsList().size()-1; i++) {
+	    	query.append(" ? OR ItemCode =");
+	    }
+	    query.append(" ?)");
+	    System.out.println(query.toString());
+	    try {
+	      PreparedStatement select = conn.prepareStatement(query.toString());
+	      int count = 1;
+	      for (String s : config.getSelectedAreaList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      for (String s : config.getSelectedYearsList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      for (String s : config.getSelectedItemsList()) {
+	    	  select.setInt(count++, Integer.parseInt(s));
+	      }
+	      System.out.println(select.toString());
+	      ResultSet result = select.executeQuery();
+	      nCol = result.getMetaData().getColumnCount();	      
+	      while (result.next()) {
+	    	  String[] row = new String[nCol];
+	    	  for(int iCol = 1; iCol <= nCol; iCol++ ){
+	    	        row[iCol-1] = result.getString(iCol);
+	    	    }
+	    	    returnValue.add(row);
+	      }
+	      result.close();
+	      result = null;
+	      select.close();
+	      select = null;
+	    } catch (SQLException e) {
+	      System.err.println("Error: queryColumns(): " + query.toString());
+	      e.printStackTrace();
+	    }
+	    
+	    String[][] returnValuesStrings = new String[returnValue.size()][nCol];
+	    for (int i = 0; i < returnValue.size(); i++) {
+	    	returnValuesStrings[i] = returnValue.get(i);
+	    }
+		return returnValuesStrings;
+	}
+	
+	private String[][] getTradeLCData(Configuration config, int code) {
+		ArrayList<String[]> returnValue = new ArrayList<>();
+		int nCol = 0;
+	    System.out.println("trying query");
+	    StringBuilder query = new StringBuilder();
+	    query.append("SELECT ElementName, AreaName, Year, Value FROM nudeldb.trade NATURAL JOIN nudeldb.elements");
+	    query.append(" WHERE (ElementCode = ?) AND (AreaCode =");
+	    for (int i = 0; i < config.getSelectedAreaList().size()-1; i++) {
+	    	query.append(" ? OR AreaCode =");
+	    }
+	    query.append(" ?)");
+	    query.append(" AND (Year =");
+	    for (int i = 0; i < config.getSelectedYearsList().size()-1; i++) {
+	    	query.append(" ? OR Year =");
+	    }
+	    query.append(" ?)");
+	    query.append(" AND (ItemCode =");
+	    for (int i = 0; i < config.getSelectedItemsList().size()-1; i++) {
+	    	query.append(" ? OR ItemCode =");
+	    }
+	    query.append(" ?)");
+	    System.out.println(query.toString());
+	    try {
+	      PreparedStatement select = conn.prepareStatement(query.toString());
+	      int count = 1;
+	      select.setInt(count++, code);
 	      for (String s : config.getSelectedAreaList()) {
 	    	  select.setInt(count++, Integer.parseInt(s));
 	      }

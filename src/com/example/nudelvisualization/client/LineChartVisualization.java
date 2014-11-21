@@ -1,5 +1,7 @@
 package com.example.nudelvisualization.client;
 
+import java.util.HashMap;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.visualization.client.DataTable;
@@ -28,24 +30,26 @@ public class LineChartVisualization extends Visualization{
 	
 	private String currentItem = null;
 	private String currentArea = null;
+	private String[][] result = null;
 	
 	public LineChartVisualization(Configuration config) {
 		super(config);
+		initialize();
 	}
 
-	@Override
-	public void draw() {
-		dataAccessSocket.getSelectedRows(config, new CallbackHandler());
-		
+	private void initialize() {
+		dataAccessSocket.getDataForLineChart(config, new AsyncCallback<HashMap<String, String[][]>>() {
+			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
+			public void onSuccess(final HashMap<String, String[][]> data) { 
+				// Until then, let's just take "production"
+				result = data.get("production");
+				draw();
+			}	
+		});	
 	}
 	
-	private class CallbackHandler implements AsyncCallback<String[][]>{
-
-		public void onFailure(Throwable caught) {
-			System.out.println("Communication with server failed");
-		}
-
-		public void onSuccess(final String[][] result) {
+	@Override
+	public void draw() {
 			VisualizationUtils.loadVisualizationApi(
 					new Runnable() {
 						public void run() {
@@ -115,6 +119,6 @@ public class LineChartVisualization extends Visualization{
 	    				ImageSparklineChart.PACKAGE);
 		}
 	}
-}		
+
 
 
