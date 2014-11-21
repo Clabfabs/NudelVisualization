@@ -124,14 +124,16 @@ public class IntensityMapVisualization extends Visualization {
 							//if there is data for the Area add it up:
 							for (int i= 1; i< result.length; i++){
 								if (result[i][0].equals(config.getSelectedAreaList().get(j))){
-									String dataValue = result[i][3];
-									if (dataValue.isEmpty()){ //get rid of exceptions...
-										sumAllData = 0 + sumAllData;
-									}else{
-										double dataAsDouble = Double.valueOf(dataValue);
-										sumAllData = sumAllData + dataAsDouble;
+									if (!(result[i][3].isEmpty())){ //get rid of exceptions...
+										for (int y = 0; y< populationData.length; y++){
+											if(populationData[y][1].equals(result[i][1])){
+												double ValueAsDouble = Double.valueOf(result[i][3]);
+												double PopulationAsDouble = Double.valueOf(populationData[y][2]);
+												sumAllData = sumAllData + (ValueAsDouble/PopulationAsDouble);
 									}
 								}
+							}
+							}
 							}
 							//add selected Area with sumAllData. If there is no data, sumAllData = 0
 							data.addRow();
@@ -144,17 +146,18 @@ public class IntensityMapVisualization extends Visualization {
 						for (int i = 0; i<config.getSelectedYearsList().size(); i++){
 							allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i)) +" ";	
 						}
-						String allSelectedItems = "";
-						for (int i = 0; i<config.getSelectedItemsList().size(); i++){
-							allSelectedItems = allSelectedItems.concat(config.getSelectedItemsList().get(i)) +" ";	
+						String allSelectedItems = result[0][2];
+						for (int i = 1; i<result.length; i++){
+							if (result[i][2].equals(result[i-1][2])==false){
+							allSelectedItems = " " + (allSelectedItems.concat(result[i][2]));	
 						}
-
+						}
 						TextArea text = new TextArea();
 						text.removeStyleName("TextArea");//doesn't function yet
 						text.addStyleName("TextAreaNew");//doesn't function yet
 						text.setReadOnly(true);
 						text.setPixelSize(430, 30);
-						text.setText("Production" + " in tonnes of " + allSelectedItems + " in " + allSelectedYears + ".");
+						text.setText("Production in tonnes divided in Population" + " of " + allSelectedItems + " in " + allSelectedYears + ".");
 						IntensityMap widget = new IntensityMap(data, options);
 						RootPanel.get("visualizationContainer").clear();
 						RootPanel.get("visualizationContainer").add(widget);
