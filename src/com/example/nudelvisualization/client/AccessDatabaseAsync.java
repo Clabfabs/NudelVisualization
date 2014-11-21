@@ -13,4 +13,6 @@ public interface AccessDatabaseAsync {
 	void getYears(AsyncCallback<String[][]> callback);
 	void getSelectedRows(Configuration config, AsyncCallback<String[][]> callback);
 	void getDataForIntensityMap(Configuration config, AsyncCallback<HashMap<String, String[][]>> callback);
+	void getDataForLineChart(Configuration config,
+			AsyncCallback<HashMap<String, String[][]>> asyncCallback);
 }

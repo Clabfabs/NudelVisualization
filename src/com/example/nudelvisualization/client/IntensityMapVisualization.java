@@ -70,18 +70,21 @@ public class IntensityMapVisualization extends Visualization {
 	@Override
 	public void draw() {
 		// Shows how the data is given
+		System.out.println("IsoCodes:");
 		for (int i = 0; i < IsoCodes.length; i++) {
 			for (int j = 0; j < IsoCodes[i].length; j++) {
 				System.out.print(IsoCodes[i][j] + "\t");
 			}
 			System.out.println("\n");
 		}
+		System.out.println("result:");
 		for (int i = 0; i < 5 && i < result.length; i++) {
 			for (int j = 0; j < result[i].length; j++) {
 				System.out.print(result[i][j] + "\t");
 			}
 			System.out.println("\n");
 		}
+		System.out.println("population:");
 		for (int i = 0; i < 5 && i < populationData.length; i++) {
 			for (int j = 0; j < populationData[i].length; j++) {
 				System.out.print(populationData[i][j] + "\t");
@@ -110,9 +113,6 @@ public class IntensityMapVisualization extends Visualization {
 									configIsoCodes[i] = IsoCodes[j][1];
 								}
 							}
-							if (configIsoCodes[i].equals("..") || configIsoCodes[i].isEmpty()){
-								configIsoCodes[i] = "..";
-							}
 						}
 						for (int i = 0; i<configIsoCodes.length; i++){
 							System.out.println(configIsoCodes[i]);
@@ -120,7 +120,7 @@ public class IntensityMapVisualization extends Visualization {
 						//iterate through all selected Areas
 						double sumAllData = 0;
 						for (int j = 0; j<configIsoCodes.length; j++){
-							if (configIsoCodes.equals("..") == false){
+							if (!(configIsoCodes.equals(".."))){
 							//if there is data for the Area add it up:
 							for (int i= 1; i< result.length; i++){
 								if (result[i][0].equals(config.getSelectedAreaList().get(j))){
