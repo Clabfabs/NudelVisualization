@@ -53,6 +53,14 @@ public class LineChartVisualization extends Visualization{
 			VisualizationUtils.loadVisualizationApi(
 					new Runnable() {
 						public void run() {
+							System.out.println("result:");
+							for (int i = 0; i < 5 && i < result.length; i++) {
+								for (int j = 0; j < result[i].length; j++) {
+									System.out.print(result[i][j] + "\t");
+								}
+								System.out.println("\n");
+							}
+							
 	    						ImageLineChart.Options options = ImageLineChart.Options.create();
 	    						options.setSize(1000, 450);
 	    						// 2= areacode, 3 = area, 5 = dataserie, 7=item, 8=year, 10 =value

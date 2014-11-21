@@ -337,7 +337,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		int nCol = 0;
 	    System.out.println("trying query");
 	    StringBuilder query = new StringBuilder();
-	    query.append("SELECT ElementName, AreaName, Year, Value FROM nudeldb.production NATURAL JOIN nudeldb.elements");
+	    query.append("SELECT ElementName, AreaName, ItemName, Year, Value FROM nudeldb.production NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items");
 	    query.append(" WHERE (AreaCode =");
 	    for (int i = 0; i < config.getSelectedAreaList().size()-1; i++) {
 	    	query.append(" ? OR AreaCode =");
@@ -397,7 +397,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		int nCol = 0;
 	    System.out.println("trying query");
 	    StringBuilder query = new StringBuilder();
-	    query.append("SELECT ElementName, AreaName, Year, Value FROM nudeldb.trade NATURAL JOIN nudeldb.elements");
+	    query.append("SELECT ElementName, AreaName, ItemName, Year, Value FROM nudeldb.trade NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items");
 	    query.append(" WHERE (ElementCode = ?) AND (AreaCode =");
 	    for (int i = 0; i < config.getSelectedAreaList().size()-1; i++) {
 	    	query.append(" ? OR AreaCode =");

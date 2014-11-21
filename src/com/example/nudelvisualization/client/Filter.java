@@ -183,7 +183,6 @@ public class Filter {
 	
 	public void drawLineChart(Configuration config) {
 		LineChartVisualization map = new LineChartVisualization(config);
-		map.draw();
 	}
 
 	public void drawColumnChart(Configuration config) {
