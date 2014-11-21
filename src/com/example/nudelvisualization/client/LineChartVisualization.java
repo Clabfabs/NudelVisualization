@@ -57,9 +57,20 @@ public class LineChartVisualization extends Visualization{
 	    						//adding Years to the x-Axis of the LineChart
 	    						data.addColumn(ColumnType.STRING, "Years");
 	    						
-	    						// to do: eventually change 22 it to result.length
-	    						data.addRows(22);
+	    						//calculating linear regression for forecast
+	    						int forecastValue, betaHat0, betaHat1  = 0;
+	    						int xi, n = 0;
+	    						int Exy, Ex, Ey,Ex2, Ey2 = 0;
+	    						int y = 1;
 	    						
+	    						//calculate Ex
+	    						for(int i =0; i<n; i++){
+	    							
+	    						}
+	    						
+	    						// to do: eventually change 22 it to result.length
+	    						if(result.length!=0){
+	    						data.addRows(22);
 	    						if(result[0][5].equals("Total Population - Both sexes")){
 	    							//POPULATION START
 	    							int f=0;
@@ -78,7 +89,9 @@ public class LineChartVisualization extends Visualization{
 	    								data.setCell(f, j, result[i][10], null, null);
 	    								f++;
 	    							}
+	    							//POPULATION END
 	    						}
+	    						
 	    						else if(result[0][5].equals("Production") || result[0][5].equals("Export Quantity") || result[0][5].equals("Import Quantity")){
 	    							// PRODUCTION / IMPORT / EXPORT START
 	    							int f=0;
@@ -91,6 +104,7 @@ public class LineChartVisualization extends Visualization{
 	    									j++;
 	    									f = 0;
 	    								}
+	    								data.addColumn(ColumnType.NUMBER, "Vorhersage");
 	    						
 	    								//adding Years to x-Axis
 	    								data.setValue(f, 0, result[i][8]);
@@ -106,13 +120,18 @@ public class LineChartVisualization extends Visualization{
 	    						RootPanel.get("visualizationContainer").add(widget);
 	    					}
 						
-					
+						else{
+							System.out.println("no avaialable data");
+							
+						}
+						}
 	    				}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
 	    				Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
 	    				ImageLineChart.PACKAGE, ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE,
 	    				ImagePieChart.PACKAGE, IntensityMap.PACKAGE,
 	    				MapVisualization.PACKAGE, MotionChart.PACKAGE, OrgChart.PACKAGE,Table.PACKAGE,
 	    				ImageSparklineChart.PACKAGE);
+					
 		}
 	}
 }		
