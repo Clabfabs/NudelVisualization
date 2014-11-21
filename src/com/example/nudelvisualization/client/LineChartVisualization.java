@@ -79,8 +79,8 @@ public class LineChartVisualization extends Visualization{
 	    								f++;
 	    							}
 	    						}
-	    						else if(result[0][5].equals("Production")){
-	    							// PRODUCTION START
+	    						else if(result[0][5].equals("Production") || result[0][5].equals("Export Quantity") || result[0][5].equals("Import Quantity")){
+	    							// PRODUCTION / IMPORT / EXPORT START
 	    							int f=0;
 	    							int j = 0;
 	    							// adding items in different colors to the LineChart
@@ -99,7 +99,7 @@ public class LineChartVisualization extends Visualization{
 	    								f++;
 	    							}
 	    						}
-	    						//PRODUCTION END
+	    						//PRODUCTION / IMPORT / EXPORT END
 	    						
 	    						ImageLineChart widget = new ImageLineChart(data, options);
 	    						RootPanel.get("visualizationContainer").clear();
