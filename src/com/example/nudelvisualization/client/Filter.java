@@ -187,7 +187,6 @@ public class Filter {
 
 	public void drawColumnChart(Configuration config) {
 		ColumnChartVisualization map = new ColumnChartVisualization(config);
-		// Load the visualization api, passing the onLoadCallback to be called when loading is done.
 	}
 	
 	
