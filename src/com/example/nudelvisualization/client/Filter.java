@@ -186,31 +186,9 @@ public class Filter {
 	}
 
 	public void drawColumnChart(Configuration config) {
-		
+		ColumnChartVisualization map = new ColumnChartVisualization(config);
 		// Load the visualization api, passing the onLoadCallback to be called when loading is done.
-	    VisualizationUtils.loadVisualizationApi(new ColumnChartRunnable(), ColumnChart.PACKAGE);
 	}
 	
-	private class ColumnChartRunnable implements Runnable{
-
-		@Override
-		public void run() {
-			DataTable dataTable = DataTable.create();
-			dataTable.addColumn(ColumnType.NUMBER, "Aple");
-			dataTable.addColumn(ColumnType.NUMBER, "Potatoes");
-			dataTable.addColumn(ColumnType.NUMBER, "Banana");
-			dataTable.addRow();
-			dataTable.setCell(0, 0, 3, null, null);
-			dataTable.setCell(0, 1, 5, null, null);
-			dataTable.setCell(0, 2, 9, null, null);
-
-			Options options = CoreChart.createOptions();
-
-			ColumnChart colChart = new ColumnChart(dataTable, options);
-			colChart.draw(dataTable, options);
-			
-			RootPanel.get("visualizationContainer").clear();
-			RootPanel.get("visualizationContainer").add(colChart);
-		}
-	}
+	
 }
