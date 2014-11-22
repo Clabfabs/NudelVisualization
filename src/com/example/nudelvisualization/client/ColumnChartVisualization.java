@@ -44,7 +44,7 @@ public class ColumnChartVisualization extends Visualization {
 	}
 
 	private void initialize() {
-		dataAccessSocket.getSelectedRows(config,
+		dataAccessSocket.getDataForColumnChart(config,
 				new AsyncCallback<String[][]>() {
 					public void onFailure(Throwable caught) {
 						System.out.println("Communication with server failed");
@@ -86,14 +86,14 @@ public class ColumnChartVisualization extends Visualization {
 							Options options = ColumnChart.createOptions();
 							options.setHeight(250);
 							options.setWidth(550);
-							options.setTitle(result[(i * nrOfItems * nrOfYears) + 1][3]);
+							options.setTitle(result[(i * nrOfItems * nrOfYears)+1][0]);
 
 							DataTable data = DataTable.create();
 							data.addColumn(ColumnType.STRING, "Year");
-							String tableName = null;
+							String columnName = null;
 							for (int c = 0; c < nrOfItems; c++) {
-								tableName = result[c * nrOfYears + 1][7];
-								data.addColumn(ColumnType.NUMBER, tableName);
+								columnName = result[c * nrOfYears + 1][2];
+								data.addColumn(ColumnType.NUMBER, columnName);
 							}
 
 							data.addRows(nrOfYears);
@@ -102,17 +102,17 @@ public class ColumnChartVisualization extends Visualization {
 								data.setValue(j, 0, config
 										.getSelectedYearsList().get(j));
 							}
-							int counter = 1 + i * nrOfYears * nrOfItems;
+							int counter = i * nrOfYears * nrOfItems;
 							for (int n = 1; n <= nrOfItems; n++) {
 								for (int m = 0; m < nrOfYears; m++) {
-									if (result[counter][8].equals(data
-											.getValueString(m, 0))) {
-										data.setValue(m, n, result[counter][10]);
+									//if (result[counter][1].equals(data
+									//		.getValueString(m, 0))) {
+										data.setValue(m, n, result[counter][3]);
 										counter++;
-									} else {
-										data.setValue(m, n, 0);
-										counter++;
-									}
+									//} else {
+									//	data.setValue(m, n, 0);
+									//	counter++;
+									//}
 								}
 							}
 							//

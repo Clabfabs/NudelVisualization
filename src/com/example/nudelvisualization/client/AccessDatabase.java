@@ -16,4 +16,5 @@ public interface AccessDatabase extends RemoteService {
 	String[][] getSelectedRows(Configuration config);
 	HashMap<String, String[][]> getDataForIntensityMap(Configuration config);
 	HashMap<String, String[][]> getDataForLineChart(Configuration config);
+	String[][] getDataForColumnChart(Configuration config);
 }

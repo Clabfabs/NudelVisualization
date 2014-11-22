@@ -549,7 +549,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		ArrayList<String[]> returnValue = new ArrayList<>();
 
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM production p join countries c on c.AreaCode = p.AreaCode join items i on i.ItemCode = p.ItemCode where ( c.AreaCode = "
+		query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.production p join nudeldb.countries c on c.AreaCode = p.AreaCode join nudeldb.items i on i.ItemCode = p.ItemCode where ( c.AreaCode = "
 				+ config.getSelectedAreaList().get(0));
 		int a = 1;
 		while (a < config.getSelectedAreaList().size()) {
@@ -567,11 +567,11 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			y++;
 		}
 
-		query.append(" ) and ( " + config.getSelectedItemsList().get(0));
+		query.append(" ) and ( i.ItemCode = " + config.getSelectedItemsList().get(0));
 
 		int it = 1;
 		while (it < config.getSelectedItemsList().size()) {
-			query.append(" or c.ItemCode = "
+			query.append(" or i.ItemCode = "
 					+ config.getSelectedItemsList().get(it));
 			it++;
 		}
@@ -579,36 +579,29 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		query.append(" )");
 
 		System.out.println(query);
-
-		try {
-			PreparedStatement select = conn.prepareStatement(query.toString());
-			int count = 1;
-			for (String s : config.getSelectedAreaList()) {
-				select.setInt(count++, Integer.parseInt(s));
+		try{
+		PreparedStatement select = conn.prepareStatement(query.toString());
+		ResultSet result = select.executeQuery();
+		nCol = result.getMetaData().getColumnCount();
+		while (result.next()) {
+			String[] row = new String[nCol];
+			for (int iCol = 1; iCol <= nCol; iCol++) {
+				row[iCol - 1] = result.getString(iCol);
 			}
-			for (String s : config.getSelectedYearsList()) {
-				select.setInt(count++, Integer.parseInt(s));
-			}
-			for (String s : config.getSelectedItemsList()) {
-				select.setInt(count++, Integer.parseInt(s));
-			}
-			System.out.println(select.toString());
-			ResultSet result = select.executeQuery();
-			nCol = result.getMetaData().getColumnCount();
-			while (result.next()) {
-				String[] row = new String[nCol];
-				for (int iCol = 1; iCol <= nCol; iCol++) {
-					row[iCol - 1] = result.getString(iCol);
-				}
-				returnValue.add(row);
-			}
-
-			String[][] columnChartStringArray = null;
-			return columnChartStringArray;
-		} catch (SQLException e) {
-			System.err.println("Error: queryColumns(): " + query.toString());
-			e.printStackTrace();
+			returnValue.add(row);
 		}
+		result.close();
+		result = null;
+		select.close();
+		select = null;
+	} catch (SQLException e) {
+		System.err.println("Error: queryColumns(): " + query.toString());
+		e.printStackTrace();
+	}
+
+
+		
+			
 		String[][] returnValuesStrings = new String[returnValue.size()][nCol];
 		for (int i = 0; i < returnValue.size(); i++) {
 			returnValuesStrings[i] = returnValue.get(i);
