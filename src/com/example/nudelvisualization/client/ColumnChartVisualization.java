@@ -45,6 +45,15 @@ public class ColumnChartVisualization extends Visualization {
 		// TODO Auto-generated constructor stub
 	}
 
+	private DataTable insertYearsIntoDataTable(DataTable dataTable, Configuration config){
+		int nrOfYears = config.getSelectedYearsList().size();
+		
+		 for (int j = 0; j < nrOfYears; j++) {
+				dataTable.setValue(j, 0, config.getSelectedYearsList().get(j));
+				}
+		return dataTable;
+	}
+	
 	private void initialize() {
 		dataAccessSocket.getDataForColumnChart(config,
 				new AsyncCallback<HashMap<String, List<String[]>>>() {
@@ -89,9 +98,8 @@ public class ColumnChartVisualization extends Visualization {
 					// insert rows
 					dataTable.addRows(nrOfYears);
 					// insert Years in first column of dataTable
-					 for (int j = 0; j < nrOfYears; j++) {
-							dataTable.setValue(j, 0, config.getSelectedYearsList().get(j));
-							}
+					dataTable = insertYearsIntoDataTable(dataTable, config);
+					
 					 //insert production amount for Items in dataTable. We check whether a item in a particular country and year is produced.
 					
 						for (int y = 0; y < nrOfYears; y++){
@@ -128,5 +136,4 @@ public class ColumnChartVisualization extends Visualization {
 				OrgChart.PACKAGE, Table.PACKAGE, ImageSparklineChart.PACKAGE);
 
 	}
-
 }
