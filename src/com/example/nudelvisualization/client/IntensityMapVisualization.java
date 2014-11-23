@@ -39,6 +39,10 @@ public class IntensityMapVisualization extends Visualization {
 	String [][] IsoCodes = null;
 	String [][] result = null;
 	String [][] populationData = null;
+	
+	public IntensityMapVisualization(){
+		
+	}
 
 	public IntensityMapVisualization(Configuration config) {
 		super(config);
@@ -67,28 +71,6 @@ public class IntensityMapVisualization extends Visualization {
 
 	@Override
 	public void draw() {
-		// Shows how the data is given
-		System.out.println("IsoCodes:");
-		for (int i = 0; i < IsoCodes.length; i++) {
-			for (int j = 0; j < IsoCodes[i].length; j++) {
-				System.out.print(IsoCodes[i][j] + "\t");
-			}
-			System.out.println("\n");
-		}
-		System.out.println("result:");
-		for (int i = 0; i < 5 && i < result.length; i++) {
-			for (int j = 0; j < result[i].length; j++) {
-				System.out.print(result[i][j] + "\t");
-			}
-			System.out.println("\n");
-		}
-		System.out.println("population:");
-		for (int i = 0; i < 5 && i < populationData.length; i++) {
-			for (int j = 0; j < populationData[i].length; j++) {
-				System.out.print(populationData[i][j] + "\t");
-			}
-			System.out.println("\n");
-		}
 		VisualizationUtils.loadVisualizationApi(
 				new Runnable() {
 					public void run() {
@@ -98,7 +80,7 @@ public class IntensityMapVisualization extends Visualization {
 						options.setRegion(IntensityMap.Region.WORLD);
 						options.setSize(440, 220);
 
-						//add Data to IntensityMap
+						//add data to IntensityMap
 						DataTable data = DataTable.create();
 						data.addColumn(ColumnType.STRING, "Country");
 						data.addColumn(ColumnType.NUMBER, "Production");
@@ -112,30 +94,30 @@ public class IntensityMapVisualization extends Visualization {
 								}
 							}
 						}
-						for (int i = 0; i<configIsoCodes.length; i++){
-							System.out.println(configIsoCodes[i]);
-						}
+						
 						//iterate through all selected Areas
 						double sumAllData = 0;
 						int counter = 0;
 						for (int j = 0; j<configIsoCodes.length; j++){
+							//if the selected Area is a country:
 							if (!(configIsoCodes[j].equals(".."))){
-							//if there is data for the Area add it up:
 							for (int i= 1; i< result.length; i++){
 								if (result[i][0].equals(config.getSelectedAreaList().get(j))){
-									if (!(result[i][3].isEmpty())){ //get rid of exceptions...
+									if (!(result[i][3].isEmpty())){ //get rid of exceptions
+										//compare it with population
 										for (int y = 0; y< populationData.length; y++){
 											if(populationData[y][1].equals(result[i][1])){
-												double ValueAsDouble = Double.valueOf(result[i][3]);
-												double PopulationAsDouble = Double.valueOf(populationData[y][2]);
-												sumAllData = sumAllData + (ValueAsDouble/PopulationAsDouble);
+												//add up all dataValues
+												double valueAsDouble = Double.valueOf(result[i][3]);
+												double populationAsDouble = Double.valueOf(populationData[y][2]);
+												sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
 									}
 								}
 							}
 							}
 							}
 							
-							//add selected Area with sumAllData. If there is no data, sumAllData = 0
+							//add selected country with value of sumAllData. If there is no data, sumAllData = 0
 							data.addRow();
 							data.setValue(counter, 0, configIsoCodes[j]);
 							data.setValue(counter, 1, sumAllData);
@@ -143,15 +125,19 @@ public class IntensityMapVisualization extends Visualization {
 							counter++;
 						}
 						}
-					
+						//gather selected years and items for the comment underneath the visualization
 						String allSelectedYears = "";
 						for (int i = 0; i<config.getSelectedYearsList().size(); i++){
-							allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i)) +" ";	
+							if (i==(config.getSelectedYearsList().size()-1)){
+								allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i));		
+							}else{
+							allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i)) +", ";	
 						}
-						String allSelectedItems = result[0][2] +" ";
+						}
+						String allSelectedItems = result[0][2]+ " ";
 						for (int i = 1; i<result.length; i++){
 							if (result[i][2].equals(result[i-1][2])==false){
-							allSelectedItems = (allSelectedItems.concat(result[i][2])) + " ";	
+							allSelectedItems = (allSelectedItems.concat(result[i][2])) + ", ";	
 						}
 						}
 						TextArea text = new TextArea();
@@ -159,7 +145,7 @@ public class IntensityMapVisualization extends Visualization {
 						text.addStyleName("TextAreaNew");//doesn't function yet
 						text.setReadOnly(true);
 						text.setPixelSize(430, 30);
-						text.setText("Production in tonnes divided through population" + " of " + allSelectedItems + " in " + allSelectedYears + ".");
+						text.setText("Production in tonnes divided through population" + " of " + allSelectedItems + "in " + allSelectedYears + ".");
 						IntensityMap widget = new IntensityMap(data, options);
 						RootPanel.get("visualizationContainer").clear();
 						RootPanel.get("visualizationContainer").add(widget);

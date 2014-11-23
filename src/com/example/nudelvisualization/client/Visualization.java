@@ -5,7 +5,9 @@ import java.util.ArrayList;
 public abstract class Visualization {	
 	
 	protected Configuration config = null;
-	
+	public Visualization(){
+		
+	}
 	public Visualization(Configuration config) {
 		this.config = config;
 	}
