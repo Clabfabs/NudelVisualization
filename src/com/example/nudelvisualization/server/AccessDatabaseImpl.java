@@ -1,13 +1,14 @@
 package com.example.nudelvisualization.server;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import com.example.nudelvisualization.client.AccessDatabase;
 import com.example.nudelvisualization.client.Configuration;
@@ -544,8 +545,9 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		return returnValuesStrings;
 	}
 
-	public String[][] getDataForColumnChart(Configuration config) {
+	public HashMap<String, List<String[]>> getDataForColumnChart(Configuration config) {
 		int nCol = 0;
+		HashMap<String, List<String[]>> hashMap = new HashMap<String, List<String[]>>();
 		ArrayList<String[]> returnValue = new ArrayList<>();
 
 		StringBuilder query = new StringBuilder();
@@ -567,7 +569,8 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			y++;
 		}
 
-		query.append(" ) and ( i.ItemCode = " + config.getSelectedItemsList().get(0));
+		query.append(" ) and ( i.ItemCode = "
+				+ config.getSelectedItemsList().get(0));
 
 		int it = 1;
 		while (it < config.getSelectedItemsList().size()) {
@@ -579,34 +582,44 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		query.append(" )");
 
 		System.out.println(query);
-		try{
-		PreparedStatement select = conn.prepareStatement(query.toString());
-		ResultSet result = select.executeQuery();
-		nCol = result.getMetaData().getColumnCount();
-		while (result.next()) {
-			String[] row = new String[nCol];
-			for (int iCol = 1; iCol <= nCol; iCol++) {
-				row[iCol - 1] = result.getString(iCol);
+		try {
+			PreparedStatement select = conn.prepareStatement(query.toString());
+			ResultSet result = select.executeQuery();
+			nCol = result.getMetaData().getColumnCount();
+
+			while (result.next()) {
+				String areaName = result.getString("AreaName");
+				String year = result.getString("Year");
+				String item = result.getString("ItemName");
+				String value = result.getString("Value");
+
+				if (!hashMap.containsKey(areaName)) {
+					hashMap.put(areaName, new ArrayList<String[]>());
+				}
+
+				List<String[]> yearItemList = hashMap.get(areaName);
+				yearItemList.add(new String[] { year, item, value });
+
+				// String[] row = new String[nCol];
+				// for (int iCol = 1; iCol <= nCol; iCol++) {
+				// row[iCol - 1] = result.getString(iCol);
+				// }
+				// returnValue.add(row);
 			}
-			returnValue.add(row);
+			result.close();
+			result = null;
+			select.close();
+			select = null;
+		} catch (SQLException e) {
+			System.err.println("Error: queryColumns(): " + query.toString());
+			e.printStackTrace();
 		}
-		result.close();
-		result = null;
-		select.close();
-		select = null;
-	} catch (SQLException e) {
-		System.err.println("Error: queryColumns(): " + query.toString());
-		e.printStackTrace();
-	}
 
-
-		
-			
 		String[][] returnValuesStrings = new String[returnValue.size()][nCol];
 		for (int i = 0; i < returnValue.size(); i++) {
 			returnValuesStrings[i] = returnValue.get(i);
 		}
-		return returnValuesStrings;
+		return hashMap;
 	}
 
 	public String[][] simpleQuery(String sql) {
@@ -637,6 +650,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		for (int i = 0; i < returnValue.size(); i++) {
 			returnValuesStrings[i] = returnValue.get(i);
 		}
+
 		return returnValuesStrings;
 	}
 }
