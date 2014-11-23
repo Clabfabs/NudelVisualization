@@ -37,6 +37,55 @@ public class LineChartVisualization extends Visualization{
 		initialize();
 	}
 
+	private int[] getForecastValues(int amountOfYears){
+
+		//calculating linear regression for forecast
+		int  betaHat0 = 0, betaHat1  = 0;
+		int n = result.length;
+		int Exy = 0, Ex = 0, Ey = 0, Ex2 = 0;
+		int x = 1, yAverage = 0, xAverage =0;
+		int[] forecastValues = null;
+		//calculate yAverage
+		
+		//calculate Ex
+		for(int i =0; i<n; i++){
+			Ex += i;
+		}
+		//calculate Ey
+		for(int i=0;i<n;i++){
+			Ey += Integer.parseInt(result[i][3]);
+		}
+		//calculate Exy
+		for(int i=0;i<n;i++){
+			Exy += (i + Integer.parseInt(result[i][3]));
+		}
+		//calculate Ex2
+		for(int i=0;i<n;i++){
+			Ex2 += (i * i);
+		}
+		//calculate betaHat1
+		betaHat1 = ((n*Exy)-(Ex*Ey))/((n*Ex2)-(Ex2*Ex2));
+		//calculate yAverage
+		int ySum = 0;
+		for(int i=0; i<n;i++){
+			ySum += Integer.parseInt(result[i][3]);
+		}
+		yAverage = ySum / n;
+		//calculate xAverage
+		int xSum=0;
+		for(int i=0; i<n;i++){
+			xSum += 1;
+		}
+		xAverage = xSum / n;
+		//calculate betaHat0
+		betaHat0 = yAverage - (betaHat1 * xAverage);
+		//calculate forecast
+		for(int i = 0; i<amountOfYears;i++){
+			forecastValues[i] = betaHat0 + (betaHat1 * i);
+		}
+		return forecastValues;
+
+	}
 	private void initialize() {
 		dataAccessSocket.getDataForLineChart(config, new AsyncCallback<HashMap<String, String[][]>>() {
 			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
@@ -69,36 +118,26 @@ public class LineChartVisualization extends Visualization{
 	    						//adding Years to the x-Axis of the LineChart
 	    						data.addColumn(ColumnType.STRING, "Years");
 	    						
-	    						//calculating linear regression for forecast
-	    						int forecastValue, betaHat0, betaHat1  = 0;
-	    						int xi, n = 0;
-	    						int Exy, Ex, Ey,Ex2, Ey2 = 0;
-	    						int y = 1;
-	    						
-	    						//calculate Ex
-	    						for(int i =0; i<n; i++){
-	    							
-	    						}
-	    						
 	    						// to do: eventually change 22 it to result.length
 	    						if(result.length!=0){
 	    						data.addRows(22);
+	    						
 	    						if(result[0][5].equals("Total Population - Both sexes")){
 	    							//POPULATION START
 	    							int f=0;
 	    							int j=0;
 	    							// adding Areas in different colors to the LineChart
 	    							for(int i=0; i<result.length; i++){
-	    								if(!result[i][3].equals(currentArea)){
-	    									data.addColumn(ColumnType.NUMBER, result[i][3]);
-	    									currentArea = result[i][3];
+	    								if(!result[i][1].equals(currentArea)){
+	    									data.addColumn(ColumnType.NUMBER, result[i][1]);
+	    									currentArea = result[i][1];
 	    									j++;
 	    									f = 0;
 	    								}
 	    								//adding Years to x-Axis
-	    								data.setValue(f, 0, result[i][8]);
+	    								data.setValue(f, 0, result[i][2]);
 	    								//adding values
-	    								data.setCell(f, j, result[i][10], null, null);
+	    								data.setCell(f, j, result[i][3], null, null);
 	    								f++;
 	    							}
 	    							//POPULATION END
@@ -110,18 +149,18 @@ public class LineChartVisualization extends Visualization{
 	    							int j = 0;
 	    							// adding items in different colors to the LineChart
 	    							for(int i=0; i<result.length; i++){
-	    								if(!result[i][7].equals(currentItem)){
-	    									data.addColumn(ColumnType.NUMBER, result[i][7]);
-	    									currentItem = result[i][7];
+	    								if(!result[i][4].equals(currentItem)){
+	    									data.addColumn(ColumnType.NUMBER, result[i][4]);
+	    									currentItem = result[i][4];
 	    									j++;
 	    									f = 0;
 	    								}
 	    								data.addColumn(ColumnType.NUMBER, "Vorhersage");
 	    						
 	    								//adding Years to x-Axis
-	    								data.setValue(f, 0, result[i][8]);
+	    								data.setValue(f, 0, result[i][2]);
 	    								//adding values
-	    								data.setCell(f, j, result[i][10], null, null);
+	    								data.setCell(f, j, result[i][3], null, null);
 	    								f++;
 	    							}
 	    						}
