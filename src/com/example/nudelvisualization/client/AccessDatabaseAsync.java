@@ -1,6 +1,7 @@
 package com.example.nudelvisualization.client;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -16,5 +17,5 @@ public interface AccessDatabaseAsync {
 	void getDataForLineChart(Configuration config,
 			AsyncCallback<HashMap<String, String[][]>> asyncCallback);
 	void getDataForColumnChart(Configuration config,
-			AsyncCallback<String[][]> asyncCallback);
+			AsyncCallback<HashMap<String, List<String[]>>> asyncCallback);
 }

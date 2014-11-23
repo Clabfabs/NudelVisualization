@@ -140,6 +140,7 @@ public class Controller implements EntryPoint {
 			if (lbArea.isItemSelected( i) == true){
 				// selectedAreas.add(lbArea.getValue(i));
 				config.addArea(lbArea.getValue(i));
+				config.addAreaName(lbArea.getItemText(i));
 			}
 		}
 		
@@ -161,6 +162,7 @@ public class Controller implements EntryPoint {
 			if(lbItems.isItemSelected(m)){
 				// selectedItems.add(lbItems.getValue(m));
 				config.addItem(lbItems.getValue(m));
+				config.addItemNames(lbItems.getItemText(m));
 			}
 		}
 	}

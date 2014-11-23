@@ -1,6 +1,7 @@
 package com.example.nudelvisualization.client;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -16,5 +17,5 @@ public interface AccessDatabase extends RemoteService {
 	String[][] getSelectedRows(Configuration config);
 	HashMap<String, String[][]> getDataForIntensityMap(Configuration config);
 	HashMap<String, String[][]> getDataForLineChart(Configuration config);
-	String[][] getDataForColumnChart(Configuration config);
+	HashMap<String, List<String[]>> getDataForColumnChart(Configuration config);
 }
