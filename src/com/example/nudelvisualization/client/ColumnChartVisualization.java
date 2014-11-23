@@ -35,8 +35,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.ibm.icu.util.BytesTrie.Result;
 
 public class ColumnChartVisualization extends Visualization {
-	private final AccessDatabaseAsync dataAccessSocket = GWT
-			.create(AccessDatabase.class);
+	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);
 	HashMap<String, List<String[]>> data = null;
 
 	public ColumnChartVisualization(Configuration config) {
@@ -45,30 +44,29 @@ public class ColumnChartVisualization extends Visualization {
 		// TODO Auto-generated constructor stub
 	}
 
-	private DataTable insertYearsIntoDataTable(DataTable dataTable, Configuration config){
+	public DataTable insertYearsIntoDataTable(DataTable dataTable, Configuration config) {
 		int nrOfYears = config.getSelectedYearsList().size();
-		
-		 for (int j = 0; j < nrOfYears; j++) {
-				dataTable.setValue(j, 0, config.getSelectedYearsList().get(j));
-				}
+
+		for (int j = 0; j < nrOfYears; j++) {
+			dataTable.setValue(j, 0, config.getSelectedYearsList().get(j));
+		}
 		return dataTable;
 	}
-	
+
 	private void initialize() {
-		dataAccessSocket.getDataForColumnChart(config,
-				new AsyncCallback<HashMap<String, List<String[]>>>() {
-					public void onFailure(Throwable caught) {
-						System.out.println("Communication with server failed");
-					}
+		dataAccessSocket.getDataForColumnChart(config, new AsyncCallback<HashMap<String, List<String[]>>>() {
+			public void onFailure(Throwable caught) {
+				System.out.println("Communication with server failed");
+			}
 
-					@Override
-					public void onSuccess(HashMap<String, List<String[]>> result) {
-						// TODO Auto-generated method stub
-						data = result;
-						draw();
+			@Override
+			public void onSuccess(HashMap<String, List<String[]>> result) {
+				// TODO Auto-generated method stub
+				data = result;
+				draw();
 
-					}
-				});
+			}
+		});
 	}
 
 	@Override
@@ -84,7 +82,7 @@ public class ColumnChartVisualization extends Visualization {
 
 				for (String areaName : config.getSelectedAreaNameList()) {
 					List<String[]> areaYearItemList = data.get(areaName);
-					
+
 					Options options = ColumnChart.createOptions();
 					options.setHeight(250);
 					options.setWidth(600);
@@ -92,48 +90,45 @@ public class ColumnChartVisualization extends Visualization {
 
 					DataTable dataTable = DataTable.create();
 					dataTable.addColumn(ColumnType.STRING, "Year");
-					for (int c = 0; c<nrOfItems; c++){
-						dataTable.addColumn(ColumnType.NUMBER,config.getSelectedItemNameList().get(c));
+					for (int c = 0; c < nrOfItems; c++) {
+						dataTable.addColumn(ColumnType.NUMBER, config.getSelectedItemNameList().get(c));
 					}
 					// insert rows
 					dataTable.addRows(nrOfYears);
 					// insert Years in first column of dataTable
 					dataTable = insertYearsIntoDataTable(dataTable, config);
-					
-					 //insert production amount for Items in dataTable. We check whether a item in a particular country and year is produced.
-					
-						for (int y = 0; y < nrOfYears; y++){
-							String year = config.getSelectedYearsList().get(y);
-							
-							for (int it = 0; it < nrOfItems; it++){
-								String item = config.getSelectedItemNameList().get(it);
-								
-								dataTable.setValue(y, it+1, 0);
-								
-								if(data.containsKey(areaName)){
-									for (String[] yearItems : areaYearItemList){
-										if( yearItems[0].equals(year) && yearItems[1].equals(item) ){
-											dataTable.setValue(y, it+1, yearItems[2]);
-										}
+
+					// insert production amount for Items in dataTable.
+					// We check whether a item in a particular country
+					// and year is produced.
+
+					for (int y = 0; y < nrOfYears; y++) {
+						String year = config.getSelectedYearsList().get(y);
+
+						for (int it = 0; it < nrOfItems; it++) {
+							String item = config.getSelectedItemNameList().get(it);
+
+							dataTable.setValue(y, it + 1, 0);
+
+							if (data.containsKey(areaName)) {
+								for (String[] yearItems : areaYearItemList) {
+									if (yearItems[0].equals(year) && yearItems[1].equals(item)) {
+										dataTable.setValue(y, it + 1, yearItems[2]);
 									}
 								}
 							}
 						}
+					}
 
-					ColumnChart colChart = new ColumnChart(dataTable,
-							options);
-					RootPanel.get("visualizationContainer").add(
-							colChart);
+					ColumnChart colChart = new ColumnChart(dataTable, options);
+					RootPanel.get("visualizationContainer").add(colChart);
 				}
-				
-				 }
-			
-		}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE, Gauge.PACKAGE,
-				GeoMap.PACKAGE, ImageChart.PACKAGE, ImageLineChart.PACKAGE,
-				ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE,
-				ImagePieChart.PACKAGE, IntensityMap.PACKAGE,
-				MapVisualization.PACKAGE, MotionChart.PACKAGE,
-				OrgChart.PACKAGE, Table.PACKAGE, ImageSparklineChart.PACKAGE);
+
+			}
+
+		}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE, Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE, ImageLineChart.PACKAGE,
+				ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE, ImagePieChart.PACKAGE, IntensityMap.PACKAGE, MapVisualization.PACKAGE,
+				MotionChart.PACKAGE, OrgChart.PACKAGE, Table.PACKAGE, ImageSparklineChart.PACKAGE);
 
 	}
 }
