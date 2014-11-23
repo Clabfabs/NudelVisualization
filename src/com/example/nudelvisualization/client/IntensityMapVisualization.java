@@ -28,10 +28,8 @@ import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 /*
  * TO DOS: 	
  * 			- Karte grösser.
- * 			- Daten in Verhältnis zu Population --> nötig?
- * 			- Kommentar, welche Daten angezeigt werden optimieren. --> Items nicht als Zahl... 
- * 			- Methoden testen und kommentieren.
- * 			- Daten nicht nehmen, wenn kein IsoCode vorhanden stimmt noch nicht. Vielleicht aber auch so lassen.  
+ * 			- Kommentar ohne Kasten. 
+ * 			- Methoden testen und kommentieren. 
  * 			
  */
 public class IntensityMapVisualization extends Visualization {
@@ -119,8 +117,9 @@ public class IntensityMapVisualization extends Visualization {
 						}
 						//iterate through all selected Areas
 						double sumAllData = 0;
+						int counter = 0;
 						for (int j = 0; j<configIsoCodes.length; j++){
-							if (!(configIsoCodes.equals(".."))){
+							if (!(configIsoCodes[j].equals(".."))){
 							//if there is data for the Area add it up:
 							for (int i= 1; i< result.length; i++){
 								if (result[i][0].equals(config.getSelectedAreaList().get(j))){
@@ -135,21 +134,24 @@ public class IntensityMapVisualization extends Visualization {
 							}
 							}
 							}
+							
 							//add selected Area with sumAllData. If there is no data, sumAllData = 0
 							data.addRow();
-							data.setValue(j, 0, configIsoCodes[j]);
-							data.setValue(j, 1, sumAllData);
-							sumAllData = 0;	
+							data.setValue(counter, 0, configIsoCodes[j]);
+							data.setValue(counter, 1, sumAllData);
+							sumAllData = 0;
+							counter++;
 						}
 						}
+					
 						String allSelectedYears = "";
 						for (int i = 0; i<config.getSelectedYearsList().size(); i++){
 							allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i)) +" ";	
 						}
-						String allSelectedItems = result[0][2];
+						String allSelectedItems = result[0][2] +" ";
 						for (int i = 1; i<result.length; i++){
 							if (result[i][2].equals(result[i-1][2])==false){
-							allSelectedItems = " " + (allSelectedItems.concat(result[i][2]));	
+							allSelectedItems = (allSelectedItems.concat(result[i][2])) + " ";	
 						}
 						}
 						TextArea text = new TextArea();
@@ -157,7 +159,7 @@ public class IntensityMapVisualization extends Visualization {
 						text.addStyleName("TextAreaNew");//doesn't function yet
 						text.setReadOnly(true);
 						text.setPixelSize(430, 30);
-						text.setText("Production in tonnes divided in Population" + " of " + allSelectedItems + " in " + allSelectedYears + ".");
+						text.setText("Production in tonnes divided through population" + " of " + allSelectedItems + " in " + allSelectedYears + ".");
 						IntensityMap widget = new IntensityMap(data, options);
 						RootPanel.get("visualizationContainer").clear();
 						RootPanel.get("visualizationContainer").add(widget);
