@@ -28,8 +28,7 @@ import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 /*
  * TO DOS: 	
  * 			- Karte grösser.
- * 			- Kommentar ohne Kasten. 
- * 			- Methoden testen und kommentieren. 
+ * 			- Kommentar optimieren und ohne Kasten. 
  * 			
  */
 public class IntensityMapVisualization extends Visualization {
