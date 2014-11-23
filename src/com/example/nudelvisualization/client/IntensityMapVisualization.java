@@ -100,16 +100,17 @@ public class IntensityMapVisualization extends Visualization {
 						for (int j = 0; j<configIsoCodes.length; j++){
 							//if the selected Area is a country:
 							if (!(configIsoCodes[j].equals(".."))){
+							//gather value of data
 							for (int i= 1; i< result.length; i++){
 								if (result[i][0].equals(config.getSelectedAreaList().get(j))){
-									if (!(result[i][3].isEmpty())){ //get rid of exceptions
-										//compare it with population
-										for (int y = 0; y< populationData.length; y++){
-											if(populationData[y][1].equals(result[i][1])){
-												//add up all dataValues
-												double valueAsDouble = Double.valueOf(result[i][3]);
-												double populationAsDouble = Double.valueOf(populationData[y][2]);
-												sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
+								if (!(result[i][3].isEmpty())){ //get rid of exceptions
+									//compare it with population
+									for (int y = 0; y< populationData.length; y++){
+										if(populationData[y][1].equals(result[i][1])){
+											//add up all dataValues
+											double valueAsDouble = Double.valueOf(result[i][3]);
+											double populationAsDouble = Double.valueOf(populationData[y][2]);
+											sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
 									}
 								}
 							}
