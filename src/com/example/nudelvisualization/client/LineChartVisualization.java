@@ -37,11 +37,11 @@ public class LineChartVisualization extends Visualization{
 		initialize();
 	}
 
-	private int[] getForecastValues(){
+	private int[] getForecastValues(int length){
 
 		//calculating linear regression for forecast
 		int  betaHat0 = 0, betaHat1  = 0;
-		int n = result.length;
+		int n = length;
 		int Exy = 0, Ex = 0, Ey = 0, Ex2 = 0;
 		int yAverage = 0, xAverage =0;
 		int[] forecastValues = new int[3];
@@ -136,7 +136,7 @@ public class LineChartVisualization extends Visualization{
 	    						data.addColumn(ColumnType.STRING, "Years");
 	    						
 	    						
-	    						if(result == null){
+	    						if(result != null){
 	    						//creating Linechart for Production, Import and Export
 	    						data.addRows(25);
 
@@ -160,7 +160,8 @@ public class LineChartVisualization extends Visualization{
 	    							//adding forecast values
 	    							if(j==1){
 	    								int[] forecastValues;
-	    								forecastValues = getForecastValues();
+	    								int n = result.length;
+	    								forecastValues = getForecastValues(n);
 	    								data.addColumn(ColumnType.NUMBER, "Forecast");
 	    								j++;
 	    								data.setCell(f-1, j, result[g-1][4], null, null);
@@ -188,8 +189,7 @@ public class LineChartVisualization extends Visualization{
 	    				ImagePieChart.PACKAGE, IntensityMap.PACKAGE,
 	    				MapVisualization.PACKAGE, MotionChart.PACKAGE, OrgChart.PACKAGE,Table.PACKAGE,
 	    				ImageSparklineChart.PACKAGE);
-					
-			
+
 		}
 	}
 
