@@ -33,7 +33,6 @@ public class TableVisualization extends Visualization {
 	public void draw() {
 		config.addTitles("ElementName");
 		config.addTitles("AreaName");
-		config.addTitles("Domain");
 		config.addTitles("ItemName");
 		config.addTitles("Year");
 		config.addTitles("Value");
