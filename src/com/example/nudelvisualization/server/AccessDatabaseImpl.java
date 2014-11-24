@@ -466,7 +466,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 	 *
 	 * @return a 2-dimensional String Array with the rows
 	 */
-	public String[][] getSelectedRows(Configuration config) {
+	public HashMap<String, String[][]> getTableVisualizationData(Configuration config) {
 
 		ArrayList<String[]> returnValue = new ArrayList<>();
 		int nCol = 0;
@@ -542,7 +542,9 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		for (int i = 0; i < returnValue.size(); i++) {
 			returnValuesStrings[i] = returnValue.get(i);
 		}
-		return returnValuesStrings;
+		HashMap<String, String[][]> data = new HashMap<>();
+		data.put("Production", returnValuesStrings);
+		return data;
 	}
 
 	public HashMap<String, List<String[]>> getDataForColumnChart(Configuration config) {
