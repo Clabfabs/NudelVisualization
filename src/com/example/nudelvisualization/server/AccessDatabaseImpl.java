@@ -41,7 +41,6 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 				url = "jdbc:mysql://173.194.242.3:3306";
 				user = "root";
 				password = "welovenoodles";
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

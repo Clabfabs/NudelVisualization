@@ -136,7 +136,7 @@ public class LineChartVisualization extends Visualization{
 	    						data.addColumn(ColumnType.STRING, "Years");
 	    						
 	    						
-	    						if(result == null){
+	    						if(result != null){
 	    						//creating Linechart for Production, Import and Export
 	    						data.addRows(25);
 
