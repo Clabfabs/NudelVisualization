@@ -37,55 +37,72 @@ public class LineChartVisualization extends Visualization{
 		initialize();
 	}
 
-	private int[] getForecastValues(int amountOfYears){
+	private int[] getForecastValues(){
 
 		//calculating linear regression for forecast
 		int  betaHat0 = 0, betaHat1  = 0;
 		int n = result.length;
 		int Exy = 0, Ex = 0, Ey = 0, Ex2 = 0;
-		int x = 1, yAverage = 0, xAverage =0;
-		int[] forecastValues = null;
-		//calculate yAverage
+		int yAverage = 0, xAverage =0;
+		int[] forecastValues = new int[3];
 		
 		//calculate Ex
-		for(int i =0; i<n; i++){
+		for(int i =1; i<n+1; i++){
 			Ex += i;
 		}
+		System.out.print("Ex: " + Ex);
+		
 		//calculate Ey
 		for(int i=0;i<n;i++){
-			Ey += Integer.parseInt(result[i][3]);
+			Ey += Integer.parseInt(result[i][4]);
 		}
+		System.out.print("Exy: " + Exy);
+		
 		//calculate Exy
-		for(int i=0;i<n;i++){
-			Exy += (i + Integer.parseInt(result[i][3]));
+		for(int i=1;i<n+1;i++){
+			Exy += (i + Integer.parseInt(result[i-1][4]));
 		}
+		System.out.print("Exy: " + Exy);
+		
 		//calculate Ex2
-		for(int i=0;i<n;i++){
+		for(int i=1;i<n+1;i++){
 			Ex2 += (i * i);
 		}
+		System.out.print(" Ex2: " + Ex2);
+		
 		//calculate betaHat1
 		betaHat1 = ((n*Exy)-(Ex*Ey))/((n*Ex2)-(Ex2*Ex2));
+		System.out.print(" betaHat1: " + betaHat1);
+		
 		//calculate yAverage
 		int ySum = 0;
 		for(int i=0; i<n;i++){
-			ySum += Integer.parseInt(result[i][3]);
+			ySum += Integer.parseInt(result[i][4]);
 		}
 		yAverage = ySum / n;
+		System.out.print(" yAverage: " + yAverage);
+		
 		//calculate xAverage
 		int xSum=0;
-		for(int i=0; i<n;i++){
-			xSum += 1;
+		for(int i=1; i<n+1;i++){
+			xSum += i;
 		}
 		xAverage = xSum / n;
+		System.out.print(" xAverage: " + xAverage);
+		
 		//calculate betaHat0
-		betaHat0 = yAverage - (betaHat1 * xAverage);
+		betaHat0 = (yAverage - (betaHat1 * xAverage));
+		System.out.print(" bethat0: " + betaHat0);
+		
 		//calculate forecast
-		for(int i = 0; i<amountOfYears;i++){
-			forecastValues[i] = betaHat0 + (betaHat1 * i);
+		for(int i = 0; i<3;i++){
+			forecastValues[i] = betaHat0 + (betaHat1 * (i+ n+ 1));
+			System.out.print("forecastValues: " + i + " " + forecastValues[i]);
 		}
+		
 		return forecastValues;
-
 	}
+	
 	private void initialize() {
 		dataAccessSocket.getDataForLineChart(config, new AsyncCallback<HashMap<String, String[][]>>() {
 			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
@@ -109,80 +126,70 @@ public class LineChartVisualization extends Visualization{
 								}
 								System.out.println("\n");
 							}
-							
+						
 	    						ImageLineChart.Options options = ImageLineChart.Options.create();
-	    						options.setSize(1000, 450);
-	    						// 2= areacode, 3 = area, 5 = dataserie, 7=item, 8=year, 10 =value
+	    						options.setSize(1000, 350);
+	    						// item = 2, year = 3, Value = 4
 	    						DataTable data = DataTable.create();
 	    						
 	    						//adding Years to the x-Axis of the LineChart
 	    						data.addColumn(ColumnType.STRING, "Years");
 	    						
-	    						// to do: eventually change 22 it to result.length
+	    						
 	    						if(result.length!=0){
-	    						data.addRows(22);
-	    						
-	    						if(result[0][5].equals("Total Population - Both sexes")){
-	    							//POPULATION START
-	    							int f=0;
-	    							int j=0;
-	    							// adding Areas in different colors to the LineChart
-	    							for(int i=0; i<result.length; i++){
-	    								if(!result[i][1].equals(currentArea)){
-	    									data.addColumn(ColumnType.NUMBER, result[i][1]);
-	    									currentArea = result[i][1];
-	    									j++;
-	    									f = 0;
-	    								}
-	    								//adding Years to x-Axis
-	    								data.setValue(f, 0, result[i][2]);
-	    								//adding values
-	    								data.setCell(f, j, result[i][3], null, null);
-	    								f++;
-	    							}
-	    							//POPULATION END
-	    						}
-	    						
-	    						else if(result[0][5].equals("Production") || result[0][5].equals("Export Quantity") || result[0][5].equals("Import Quantity")){
-	    							// PRODUCTION / IMPORT / EXPORT START
+	    						//creating Linechart for Production, Import and Export
+	    						data.addRows(25);
+
 	    							int f=0;
 	    							int j = 0;
+	    							int g;
 	    							// adding items in different colors to the LineChart
-	    							for(int i=0; i<result.length; i++){
-	    								if(!result[i][4].equals(currentItem)){
-	    									data.addColumn(ColumnType.NUMBER, result[i][4]);
-	    									currentItem = result[i][4];
+	    							for(g=0; g<result.length; g++){
+	    								if(!result[g][2].equals(currentItem)){
+	    									data.addColumn(ColumnType.NUMBER, result[g][2]);
+	    									currentItem = result[g][2];
 	    									j++;
 	    									f = 0;
 	    								}
-	    								data.addColumn(ColumnType.NUMBER, "Vorhersage");
-	    						
 	    								//adding Years to x-Axis
-	    								data.setValue(f, 0, result[i][2]);
+	    								data.setValue(f, 0, result[g][3]);
 	    								//adding values
-	    								data.setCell(f, j, result[i][3], null, null);
-	    								f++;
+	    								data.setCell(f, j, result[g][4], null, null);
+	    								f++;	
 	    							}
-	    						}
-	    						//PRODUCTION / IMPORT / EXPORT END
-	    						
+	    							//adding forecast values
+	    							if(j==1){
+	    								int[] forecastValues;
+	    								forecastValues = getForecastValues();
+	    								data.addColumn(ColumnType.NUMBER, "Forecast");
+	    								j++;
+	    								data.setCell(f-1, j, result[g-1][4], null, null);
+		    							for(int b=0; b<3;b++){
+		    								f++;
+		    								int currentYear = (Integer.parseInt(result[g-1][3]) + b + 1);
+		    								data.setValue(f, 0, new Integer(currentYear).toString());
+		    								data.setCell(f, j, forecastValues[b], null, null);	
+		    							}
+		    							
+	    							}
 	    						ImageLineChart widget = new ImageLineChart(data, options);
 	    						RootPanel.get("visualizationContainer").clear();
 	    						RootPanel.get("visualizationContainer").add(widget);
-	    					}
+						}
 						
 						else{
 							System.out.println("no avaialable data");
 							
 						}
 						}
-	    				}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
+						}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
 	    				Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
 	    				ImageLineChart.PACKAGE, ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE,
 	    				ImagePieChart.PACKAGE, IntensityMap.PACKAGE,
 	    				MapVisualization.PACKAGE, MotionChart.PACKAGE, OrgChart.PACKAGE,Table.PACKAGE,
 	    				ImageSparklineChart.PACKAGE);
 					
+			
 		}
 	}
 
