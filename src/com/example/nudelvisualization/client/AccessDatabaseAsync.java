@@ -12,7 +12,7 @@ public interface AccessDatabaseAsync {
 	void getArea(AsyncCallback<String[][]> callback);
 	void getItem(AsyncCallback<String[][]> callback);
 	void getYears(AsyncCallback<String[][]> callback);
-	void getSelectedRows(Configuration config, AsyncCallback<String[][]> callback);
+	void getTableVisualizationData(Configuration config, AsyncCallback<HashMap<String, String[][]>> asyncCallback);
 	void getDataForIntensityMap(Configuration config, AsyncCallback<HashMap<String, String[][]>> callback);
 	void getDataForLineChart(Configuration config,
 			AsyncCallback<HashMap<String, String[][]>> asyncCallback);

@@ -87,15 +87,15 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		}
 		HashMap<String, String[][]> data = new HashMap<String, String[][]>();
 
-		if (config.getSelectedDataSeriesList().contains("1")) {
+		// if (config.getSelectedDataSeriesList().contains("1")) {
 			data.put("production", getProductionIMData(config));
-		}
-		if (config.getSelectedDataSeriesList().contains("2")) {
+		// }
+		/*if (config.getSelectedDataSeriesList().contains("2")) {
 			data.put("import", getTradeIMData(config, 5610));
 		}
 		if (config.getSelectedDataSeriesList().contains("3")) {
 			data.put("export", getTradeIMData(config, 5910));
-		}
+		}*/
 
 		data.put("IsoCode", getISOCodes(config));
 		data.put("population", getPopulation(config));
@@ -107,15 +107,15 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 
 		HashMap<String, String[][]> data = new HashMap<String, String[][]>();
 
-		if (config.getSelectedDataSeriesList().contains("2")) {
+		/*if (config.getSelectedDataSeriesList().contains("2")) {
 			data.put("import", getTradeLCData(config, 5610));
 		}
-		if (config.getSelectedDataSeriesList().contains("1")) {
+		if (config.getSelectedDataSeriesList().contains("1")) {*/
 			data.put("production", getProductionLCData(config));
-		}
+		/*}
 		if (config.getSelectedDataSeriesList().contains("3")) {
 			data.put("export", getTradeLCData(config, 5910));
-		}
+		}*/
 
 		return data;
 	}
@@ -466,7 +466,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 	 *
 	 * @return a 2-dimensional String Array with the rows
 	 */
-	public String[][] getSelectedRows(Configuration config) {
+	public HashMap<String, String[][]> getTableVisualizationData(Configuration config) {
 
 		ArrayList<String[]> returnValue = new ArrayList<>();
 		int nCol = 0;
@@ -490,7 +490,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		 * { query.append(" nudeldb." +
 		 * config.getSelectedDataSeriesList().get(i) + ","); }
 		 */
-		query.append(" nudeldb.production");
+		query.append(" nudeldb.production NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items");
 		query.append(" WHERE (AreaCode =");
 		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
 			query.append(" ? OR AreaCode =");
@@ -542,7 +542,9 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		for (int i = 0; i < returnValue.size(); i++) {
 			returnValuesStrings[i] = returnValue.get(i);
 		}
-		return returnValuesStrings;
+		HashMap<String, String[][]> data = new HashMap<>();
+		data.put("Production", returnValuesStrings);
+		return data;
 	}
 
 	public HashMap<String, List<String[]>> getDataForColumnChart(Configuration config) {
