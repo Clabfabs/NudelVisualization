@@ -100,14 +100,6 @@ public class IntensityMapVisualization extends Visualization {
 						//get all isoCodes of the selectedAreas
 						String [] configIsoCodes = new String[config.getSelectedAreaList().size()];
 						configIsoCodes = getIsocodeOfSelectedArea(config,IsoCodes);
-//						for (int i = 0; i< configIsoCodes.length; i++){
-//							for (int j= 0; j< IsoCodes.length; j++){
-//								if (config.getSelectedAreaList().get(i).equals(IsoCodes[j][0])){
-//									configIsoCodes[i] = IsoCodes[j][1];
-//								}
-//							}
-//						}
-//						
 						//iterate through all selected Areas
 						double sumAllData = 0;
 						int counter = 0;

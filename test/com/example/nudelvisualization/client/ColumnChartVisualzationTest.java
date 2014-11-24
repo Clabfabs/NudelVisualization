@@ -26,12 +26,6 @@ public class ColumnChartVisualzationTest {
 	 * 
 	 * The test did work. 
 	 * 
-	 * The test did fail because of the following reason: We are using here a
-	 * DataTable dataTable which is required for our GWT Visualization. However,
-	 * this class consists of native methods that only work when the app is
-	 * running, which is not the case in a test. That is the reason why GWT can
-	 * not provide us these methods. This leads us to the fact that it's going
-	 * to be difficult to test this function...
 	 */
 	@Test
 	
