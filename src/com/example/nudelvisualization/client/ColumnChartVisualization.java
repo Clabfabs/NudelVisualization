@@ -35,25 +35,42 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.ibm.icu.util.BytesTrie.Result;
 
 public class ColumnChartVisualization extends Visualization {
-	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);
 	HashMap<String, List<String[]>> data = null;
 
 	public ColumnChartVisualization(Configuration config) {
 		super(config);
-		initialize();
 		// TODO Auto-generated constructor stub
 	}
 
-	public DataTable insertYearsIntoDataTable(DataTable dataTable, Configuration config) {
-		int nrOfYears = config.getSelectedYearsList().size();
+	
+	public String[][] fillTable(HashMap<String, List<String[]>> hashmap, Configuration config, String areaName){
+		int column = config.getSelectedItemsList().size();
+		int row = config.getSelectedYearsList().size();
+		String[][] result = new String[row][column+1];
+		List<String[]> areaYearItemList = hashmap.get(areaName);
+		
+		for (int y = 0; y < row; y++) {
+			String year = config.getSelectedYearsList().get(y);
 
-		for (int j = 0; j < nrOfYears; j++) {
-			dataTable.setValue(j, 0, config.getSelectedYearsList().get(j));
+			for (int it = 0; it < column; it++) {
+				String item = config.getSelectedItemNameList().get(it);
+
+
+				if (hashmap.containsKey(areaName)) {
+					for (String[] yearItems : areaYearItemList) {
+						if (yearItems[0].equals(year) && yearItems[1].equals(item)) {
+							result[y][0] = config.getSelectedYearsList().get(y);
+							result[y][it + 1] =  yearItems[2];
+						}
+					}
+				}
+			}
 		}
-		return dataTable;
+		return result;
 	}
 
-	private void initialize() {
+	public void initialize() {
+		AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);
 		dataAccessSocket.getDataForColumnChart(config, new AsyncCallback<HashMap<String, List<String[]>>>() {
 			public void onFailure(Throwable caught) {
 				System.out.println("Communication with server failed");
@@ -95,31 +112,15 @@ public class ColumnChartVisualization extends Visualization {
 					}
 					// insert rows
 					dataTable.addRows(nrOfYears);
-					// insert Years in first column of dataTable
-					dataTable = insertYearsIntoDataTable(dataTable, config);
-
-					// insert production amount for Items in dataTable.
-					// We check whether a item in a particular country
-					// and year is produced.
-
-					for (int y = 0; y < nrOfYears; y++) {
-						String year = config.getSelectedYearsList().get(y);
-
-						for (int it = 0; it < nrOfItems; it++) {
-							String item = config.getSelectedItemNameList().get(it);
-
-							dataTable.setValue(y, it + 1, 0);
-
-							if (data.containsKey(areaName)) {
-								for (String[] yearItems : areaYearItemList) {
-									if (yearItems[0].equals(year) && yearItems[1].equals(item)) {
-										dataTable.setValue(y, it + 1, yearItems[2]);
-									}
-								}
-							}
+					
+					String [][] table = new String[nrOfYears][nrOfItems+1];
+					table = fillTable(data, config, areaName);
+					//fill dataTable based on table
+					for (int i = 0; i<nrOfYears; i++){
+						for (int j = 0; j<= nrOfItems; j++){
+							dataTable.setValue(i, j, table[i][j]);
 						}
 					}
-
 					ColumnChart colChart = new ColumnChart(dataTable, options);
 					RootPanel.get("visualizationContainer").add(colChart);
 				}

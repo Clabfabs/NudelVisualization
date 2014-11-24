@@ -34,7 +34,6 @@ import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 public class IntensityMapVisualization extends Visualization {
 
 
-	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
 	String [][] IsoCodes = null;
 	String [][] result = null;
 	String [][] populationData = null;
@@ -45,10 +44,24 @@ public class IntensityMapVisualization extends Visualization {
 
 	public IntensityMapVisualization(Configuration config) {
 		super(config);
-		initialize();
 	}
 	
-	private void initialize() {
+	public String[] getIsocodeOfSelectedArea(Configuration config, String[][] IsoCodes){
+		String [] configIsoCodes = new String[config.getSelectedAreaList().size()];
+		for (int i = 0; i< configIsoCodes.length; i++){
+			for (int j= 0; j< IsoCodes.length; j++){
+				if (config.getSelectedAreaList().get(i).equals(IsoCodes[j][0])){
+					configIsoCodes[i] = IsoCodes[j][1];
+				}
+			}
+		}
+		
+		return configIsoCodes;
+	}
+	
+	
+	public void initialize() {
+		AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
 		dataAccessSocket.getDataForIntensityMap(config, new AsyncCallback<HashMap<String, String[][]>>() {
 			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
 			public void onSuccess(final HashMap<String, String[][]> data) { 
@@ -86,14 +99,15 @@ public class IntensityMapVisualization extends Visualization {
 
 						//get all isoCodes of the selectedAreas
 						String [] configIsoCodes = new String[config.getSelectedAreaList().size()];
-						for (int i = 0; i< configIsoCodes.length; i++){
-							for (int j= 0; j< IsoCodes.length; j++){
-								if (config.getSelectedAreaList().get(i).equals(IsoCodes[j][0])){
-									configIsoCodes[i] = IsoCodes[j][1];
-								}
-							}
-						}
-						
+						configIsoCodes = getIsocodeOfSelectedArea(config,IsoCodes);
+//						for (int i = 0; i< configIsoCodes.length; i++){
+//							for (int j= 0; j< IsoCodes.length; j++){
+//								if (config.getSelectedAreaList().get(i).equals(IsoCodes[j][0])){
+//									configIsoCodes[i] = IsoCodes[j][1];
+//								}
+//							}
+//						}
+//						
 						//iterate through all selected Areas
 						double sumAllData = 0;
 						int counter = 0;

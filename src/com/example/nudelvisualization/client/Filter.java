@@ -179,14 +179,18 @@ public class Filter {
 
 	public void drawIntensityMap(Configuration config) {
 		IntensityMapVisualization map = new IntensityMapVisualization(config);
+		map.initialize();
+
 	}
 	
 	public void drawLineChart(Configuration config) {
 		LineChartVisualization map = new LineChartVisualization(config);
+		
 	}
 
 	public void drawColumnChart(Configuration config) {
 		ColumnChartVisualization map = new ColumnChartVisualization(config);
+		map.initialize();
 	}
 	
 	
