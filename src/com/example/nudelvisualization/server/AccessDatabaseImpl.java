@@ -81,20 +81,18 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 	 */
 	public HashMap<String, String[][]> getDataForIntensityMap(
 			Configuration config) {
-		for (String s : config.getSelectedDataSeriesList()) {
-			System.out.println(config.getSelectedDataSeriesList());
-		}
+
 		HashMap<String, String[][]> data = new HashMap<String, String[][]>();
 
-		// if (config.getSelectedDataSeriesList().contains("1")) {
+		if (config.getSelectedDataSeriesList().contains("1")) {
 			data.put("production", getProductionIMData(config));
-		// }
-		/*if (config.getSelectedDataSeriesList().contains("2")) {
+		}
+		if (config.getSelectedDataSeriesList().contains("2")) {
 			data.put("import", getTradeIMData(config, 5610));
 		}
 		if (config.getSelectedDataSeriesList().contains("3")) {
 			data.put("export", getTradeIMData(config, 5910));
-		}*/
+		}
 
 		data.put("IsoCode", getISOCodes(config));
 		data.put("population", getPopulation(config));
@@ -106,15 +104,15 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 
 		HashMap<String, String[][]> data = new HashMap<String, String[][]>();
 
-		/*if (config.getSelectedDataSeriesList().contains("2")) {
+		if (config.getSelectedDataSeriesList().contains("1")) {
+			data.put("production", getProductionLCData(config));
+		}
+		if (config.getSelectedDataSeriesList().contains("2")) {
 			data.put("import", getTradeLCData(config, 5610));
 		}
-		if (config.getSelectedDataSeriesList().contains("1")) {*/
-			data.put("production", getProductionLCData(config));
-		/*}
 		if (config.getSelectedDataSeriesList().contains("3")) {
 			data.put("export", getTradeLCData(config, 5910));
-		}*/
+		}
 
 		return data;
 	}
