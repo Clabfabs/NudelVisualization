@@ -192,6 +192,11 @@ public class Filter {
 		ColumnChartVisualization map = new ColumnChartVisualization(config);
 		map.initialize();
 	}
+	public void drawGeoMap(Configuration config) {
+		GeoMapVisualization map = new GeoMapVisualization(config);
+		map.initialize();
+		
+	}
 	
 	
 }

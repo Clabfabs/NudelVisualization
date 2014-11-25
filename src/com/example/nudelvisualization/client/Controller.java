@@ -20,6 +20,7 @@ public class Controller implements EntryPoint {
     private Button buttonTable = new Button("Table");
     private Button buttonIntensityMap = new Button("Intensity Map");
     private Button buttonColumnChart = new Button("Chart");
+    private Button buttonGeoMap = new Button("Geo Map");
     private Button buttonLineChart = new Button("Line Chart");
     private ListBox lbArea = new ListBox(true);
     private ListBox lbYear = new ListBox(true);
@@ -92,6 +93,17 @@ public class Controller implements EntryPoint {
 	    	} 
 	    });
 	    
+	    buttonGeoMap.addClickHandler(new ClickHandler() {
+	    	@Override
+	    	public void onClick(ClickEvent event) {
+	    		updateFilter(lbArea, lbYear, lbDataSeries, lbItems );
+	    		if (isValidInput()) {
+	    			filter.drawGeoMap(config);
+	    		} else System.out.println("Invalid input");
+
+	    	} 
+	    });
+	    
 	    // Button to initialize ColumnChart
 	    buttonColumnChart.addClickHandler(new ClickHandler(){
 	    	@Override
@@ -108,6 +120,7 @@ public class Controller implements EntryPoint {
 	    buttons.add(buttonIntensityMap);
 	    buttons.add(buttonColumnChart);
 	    buttons.add(buttonLineChart);
+	    buttons.add(buttonGeoMap);
 	    filterHorizontalPanel.add(gridYear);
 	    filterHorizontalPanel.add(lbArea);
 	    filterHorizontalPanel.add(lbYear);
