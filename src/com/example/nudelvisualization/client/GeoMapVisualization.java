@@ -36,8 +36,10 @@ public class GeoMapVisualization extends Visualization {
 
 
 	String [][] IsoCodes = null;
-	String [][] result = null;
+	String [][] productionresult = null;
 	String [][] populationData = null;
+	String [][] importresult = null;
+	String [][] exportresult = null;
 	
 	public GeoMapVisualization(){
 		
@@ -67,16 +69,19 @@ public class GeoMapVisualization extends Visualization {
 			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
 			public void onSuccess(final HashMap<String, String[][]> data) { 
 				IsoCodes = data.get("IsoCode");
+				
 				populationData = data.get("population");
 				
-				/* Idea how you could draw your visualizations per dataseries
-				for (String s : config.getSelectedDataSeriesList()) {
-					result = data.get(s);
+				if (config.getSelectedDataSeriesList().contains("1")) {
+					productionresult = data.get("production");
 				}
-				*/
-				
+				if (config.getSelectedDataSeriesList().contains("2")) {
+					importresult = data.get("production");
+				}
+				if (config.getSelectedDataSeriesList().contains("3")) {
+					exportresult = data.get("production");
+				}
 				// Until then, let's just take "production"
-				result = data.get("production");
 				draw();
 			}	
 		});	
@@ -97,6 +102,7 @@ public class GeoMapVisualization extends Visualization {
 						//add data to IntensityMap
 						DataTable data = DataTable.create();
 						data.addColumn(ColumnType.STRING, "Country");
+						
 						data.addColumn(ColumnType.NUMBER, "Production per capita");
 
 						//get all isoCodes of the selectedAreas
@@ -109,31 +115,31 @@ public class GeoMapVisualization extends Visualization {
 						for (int j = 0; j<configIsoCodes.length; j++){
 							//if the selected Area is a country:
 							if (!(configIsoCodes[j].equals(".."))){
-							//gather value of data
-							for (int i= 1; i< result.length; i++){
-								if (result[i][0].equals(config.getSelectedAreaList().get(j))){
-								if (!(result[i][3].isEmpty())){ //get rid of exceptions
-									//compare it with population
-									for (int y = 0; y< populationData.length; y++){
-										if(populationData[y][1].equals(result[i][1])){
-											//add up all dataValues
-											int valueAsDouble = Integer.valueOf(result[i][3]);
-											int populationAsDouble = Integer.valueOf(populationData[y][2]);
-											sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
-											//sumAllDataInt = (int) sumAllData;
+								//gather value of data
+								for (int i= 1; i< productionresult.length; i++){
+									if (productionresult[i][0].equals(config.getSelectedAreaList().get(j))){
+										if (!(productionresult[i][3].isEmpty())){ //get rid of exceptions
+											//compare it with population
+											for (int y = 0; y< populationData.length; y++){
+												if(populationData[y][1].equals(productionresult[i][1])){
+													//add up all dataValues
+													int valueAsDouble = Integer.valueOf(productionresult[i][3]);
+													int populationAsDouble = Integer.valueOf(populationData[y][2]);
+													sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
+													//sumAllDataInt = (int) sumAllData;
+												}
+											}
+										}
 									}
 								}
+
+								//add selected country with value of sumAllData. If there is no data, sumAllData = 0
+								data.addRow();
+								data.setValue(counter, 0, configIsoCodes[j]);
+								data.setValue(counter, 1, sumAllData);
+								sumAllData = 0;
+								counter++;
 							}
-							}
-							}
-							
-							//add selected country with value of sumAllData. If there is no data, sumAllData = 0
-							data.addRow();
-							data.setValue(counter, 0, configIsoCodes[j]);
-							data.setValue(counter, 1, sumAllData);
-							sumAllData = 0;
-							counter++;
-						}
 						}
 						//gather selected years and items for the comment underneath the visualization
 						String allSelectedYears = "";
@@ -144,10 +150,10 @@ public class GeoMapVisualization extends Visualization {
 							allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i)) +", ";	
 						}
 						}
-						String allSelectedItems = result[0][2]+ " ";
-						for (int i = 1; i<result.length; i++){
-							if (result[i][2].equals(result[i-1][2])==false){
-							allSelectedItems = (allSelectedItems.concat(result[i][2])) + ", ";	
+						String allSelectedItems = productionresult[0][2]+ " ";
+						for (int i = 1; i<productionresult.length; i++){
+							if (productionresult[i][2].equals(productionresult[i-1][2])==false){
+							allSelectedItems = (allSelectedItems.concat(productionresult[i][2])) + ", ";	
 						}
 						}
 						TextArea text = new TextArea();
