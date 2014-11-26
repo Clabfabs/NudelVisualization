@@ -11,9 +11,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("accessDatabase")
 public interface AccessDatabase extends RemoteService {
-	String[][] getArea();
-	String[][] getItem();
-	String[][] getYears();
+	HashMap<String, String[][]> getInitialData();
 	HashMap<String, String[][]> getTableVisualizationData(Configuration config);
 	HashMap<String, String[][]> getDataForIntensityMap(Configuration config);
 	HashMap<String, String[][]> getDataForLineChart(Configuration config);

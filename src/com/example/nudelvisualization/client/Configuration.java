@@ -3,6 +3,7 @@ package com.example.nudelvisualization.client;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class Configuration implements Serializable {
 
 	/**

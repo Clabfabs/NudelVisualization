@@ -52,6 +52,15 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public HashMap<String, String[][]> getInitialData() {
+		HashMap<String, String[][]> data = new HashMap<>();
+		data.put("area", getArea());
+		data.put("items", getItem());
+		data.put("years", getYears());
+		return data;
+	}
 
 	public String[][] getArea() {
 		String sql = "SELECT AreaCode, AreaName FROM nudeldb.countries";
@@ -79,8 +88,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 	 * 
 	 * @return a HashMap  with all the required tables as 2-dimensional String arrays
 	 */
-	public HashMap<String, String[][]> getDataForIntensityMap(
-			Configuration config) {
+	public HashMap<String, String[][]> getDataForIntensityMap(Configuration config) {
 
 		HashMap<String, String[][]> data = new HashMap<String, String[][]>();
 
@@ -122,7 +130,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		int nCol = 0;
 		System.out.println("trying query");
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT AreaCode, ISOCode FROM nudeldb.countries WHERE (AreaCode =");
+		query.append("SELECT AreaCode, ISOCode, AreaName FROM nudeldb.countries WHERE (AreaCode =");
 		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
 			query.append(" ? OR AreaCode =");
 		}
@@ -652,4 +660,5 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 
 		return returnValuesStrings;
 	}
+
 }

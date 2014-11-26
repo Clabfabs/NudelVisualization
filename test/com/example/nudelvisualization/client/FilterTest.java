@@ -44,7 +44,7 @@ public class FilterTest{
 		result.add(new Year("2010"));
 		result.add(new Year("2011"));
 		
-		Filter filter = new Filter(null, null, null);
+		Filter filter = new Filter();
 		filter.addYears();
 		assertEquals(result, filter.getYears());
 	}
@@ -58,7 +58,7 @@ public class FilterTest{
 		result.add(new DataSeries ("2", "import"));
 		result.add(new DataSeries ("3", "production"));
 		
-		Filter filter = new Filter(null, null, null);
+		Filter filter = new Filter();
 		filter.setDataSeries();
 		assertEquals(result, filter.getDataSeries());
 		

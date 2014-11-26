@@ -9,13 +9,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * The async counterpart of <code>AccessDatabase</code>.
  */
 public interface AccessDatabaseAsync {
-	void getArea(AsyncCallback<String[][]> callback);
-	void getItem(AsyncCallback<String[][]> callback);
-	void getYears(AsyncCallback<String[][]> callback);
+	void getInitialData(AsyncCallback<HashMap<String, String[][]>> callback);
 	void getTableVisualizationData(Configuration config, AsyncCallback<HashMap<String, String[][]>> asyncCallback);
 	void getDataForIntensityMap(Configuration config, AsyncCallback<HashMap<String, String[][]>> callback);
-	void getDataForLineChart(Configuration config,
-			AsyncCallback<HashMap<String, String[][]>> asyncCallback);
-	void getDataForColumnChart(Configuration config,
-			AsyncCallback<HashMap<String, List<String[]>>> asyncCallback);
+	void getDataForLineChart(Configuration config, AsyncCallback<HashMap<String, String[][]>> asyncCallback);
+	void getDataForColumnChart(Configuration config, AsyncCallback<HashMap<String, List<String[]>>> asyncCallback);
 }
