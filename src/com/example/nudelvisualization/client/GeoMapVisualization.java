@@ -26,15 +26,15 @@ import com.google.gwt.visualization.client.visualizations.OrgChart;
 import com.google.gwt.visualization.client.visualizations.Table;
 import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 
-/*
- * TO DOS: 	
- * 			- Karte grösser.
- * 			- Kommentar optimieren und ohne Kasten. 
- * 			
- */
 public class GeoMapVisualization extends Visualization {
 
-
+	/*
+	 * TO DO's
+	 * - Exception wenn man nur Import oder Export anwählt--> Warum?! (result ist dann null)
+	 * - Beschriftung!!
+	 * - Methode, die Land überprüft und dann den richtigen Namen gibt. 
+	 * 
+	 * */
 	String [][] IsoCodes = null;
 	String [][] productionresult = null;
 	String [][] populationData = null;
@@ -69,10 +69,91 @@ public class GeoMapVisualization extends Visualization {
 				if (config.getSelectedDataSeriesList().contains("3")) {
 					exportresult = data.get("production");
 				}
-				// Until then, let's just take "production"
+				//new config: delete former Map
+				RootPanel.get("visualizationContainer").clear();
 				draw();
 			}	
 		});	
+	}
+	
+	private void drawGeoMap(String dataSerie, String result[][]){
+		for (int i = 0; i< IsoCodes.length; i++){
+			for (int j = 0; j< IsoCodes[0].length; j++){
+				System.out.println(IsoCodes[i][j]);
+			}
+		}
+		//create GeoMap
+		GeoMap.Options options = GeoMap.Options.create();
+		options.setRegion("world");
+		options.setShowLegend(true);
+		options.setSize(1000, 500);
+		
+
+		//add data to GeoMap
+		DataTable data = DataTable.create();
+		data.addColumn(ColumnType.STRING, dataSerie);
+		data.addColumn(ColumnType.NUMBER, dataSerie+ " per capita");
+		
+
+		int sumAllData = 0;
+		int counter = 0;
+		
+		for (int j = 0; j<IsoCodes.length; j++){
+			//if the selected Area is a country:
+			if (!(IsoCodes[j][2].equals(".."))){
+				//gather value of data
+				for (int i= 0; i< result.length; i++){
+					if (result[i][0].equals(config.getSelectedAreaList().get(j))){
+						if (!(result[i][3].isEmpty())){ //get rid of exceptions
+							//compare it with population
+							for (int y = 0; y< populationData.length; y++){
+								if(populationData[y][1].equals(result[i][1])){
+									//add up all dataValues
+									int valueAsDouble = Integer.valueOf(result[i][3]);
+									int populationAsDouble = Integer.valueOf(populationData[y][2]);
+									sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
+									
+								}
+							}
+						}
+					}
+				}
+
+				//add selected country with value of sumAllData. If there is no data, sumAllData = 0
+				data.addRow();
+				data.setValue(counter, 0, IsoCodes[j][2]);
+				data.setValue(counter, 1 , sumAllData);
+				sumAllData = 0;
+				counter++;
+				
+			}
+		}
+		//gather selected years and items for the comment underneath the visualization
+		String allSelectedYears = "";
+		for (int i = 0; i<config.getSelectedYearsList().size(); i++){
+			if (i==(config.getSelectedYearsList().size()-1)){
+				allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i));		
+			}else{
+			allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i)) +", ";	
+		}
+		}
+		String allSelectedItems = result[0][2]+ " ";
+		for (int i = 1; i< result.length; i++){
+			if (result[i][2].equals(result[i-1][2])==false){
+			allSelectedItems = (allSelectedItems.concat(result[i][2])) + ", ";	
+		}
+		}
+		TextArea text = new TextArea();
+		text.removeStyleName("TextArea");//doesn't function yet
+		text.addStyleName("TextAreaNew");//doesn't function yet
+		text.setReadOnly(true);
+		text.setPixelSize(430, 30);
+		text.setText(dataSerie+ " in tonnes divided through population" + " of " + allSelectedItems + "in " + allSelectedYears + ".");
+		GeoMap widget = new GeoMap(data, options);
+		
+		RootPanel.get("visualizationContainer").add(widget);
+		RootPanel.get("visualizationContainer").add(text);
+		
 	}
 
 	@Override
@@ -80,83 +161,22 @@ public class GeoMapVisualization extends Visualization {
 		VisualizationUtils.loadVisualizationApi(
 				new Runnable() {
 					public void run() {
-						for (int i = 0; i< IsoCodes.length; i++){
-							for (int j = 0; j< IsoCodes[0].length; j++){
-								System.out.println(IsoCodes[i][j]);
-							}
-						}
-						//create IntensityMap
-						GeoMap.Options options = GeoMap.Options.create();
-						options.setRegion("world");
-						options.setShowLegend(true);
-						options.setSize(1000, 500);
-
-						//add data to IntensityMap
-						DataTable data = DataTable.create();
-						data.addColumn(ColumnType.STRING, "Country");
 						
-						data.addColumn(ColumnType.NUMBER, "Production per capita");
-
-						//get all isoCodes of the selectedAreas
 						
-						//iterate through all selected Areas
-						int sumAllData = 0;
-						//int sumAllDataInt = 0;
-						int counter = 0;
-						for (int j = 0; j<IsoCodes.length; j++){
-							//if the selected Area is a country:
-							if (!(IsoCodes[j][2].equals(".."))){
-								//gather value of data
-								for (int i= 1; i< productionresult.length; i++){
-									if (productionresult[i][0].equals(config.getSelectedAreaList().get(j))){
-										if (!(productionresult[i][3].isEmpty())){ //get rid of exceptions
-											//compare it with population
-											for (int y = 0; y< populationData.length; y++){
-												if(populationData[y][1].equals(productionresult[i][1])){
-													//add up all dataValues
-													int valueAsDouble = Integer.valueOf(productionresult[i][3]);
-													int populationAsDouble = Integer.valueOf(populationData[y][2]);
-													sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
-													//sumAllDataInt = (int) sumAllData;
-												}
-											}
-										}
-									}
-								}
-
-								//add selected country with value of sumAllData. If there is no data, sumAllData = 0
-								data.addRow();
-								data.setValue(counter, 0, IsoCodes[j][2]);
-								data.setValue(counter, 1, sumAllData);
-								sumAllData = 0;
-								counter++;
-							}
+						if (config.getSelectedDataSeriesList().contains("1")) {
+							drawGeoMap("Production", productionresult);
+							
 						}
-						//gather selected years and items for the comment underneath the visualization
-						String allSelectedYears = "";
-						for (int i = 0; i<config.getSelectedYearsList().size(); i++){
-							if (i==(config.getSelectedYearsList().size()-1)){
-								allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i));		
-							}else{
-							allSelectedYears = allSelectedYears.concat(config.getSelectedYearsList().get(i)) +", ";	
+						if (config.getSelectedDataSeriesList().contains("2")) {
+							drawGeoMap("Import", importresult);
+							
 						}
+						if (config.getSelectedDataSeriesList().contains("3")) {
+							drawGeoMap("Export", exportresult);
+							
 						}
-						String allSelectedItems = productionresult[0][2]+ " ";
-						for (int i = 1; i<productionresult.length; i++){
-							if (productionresult[i][2].equals(productionresult[i-1][2])==false){
-							allSelectedItems = (allSelectedItems.concat(productionresult[i][2])) + ", ";	
-						}
-						}
-						TextArea text = new TextArea();
-						text.removeStyleName("TextArea");//doesn't function yet
-						text.addStyleName("TextAreaNew");//doesn't function yet
-						text.setReadOnly(true);
-						text.setPixelSize(430, 30);
-						text.setText("Production in tonnes divided through population" + " of " + allSelectedItems + "in " + allSelectedYears + ".");
-						GeoMap widget = new GeoMap(data, options);
-						RootPanel.get("visualizationContainer").clear();
-						RootPanel.get("visualizationContainer").add(widget);
-						RootPanel.get("visualizationContainer").add(text);
+						
+						
 					}
 					
 				}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
