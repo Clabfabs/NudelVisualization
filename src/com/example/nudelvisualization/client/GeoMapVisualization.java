@@ -49,18 +49,6 @@ public class GeoMapVisualization extends Visualization {
 		super(config);
 	}
 	
-	public String[] getIsocodeOfSelectedArea(Configuration config, String[][] IsoCodes){
-		String [] configIsoCodes = new String[config.getSelectedAreaList().size()];
-		for (int i = 0; i< configIsoCodes.length; i++){
-			for (int j= 0; j< IsoCodes.length; j++){
-				if (config.getSelectedAreaList().get(i).equals(IsoCodes[j][0])){
-					configIsoCodes[i] = IsoCodes[j][1];
-				}
-			}
-		}
-		
-		return configIsoCodes;
-	}
 	
 	
 	public void initialize() {
@@ -92,7 +80,11 @@ public class GeoMapVisualization extends Visualization {
 		VisualizationUtils.loadVisualizationApi(
 				new Runnable() {
 					public void run() {
-
+						for (int i = 0; i< IsoCodes.length; i++){
+							for (int j = 0; j< IsoCodes[0].length; j++){
+								System.out.println(IsoCodes[i][j]);
+							}
+						}
 						//create IntensityMap
 						GeoMap.Options options = GeoMap.Options.create();
 						options.setRegion("world");
@@ -106,15 +98,14 @@ public class GeoMapVisualization extends Visualization {
 						data.addColumn(ColumnType.NUMBER, "Production per capita");
 
 						//get all isoCodes of the selectedAreas
-						String [] configIsoCodes = new String[config.getSelectedAreaList().size()];
-						configIsoCodes = getIsocodeOfSelectedArea(config,IsoCodes);
+						
 						//iterate through all selected Areas
 						int sumAllData = 0;
 						//int sumAllDataInt = 0;
 						int counter = 0;
-						for (int j = 0; j<configIsoCodes.length; j++){
+						for (int j = 0; j<IsoCodes.length; j++){
 							//if the selected Area is a country:
-							if (!(configIsoCodes[j].equals(".."))){
+							if (!(IsoCodes[j][2].equals(".."))){
 								//gather value of data
 								for (int i= 1; i< productionresult.length; i++){
 									if (productionresult[i][0].equals(config.getSelectedAreaList().get(j))){
@@ -135,7 +126,7 @@ public class GeoMapVisualization extends Visualization {
 
 								//add selected country with value of sumAllData. If there is no data, sumAllData = 0
 								data.addRow();
-								data.setValue(counter, 0, configIsoCodes[j]);
+								data.setValue(counter, 0, IsoCodes[j][2]);
 								data.setValue(counter, 1, sumAllData);
 								sumAllData = 0;
 								counter++;
