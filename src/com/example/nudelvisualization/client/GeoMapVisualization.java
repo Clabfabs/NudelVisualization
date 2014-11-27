@@ -110,12 +110,10 @@ public class GeoMapVisualization extends Visualization {
 
 	private void drawGeoMap(String dataSerie, String result[][]){
 		
-		// Idee für Fenster, funktioniert aber noch nicht. 
-		/*boolean noCountryArea = false;
-		
+		boolean noCountryArea = false;
 		for (int j = 0; j<IsoCodes.length; j++){
-			//if the selected Area is a country:
-			if (IsoCodes[j][2].equals("..")){
+			//if the selected Area is not a country:
+			if (IsoCodes[j][1].equals("..")){
 				noCountryArea = true;
 			}else{
 				noCountryArea = false;
@@ -124,35 +122,29 @@ public class GeoMapVisualization extends Visualization {
 		}
 		}
 		
-		newSymbolTextBox.setFocus(true);
 		if (noCountryArea){
-			Window.alert(" is not a valid symbol.");
-			
-		      newSymbolTextBox.selectAll();
-		      return;
+		//hier kommt das Fenster rein. 
 		}
-		
-		newSymbolTextBox.setText("");*/
+	
 		
 		//create GeoMap
 		GeoMap.Options options = GeoMap.Options.create();
 		options.setRegion("world");
 		options.setShowLegend(true);
 		options.setSize(1000, 500);
+		options.setShowLegend(true);
 		
 		//add data to GeoMap
 		DataTable data = DataTable.create();
 		data.addColumn(ColumnType.STRING, dataSerie);
 		data.addColumn(ColumnType.NUMBER, dataSerie+ " per capita");
 		
-		
-		
 		int sumAllData = 0;
 		int counter = 0;
 		
 		for (int j = 0; j<IsoCodes.length; j++){
 			//if the selected Area is a country:
-			if (!(IsoCodes[j][2].equals(".."))){
+			if (!(IsoCodes[j][1].equals(".."))){
 				//gather value of data
 				for (int i= 0; i< result.length; i++){
 					if (result[i][0].equals(config.getSelectedAreaList().get(j))){
