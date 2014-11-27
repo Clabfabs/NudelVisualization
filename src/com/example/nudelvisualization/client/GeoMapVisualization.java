@@ -4,8 +4,10 @@ import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
@@ -32,6 +34,7 @@ public class GeoMapVisualization extends Visualization {
 	 * - Exception wenn man nur Import oder Export anwählt--> Warum?! (result ist dann null)
 	 * - Beschriftung --> ev. Production fett und oben, Absätze
 	 * - Methode, die Land überprüft und dann den richtigen Namen ausgibt oder Datenbank änderen... 
+	 * - Fenster wenn nicht Land angewählt wurde
 	 * 
 	 * */
 	String [][] IsoCodes = null;
@@ -39,6 +42,7 @@ public class GeoMapVisualization extends Visualization {
 	String [][] populationData = null;
 	String [][] importresult = null;
 	String [][] exportresult = null;
+	private TextBox newSymbolTextBox = new TextBox(); 
 	
 	public GeoMapVisualization(){
 		
@@ -105,6 +109,31 @@ public class GeoMapVisualization extends Visualization {
 	
 
 	private void drawGeoMap(String dataSerie, String result[][]){
+		
+		// Idee für Fenster, funktioniert aber noch nicht. 
+		/*boolean noCountryArea = false;
+		
+		for (int j = 0; j<IsoCodes.length; j++){
+			//if the selected Area is a country:
+			if (IsoCodes[j][2].equals("..")){
+				noCountryArea = true;
+			}else{
+				noCountryArea = false;
+				break;
+			
+		}
+		}
+		
+		newSymbolTextBox.setFocus(true);
+		if (noCountryArea){
+			Window.alert(" is not a valid symbol.");
+			
+		      newSymbolTextBox.selectAll();
+		      return;
+		}
+		
+		newSymbolTextBox.setText("");*/
+		
 		//create GeoMap
 		GeoMap.Options options = GeoMap.Options.create();
 		options.setRegion("world");
@@ -115,6 +144,8 @@ public class GeoMapVisualization extends Visualization {
 		DataTable data = DataTable.create();
 		data.addColumn(ColumnType.STRING, dataSerie);
 		data.addColumn(ColumnType.NUMBER, dataSerie+ " per capita");
+		
+		
 		
 		int sumAllData = 0;
 		int counter = 0;
