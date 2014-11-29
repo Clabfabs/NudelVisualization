@@ -96,6 +96,7 @@ public class ColumnChartVisualization extends Visualization {
 				hashMapArray.add(dataTriple.getHashMapProduction());
 				hashMapArray.add(dataTriple.getHashMapImport());
 				hashMapArray.add(dataTriple.getHashMapExport());
+				int counter = 0;
 				for (HashMap<String, List<String[]>> hashMap : hashMapArray) {
 					if (hashMap == null){
 						break;
@@ -106,7 +107,7 @@ public class ColumnChartVisualization extends Visualization {
 					int nrOfYears = config.getSelectedYearsList().size();
 
 					//RootPanel.get("visualizationContainer").clear();
-					HorizontalPanel ColumnChartPanel = new HorizontalPanel();
+					VerticalPanel ColumnChartPanel = new VerticalPanel();
 					
 
 					for (String areaName : config.getSelectedAreaNameList()) {
@@ -134,6 +135,7 @@ public class ColumnChartVisualization extends Visualization {
 							}
 						}
 						ColumnChart colChart = new ColumnChart(dataTable, options);
+							
 						ColumnChartPanel.add(colChart);
 						RootPanel.get("visualizationContainer").add(ColumnChartPanel);
 					}

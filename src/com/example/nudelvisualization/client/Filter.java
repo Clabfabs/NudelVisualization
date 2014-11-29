@@ -329,6 +329,7 @@ public class Filter {
 		for (int n = 0; n<lbDataSeriesFilter.getItemCount(); n++){
 			if(lbDataSeriesFilter.isItemSelected(n)){
 				config.addDataSeries(lbDataSeriesFilter.getValue(n));
+				config.addDataSeriesName(lbDataSeriesFilter.getItemText(n));
 			}
 		}
 		

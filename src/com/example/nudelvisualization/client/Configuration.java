@@ -15,6 +15,8 @@ public class Configuration implements Serializable {
 	private ArrayList<String> selctedItemNames = new ArrayList<String>();
 	private ArrayList<String> selectedYears = new ArrayList<String>();
 	private ArrayList<String> selectedDataSeries = new ArrayList<String>();
+	private ArrayList<String> selectedDataSeriesName = new ArrayList<String>();
+
 	private ArrayList<String> titles = new ArrayList<String>();
 
 	
@@ -56,6 +58,10 @@ public class Configuration implements Serializable {
 	public void addDataSeries(String dataSerieID){
 		selectedDataSeries.add(dataSerieID);
 	}
+	
+	public void addDataSeriesName(String dataSerieName){
+		selectedDataSeriesName.add(dataSerieName);
+	}
 
 	public ArrayList<String> getSelectedAreaList(){
 		return selectedArea;
@@ -76,6 +82,10 @@ public class Configuration implements Serializable {
 
 	public ArrayList<String> getSelectedDataSeriesList(){
 		return selectedDataSeries;
+	}
+	
+	public ArrayList<String> getSelectedDataSeriesNameList(){
+		return selectedDataSeriesName;
 	}
 
 	public ArrayList<String> getSelectedTitles(){
