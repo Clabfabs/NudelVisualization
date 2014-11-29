@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.example.nudelvisualization.client.AccessDatabase;
 import com.example.nudelvisualization.client.Configuration;
+import com.example.nudelvisualization.shared.TripleHashMap;
 import com.google.appengine.api.utils.SystemProperty;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -19,8 +20,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server-side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class AccessDatabaseImpl extends RemoteServiceServlet implements
-		AccessDatabase {
+public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDatabase {
 	private Connection conn = null;
 
 	public AccessDatabaseImpl() {
@@ -52,7 +52,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public HashMap<String, String[][]> getInitialData() {
 		HashMap<String, String[][]> data = new HashMap<>();
@@ -483,8 +483,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		} else {
 			int count = 0;
 			for (int i = 0; i < config.getSelectedTitles().size() - 1; i++) {
-				query.append(" " + config.getSelectedTitles().get(count++)
-						+ ",");
+				query.append(" " + config.getSelectedTitles().get(count++) + ",");
 			}
 			query.append(" " + config.getSelectedTitles().get(count) + " ");
 		}
@@ -552,81 +551,99 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements
 		return data;
 	}
 
-	public HashMap<String, List<String[]>> getDataForColumnChart(Configuration config) {
-		int nCol = 0;
-		HashMap<String, List<String[]>> hashMap = new HashMap<String, List<String[]>>();
-		ArrayList<String[]> returnValue = new ArrayList<>();
-
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.production p join nudeldb.countries c on c.AreaCode = p.AreaCode join nudeldb.items i on i.ItemCode = p.ItemCode where ( c.AreaCode = "
-				+ config.getSelectedAreaList().get(0));
-		int a = 1;
-		while (a < config.getSelectedAreaList().size()) {
-			query.append(" or c.AreaCode = "
-					+ config.getSelectedAreaList().get(a));
-			a++;
-		}
-
-		query.append(" ) and ( p.Year = "
-				+ config.getSelectedYearsList().get(0));
-
-		int y = 1;
-		while (y < config.getSelectedYearsList().size()) {
-			query.append(" or p.Year = " + config.getSelectedYearsList().get(y));
-			y++;
-		}
-
-		query.append(" ) and ( i.ItemCode = "
-				+ config.getSelectedItemsList().get(0));
-
-		int it = 1;
-		while (it < config.getSelectedItemsList().size()) {
-			query.append(" or i.ItemCode = "
-					+ config.getSelectedItemsList().get(it));
-			it++;
-		}
-
-		query.append(" )");
-
-		System.out.println(query);
-		try {
-			PreparedStatement select = conn.prepareStatement(query.toString());
-			ResultSet result = select.executeQuery();
-			nCol = result.getMetaData().getColumnCount();
-
-			while (result.next()) {
-				String areaName = result.getString("AreaName");
-				String year = result.getString("Year");
-				String item = result.getString("ItemName");
-				String value = result.getString("Value");
-
-				if (!hashMap.containsKey(areaName)) {
-					hashMap.put(areaName, new ArrayList<String[]>());
-				}
-
-				List<String[]> yearItemList = hashMap.get(areaName);
-				yearItemList.add(new String[] { year, item, value });
-
-				// String[] row = new String[nCol];
-				// for (int iCol = 1; iCol <= nCol; iCol++) {
-				// row[iCol - 1] = result.getString(iCol);
-				// }
-				// returnValue.add(row);
+	public TripleHashMap getDataForColumnChart(Configuration config) {
+		TripleHashMap triple = new TripleHashMap();
+		for (int counter = 0; counter < config.getSelectedDataSeriesList().size(); counter++) {
+			int nCol = 0;
+			HashMap<String, List<String[]>> hashMap = new HashMap<String, List<String[]>>();
+			ArrayList<String[]> returnValue = new ArrayList<>();
+			String dataSeries = config.getSelectedDataSeriesList().get(counter);
+			StringBuilder query = new StringBuilder();
+			if (dataSeries.equals("5510")) {
+				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.production p "
+						+ "join nudeldb.countries c on c.AreaCode = p.AreaCode " + "join nudeldb.items i on i.ItemCode = p.ItemCode "
+						+ "where ( c.AreaCode = " + config.getSelectedAreaList().get(0));
+			} else if (dataSeries.equals("5610")) {
+				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.trade t "
+						+ "join nudeldb.countries c on c.AreaCode = t.AreaCode " + "join nudeldb.items i on i.ItemCode = t.ItemCode "
+						+ "where ( t.elementCode = 5610) and (c.AreaCode = " + config.getSelectedAreaList().get(0));
+			} else if (dataSeries.equals("5910")) {
+				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.trade t "
+						+ "join nudeldb.countries c on c.AreaCode = t.AreaCode " + "join nudeldb.items i on i.ItemCode = t.ItemCode "
+						+ "where ( t.elementCode = 5910) and (c.AreaCode = " + config.getSelectedAreaList().get(0));
 			}
-			result.close();
-			result = null;
-			select.close();
-			select = null;
-		} catch (SQLException e) {
-			System.err.println("Error: queryColumns(): " + query.toString());
-			e.printStackTrace();
-		}
 
-		String[][] returnValuesStrings = new String[returnValue.size()][nCol];
-		for (int i = 0; i < returnValue.size(); i++) {
-			returnValuesStrings[i] = returnValue.get(i);
+			int a = 1;
+			while (a < config.getSelectedAreaList().size()) {
+				query.append(" or c.AreaCode = " + config.getSelectedAreaList().get(a));
+				a++;
+			}
+
+			query.append(" ) and ( p.Year = " + config.getSelectedYearsList().get(0));
+
+			int y = 1;
+			while (y < config.getSelectedYearsList().size()) {
+				query.append(" or p.Year = " + config.getSelectedYearsList().get(y));
+				y++;
+			}
+
+			query.append(" ) and ( i.ItemCode = " + config.getSelectedItemsList().get(0));
+
+			int it = 1;
+			while (it < config.getSelectedItemsList().size()) {
+				query.append(" or i.ItemCode = " + config.getSelectedItemsList().get(it));
+				it++;
+			}
+			query.append(" )");
+
+			System.out.println(query);
+			try {
+				PreparedStatement select = conn.prepareStatement(query.toString());
+				ResultSet result = select.executeQuery();
+				nCol = result.getMetaData().getColumnCount();
+
+				while (result.next()) {
+					String areaName = result.getString("AreaName");
+					String year = result.getString("Year");
+					String item = result.getString("ItemName");
+					String value = result.getString("Value");
+
+					if (!hashMap.containsKey(areaName)) {
+						hashMap.put(areaName, new ArrayList<String[]>());
+					}
+
+					List<String[]> yearItemList = hashMap.get(areaName);
+					yearItemList.add(new String[] { year, item, value });
+
+					// String[] row = new String[nCol];
+					// for (int iCol = 1; iCol <= nCol; iCol++) {
+					// row[iCol - 1] = result.getString(iCol);
+					// }
+					// returnValue.add(row);
+				}
+				result.close();
+				result = null;
+				select.close();
+				select = null;
+			} catch (SQLException e) {
+				System.err.println("Error: queryColumns(): " + query.toString());
+				e.printStackTrace();
+			}
+
+			String[][] returnValuesStrings = new String[returnValue.size()][nCol];
+			for (int i = 0; i < returnValue.size(); i++) {
+				returnValuesStrings[i] = returnValue.get(i);
+			}
+			// fill Triple with different HashMaps.
+			if (dataSeries.equals("5510")) {
+			triple.setHashMapProduction(hashMap);
+			} else if (dataSeries.equals("5610")){
+				triple.setHashMapImport(hashMap);
+			} else if (dataSeries.equals("5910")) {
+				triple.setHashMapExport(hashMap);
+			}
 		}
-		return hashMap;
+		return triple;
 	}
 
 	public String[][] simpleQuery(String sql) {

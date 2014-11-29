@@ -3,6 +3,8 @@ package com.example.nudelvisualization.client;
 import java.util.HashMap;
 import java.util.List;
 
+import com.example.nudelvisualization.shared.TripleHashMap;
+import com.google.gwt.rpc.server.WebModeClientOracle.Triple;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -15,5 +17,5 @@ public interface AccessDatabase extends RemoteService {
 	HashMap<String, String[][]> getTableVisualizationData(Configuration config);
 	HashMap<String, String[][]> getDataForIntensityMap(Configuration config);
 	HashMap<String, String[][]> getDataForLineChart(Configuration config);
-	HashMap<String, List<String[]>> getDataForColumnChart(Configuration config);
+	TripleHashMap getDataForColumnChart(Configuration config);
 }
