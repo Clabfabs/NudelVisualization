@@ -30,7 +30,7 @@ public class Filter {
     private Grid gridYear = new Grid(3, 2);
     private Button buttonTable = new Button("Table");
     private Button buttonIntensityMap = new Button("Intensity Map");
-    private Button buttonColumnChart = new Button("Chart");
+    private Button buttonColumnChart = new Button("Column Chart");
     private Button buttonGeoMap = new Button("Geo Map");
     private Button buttonLineChart = new Button("Line Chart");
 	
