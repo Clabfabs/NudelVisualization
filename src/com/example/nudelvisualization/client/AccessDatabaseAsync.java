@@ -15,5 +15,6 @@ public interface AccessDatabaseAsync {
 	void getTableVisualizationData(Configuration config, AsyncCallback<HashMap<String, String[][]>> asyncCallback);
 	void getDataForIntensityMap(Configuration config, AsyncCallback<HashMap<String, String[][]>> callback);
 	void getDataForLineChart(Configuration config, AsyncCallback<HashMap<String, String[][]>> asyncCallback);
-	void getDataForColumnChart(Configuration config, AsyncCallback<TripleHashMap> asyncCallback);
+	void getDataForColumnChart(Configuration config,
+			AsyncCallback<TripleHashMap> asyncCallback);
 }

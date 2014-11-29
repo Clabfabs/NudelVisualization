@@ -1,5 +1,6 @@
 package com.example.nudelvisualization.server;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -553,24 +554,26 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 
 	public TripleHashMap getDataForColumnChart(Configuration config) {
 		TripleHashMap triple = new TripleHashMap();
+
 		for (int counter = 0; counter < config.getSelectedDataSeriesList().size(); counter++) {
+
 			int nCol = 0;
 			HashMap<String, List<String[]>> hashMap = new HashMap<String, List<String[]>>();
 			ArrayList<String[]> returnValue = new ArrayList<>();
 			String dataSeries = config.getSelectedDataSeriesList().get(counter);
 			StringBuilder query = new StringBuilder();
-			if (dataSeries.equals("5510")) {
+			if (dataSeries.equals("1")) {
 				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.production p "
 						+ "join nudeldb.countries c on c.AreaCode = p.AreaCode " + "join nudeldb.items i on i.ItemCode = p.ItemCode "
 						+ "where ( c.AreaCode = " + config.getSelectedAreaList().get(0));
-			} else if (dataSeries.equals("5610")) {
-				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.trade t "
-						+ "join nudeldb.countries c on c.AreaCode = t.AreaCode " + "join nudeldb.items i on i.ItemCode = t.ItemCode "
-						+ "where ( t.elementCode = 5610) and (c.AreaCode = " + config.getSelectedAreaList().get(0));
-			} else if (dataSeries.equals("5910")) {
-				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.trade t "
-						+ "join nudeldb.countries c on c.AreaCode = t.AreaCode " + "join nudeldb.items i on i.ItemCode = t.ItemCode "
-						+ "where ( t.elementCode = 5910) and (c.AreaCode = " + config.getSelectedAreaList().get(0));
+			} else if (dataSeries.equals("2")) {
+				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.trade p "
+						+ "join nudeldb.countries c on c.AreaCode = p.AreaCode " + "join nudeldb.items i on i.ItemCode = p.ItemCode "
+						+ "where ( p.elementCode = 5610) and (c.AreaCode = " + config.getSelectedAreaList().get(0));
+			} else if (dataSeries.equals("3")) {
+				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.trade p "
+						+ "join nudeldb.countries c on c.AreaCode = p.AreaCode " + "join nudeldb.items i on i.ItemCode = p.ItemCode "
+						+ "where ( p.elementCode = 5910) and (c.AreaCode = " + config.getSelectedAreaList().get(0));
 			}
 
 			int a = 1;
@@ -614,13 +617,15 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 
 					List<String[]> yearItemList = hashMap.get(areaName);
 					yearItemList.add(new String[] { year, item, value });
-
-					// String[] row = new String[nCol];
-					// for (int iCol = 1; iCol <= nCol; iCol++) {
-					// row[iCol - 1] = result.getString(iCol);
-					// }
-					// returnValue.add(row);
 				}
+				if (dataSeries.equals("1")){
+					triple.setHashMapProduction(hashMap);					
+				}else if (dataSeries.equals("2")){
+					triple.setHashMapImport(hashMap);
+				}else if (dataSeries.equals("3")){
+					triple.setHashMapExport(hashMap);
+				}
+				
 				result.close();
 				result = null;
 				select.close();
@@ -634,14 +639,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 			for (int i = 0; i < returnValue.size(); i++) {
 				returnValuesStrings[i] = returnValue.get(i);
 			}
-			// fill Triple with different HashMaps.
-			if (dataSeries.equals("5510")) {
-			triple.setHashMapProduction(hashMap);
-			} else if (dataSeries.equals("5610")){
-				triple.setHashMapImport(hashMap);
-			} else if (dataSeries.equals("5910")) {
-				triple.setHashMapExport(hashMap);
-			}
+
 		}
 		return triple;
 	}

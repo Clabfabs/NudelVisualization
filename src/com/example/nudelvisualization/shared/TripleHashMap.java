@@ -1,13 +1,18 @@
 package com.example.nudelvisualization.shared;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-public class TripleHashMap {
+public class TripleHashMap implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private HashMap<String, List<String[]>> hashMapProduction = null;
 	private HashMap<String, List<String[]>> hashMapImport = null;
 	private HashMap<String, List<String[]>> hashMapExport = null;
-
+	
 	
 	public void setHashMapProduction(HashMap<String, List<String[]>> production){
 		this.hashMapProduction = production;
