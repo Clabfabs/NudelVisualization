@@ -13,6 +13,7 @@ import com.example.nudelvisualization.shared.TripleHashMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
@@ -140,19 +141,23 @@ public class ColumnChartVisualization extends Visualization {
 						
 						columnChartPanel.add(colChart);
 					}
-					String title = null;
+					Label title = null;
 					if(counter==0){
-						framePanel.setTitle("Production");
+						title = new Label("Production");
+						title.addStyleDependentName("titleColumnChartPanel");
+						title.addStyleName("gwt-Label");
 					}else if(counter == 1){
-						framePanel.setTitle("Import");
+						title = new Label("Import");
 					}else if (counter == 2 ){
-						framePanel.setTitle("Export");
+						title = new Label("Export");
 					}
-					framePanel.getTitle();
+					counter++;
+					framePanel.add(title);
 					framePanel.add(columnChartPanel);
 
 				}
 				RootPanel.get("visualizationContainer").add(framePanel);
+				addSource(RootPanel.get("visualizationContainter"));
 			}
 		}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE, Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE, ImageLineChart.PACKAGE,
 				ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE, ImagePieChart.PACKAGE, IntensityMap.PACKAGE, MapVisualization.PACKAGE,

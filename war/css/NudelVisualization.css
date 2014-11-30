@@ -6,11 +6,16 @@
 	margin-left: 5px;
 }
 	
+.gwt-Label {
+	text-align: center;
+	font-size: 16pt;
+}
 
 #filterContainer {
 
 }
 
 #visualizationContainer {
+	
 	
 }
