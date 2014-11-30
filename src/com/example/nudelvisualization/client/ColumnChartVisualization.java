@@ -97,6 +97,8 @@ public class ColumnChartVisualization extends Visualization {
 				hashMapArray.add(dataTriple.getHashMapImport());
 				hashMapArray.add(dataTriple.getHashMapExport());
 				int counter = 0;
+				HorizontalPanel framePanel = new HorizontalPanel();
+				RootPanel.get("visualizationContainer").clear();
 				for (HashMap<String, List<String[]>> hashMap : hashMapArray) {
 					if (hashMap == null){
 						break;
@@ -106,9 +108,9 @@ public class ColumnChartVisualization extends Visualization {
 					int nrOfItems = config.getSelectedItemsList().size();
 					int nrOfYears = config.getSelectedYearsList().size();
 
-					//RootPanel.get("visualizationContainer").clear();
-					VerticalPanel ColumnChartPanel = new VerticalPanel();
+			
 					
+					VerticalPanel columnChartPanel = new VerticalPanel();
 
 					for (String areaName : config.getSelectedAreaNameList()) {
 						List<String[]> areaYearItemList = hashMap.get(areaName);
@@ -135,12 +137,22 @@ public class ColumnChartVisualization extends Visualization {
 							}
 						}
 						ColumnChart colChart = new ColumnChart(dataTable, options);
-							
-						ColumnChartPanel.add(colChart);
-						RootPanel.get("visualizationContainer").add(ColumnChartPanel);
+						
+						columnChartPanel.add(colChart);
 					}
+					String title = null;
+					if(counter==0){
+						framePanel.setTitle("Production");
+					}else if(counter == 1){
+						framePanel.setTitle("Import");
+					}else if (counter == 2 ){
+						framePanel.setTitle("Export");
+					}
+					framePanel.getTitle();
+					framePanel.add(columnChartPanel);
 
 				}
+				RootPanel.get("visualizationContainer").add(framePanel);
 			}
 		}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE, Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE, ImageLineChart.PACKAGE,
 				ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE, ImagePieChart.PACKAGE, IntensityMap.PACKAGE, MapVisualization.PACKAGE,
