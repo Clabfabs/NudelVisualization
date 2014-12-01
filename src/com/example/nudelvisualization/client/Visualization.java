@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public abstract class Visualization {	
 	
@@ -25,9 +26,9 @@ public abstract class Visualization {
 		return config.getSelectedItemsList();
 	}
 	
-	public void addSource(Panel panel){
+	public void addSource(){
 		Label source = new Label("source: XXXXXXXXXXXXXXXXXXXX");
-		panel.add(source);
+		RootPanel.get("visualizationContainer").add(source);
 		
 	}
 }

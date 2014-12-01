@@ -157,7 +157,7 @@ public class ColumnChartVisualization extends Visualization {
 
 				}
 				RootPanel.get("visualizationContainer").add(framePanel);
-				addSource(RootPanel.get("visualizationContainter"));
+				addSource();
 			}
 		}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE, Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE, ImageLineChart.PACKAGE,
 				ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE, ImagePieChart.PACKAGE, IntensityMap.PACKAGE, MapVisualization.PACKAGE,
