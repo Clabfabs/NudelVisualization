@@ -61,5 +61,61 @@ public class ConfigurationTest {
 		assertEquals(test, config.getSelectedAreaNameList());
 
 	}
+	
+	@Test
+	public void testaddYears(){
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("test");
+		Configuration config = new Configuration();
+		config.addYear("test");
+
+		assertEquals(test, config.getSelectedYearsList());
+	}
+	
+	@Test
+	public void testaddItem() {
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("test");
+		Configuration config = new Configuration();
+		config.addItem("test");
+
+		assertEquals(test, config.getSelectedItemsList());
+
+	}
+	
+	@Test
+	public void testaddItemName() {
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("test");
+		Configuration config = new Configuration();
+		config.addItemNames("test");
+
+		assertEquals(test, config.getSelectedItemNameList());
+
+	}
+	
+	@Test
+	public void testaddDataSeries() {
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("test");
+		Configuration config = new Configuration();
+		config.addDataSeries("test");
+
+		assertEquals(test, config.getSelectedDataSeriesList());
+
+	}
+	
+	@Test
+	public void testaddDataSeriesName() {
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("test");
+		Configuration config = new Configuration();
+		config.addDataSeriesName("test");
+
+		assertEquals(test, config.getSelectedDataSeriesNameList());
+
+	}
+	
+	
 
 }
