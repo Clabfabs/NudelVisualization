@@ -14,6 +14,8 @@ public class TripleHashMap implements Serializable {
 	private HashMap<String, List<String[]>> hashMapExport = null;
 	
 	
+
+	
 	public void setHashMapProduction(HashMap<String, List<String[]>> production){
 		this.hashMapProduction = production;
 		}
