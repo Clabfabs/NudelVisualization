@@ -20,5 +20,7 @@ public class ConfigurationTest {
 		tester.addYear("1990");
 		assertEquals("1990", tester.getSelectedYearsList().get(0));
 	}
+	
+	
 
 }

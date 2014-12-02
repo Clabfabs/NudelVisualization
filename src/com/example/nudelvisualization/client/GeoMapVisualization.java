@@ -50,6 +50,19 @@ public class GeoMapVisualization extends Visualization {
 		super(config);
 	}
 	
+	public boolean checkIsoCode(String[][] isoCodes){
+		boolean checkCountryArea = false;
+		for (int j = 0; j<IsoCodes.length; j++){
+			//if the selected Area is not a country:
+			if (IsoCodes[j][1].equals("..")){
+				checkCountryArea = true;
+			}else{
+				checkCountryArea = false;
+				break;
+		}
+		}
+		return checkCountryArea;
+	}
 	
 	
 	public void initialize() {
@@ -58,16 +71,17 @@ public class GeoMapVisualization extends Visualization {
 			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
 			public void onSuccess(final HashMap<String, String[][]> data) { 
 				IsoCodes = data.get("IsoCode");
-				boolean noCountryArea = false;
-				for (int j = 0; j<IsoCodes.length; j++){
-					//if the selected Area is not a country:
-					if (IsoCodes[j][1].equals("..")){
-						noCountryArea = true;
-					}else{
-						noCountryArea = false;
-						break;
-				}
-				}
+				boolean noCountryArea = checkIsoCode(IsoCodes);
+//				boolean noCountryArea = false;
+//				for (int j = 0; j<IsoCodes.length; j++){
+//					//if the selected Area is not a country:
+//					if (IsoCodes[j][1].equals("..")){
+//						noCountryArea = true;
+//					}else{
+//						noCountryArea = false;
+//						break;
+//				}
+//				}
 				if (noCountryArea){
 				//hier kommt das Fenster rein. 
 				}else{

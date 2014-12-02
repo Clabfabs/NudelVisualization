@@ -68,6 +68,8 @@ public class Filter {
 	private void fillListBoxes() {
 		dataAccessSocket.getInitialData(new InitialDataCallbackHandler());
 	}
+	
+	
 
 	private class InitialDataCallbackHandler implements AsyncCallback<HashMap<String, String[][]>> {
 
@@ -275,7 +277,6 @@ public class Filter {
 		filterHorizontalPanel.add(buttons);
 		// filterHorizontalPanel.add(panel);
 
-		RootPanel.get("filterContainer").clear();
 		RootPanel.get("filterContainer").add(filterHorizontalPanel);
 	}
 

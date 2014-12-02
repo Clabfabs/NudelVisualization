@@ -1,6 +1,7 @@
 package com.example.nudelvisualization.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -24,7 +25,7 @@ public class Controller implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		
-		TextBox loading = new TextBox();
+		Label loading = new Label();
 		loading.setText("loading data...");
 		RootPanel.get("filterContainer").add(loading);
 		filter = new Filter();
