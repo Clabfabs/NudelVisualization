@@ -504,11 +504,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 		return returnValuesStrings;
 	}
 
-	private String[][] getTradeLCData(Configuration config, int code) {
-		ArrayList<String[]> returnValue = new ArrayList<>();
-		int nCol = 0;
-		System.out.println("trying query");
-		StringBuilder query = new StringBuilder();
+	public StringBuilder buildQueryTradeLCData(StringBuilder query, Configuration config){
 		query.append("SELECT ElementName, AreaName, ItemName, Year, Value FROM nudeldb.trade NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items");
 		query.append(" WHERE (ElementCode = ?) AND (AreaCode =");
 		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
@@ -525,6 +521,31 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 			query.append(" ? OR ItemCode =");
 		}
 		query.append(" ?)");
+		return query;
+	}
+	
+	private String[][] getTradeLCData(Configuration config, int code) {
+		ArrayList<String[]> returnValue = new ArrayList<>();
+		int nCol = 0;
+		System.out.println("trying query");
+		StringBuilder query = new StringBuilder();
+		query = buildQueryTradeLCData(query, config);
+//		query.append("SELECT ElementName, AreaName, ItemName, Year, Value FROM nudeldb.trade NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items");
+//		query.append(" WHERE (ElementCode = ?) AND (AreaCode =");
+//		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
+//			query.append(" ? OR AreaCode =");
+//		}
+//		query.append(" ?)");
+//		query.append(" AND (Year =");
+//		for (int i = 0; i < config.getSelectedYearsList().size() - 1; i++) {
+//			query.append(" ? OR Year =");
+//		}
+//		query.append(" ?)");
+//		query.append(" AND (ItemCode =");
+//		for (int i = 0; i < config.getSelectedItemsList().size() - 1; i++) {
+//			query.append(" ? OR ItemCode =");
+//		}
+//		query.append(" ?)");
 		System.out.println(query.toString());
 		try {
 			PreparedStatement select = conn.prepareStatement(query.toString());
@@ -665,6 +686,48 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 		return data;
 	}
 
+	public StringBuilder buildQueryColumnChart(StringBuilder query, Configuration config, int counter){
+		String dataSeries = config.getSelectedDataSeriesList().get(counter);
+
+		if (dataSeries.equals("1")) {
+			query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.production p "
+					+ "join nudeldb.countries c on c.AreaCode = p.AreaCode " + "join nudeldb.items i on i.ItemCode = p.ItemCode "
+					+ "where ( c.AreaCode = " + config.getSelectedAreaList().get(0));
+		} else if (dataSeries.equals("2")) {
+			query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.trade p "
+					+ "join nudeldb.countries c on c.AreaCode = p.AreaCode " + "join nudeldb.items i on i.ItemCode = p.ItemCode "
+					+ "where ( p.elementCode = 5610) and (c.AreaCode = " + config.getSelectedAreaList().get(0));
+		} else if (dataSeries.equals("3")) {
+			query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.trade p "
+					+ "join nudeldb.countries c on c.AreaCode = p.AreaCode " + "join nudeldb.items i on i.ItemCode = p.ItemCode "
+					+ "where ( p.elementCode = 5910) and (c.AreaCode = " + config.getSelectedAreaList().get(0));
+		}
+
+		int a = 1;
+		while (a < config.getSelectedAreaList().size()) {
+			query.append(" or c.AreaCode = " + config.getSelectedAreaList().get(a));
+			a++;
+		}
+
+		query.append(" ) and ( p.Year = " + config.getSelectedYearsList().get(0));
+
+		int y = 1;
+		while (y < config.getSelectedYearsList().size()) {
+			query.append(" or p.Year = " + config.getSelectedYearsList().get(y));
+			y++;
+		}
+
+		query.append(" ) and ( i.ItemCode = " + config.getSelectedItemsList().get(0));
+
+		int it = 1;
+		while (it < config.getSelectedItemsList().size()) {
+			query.append(" or i.ItemCode = " + config.getSelectedItemsList().get(it));
+			it++;
+		}
+		query.append(" )");
+		return query;
+	}
+	
 	public TripleHashMap getDataForColumnChart(Configuration config) {
 		TripleHashMap triple = new TripleHashMap();
 
@@ -675,43 +738,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 			ArrayList<String[]> returnValue = new ArrayList<>();
 			String dataSeries = config.getSelectedDataSeriesList().get(counter);
 			StringBuilder query = new StringBuilder();
-			if (dataSeries.equals("1")) {
-				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.production p "
-						+ "join nudeldb.countries c on c.AreaCode = p.AreaCode " + "join nudeldb.items i on i.ItemCode = p.ItemCode "
-						+ "where ( c.AreaCode = " + config.getSelectedAreaList().get(0));
-			} else if (dataSeries.equals("2")) {
-				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.trade p "
-						+ "join nudeldb.countries c on c.AreaCode = p.AreaCode " + "join nudeldb.items i on i.ItemCode = p.ItemCode "
-						+ "where ( p.elementCode = 5610) and (c.AreaCode = " + config.getSelectedAreaList().get(0));
-			} else if (dataSeries.equals("3")) {
-				query.append("SELECT c.AreaName, p.Year, i.ItemName, p.Value FROM nudeldb.trade p "
-						+ "join nudeldb.countries c on c.AreaCode = p.AreaCode " + "join nudeldb.items i on i.ItemCode = p.ItemCode "
-						+ "where ( p.elementCode = 5910) and (c.AreaCode = " + config.getSelectedAreaList().get(0));
-			}
-
-			int a = 1;
-			while (a < config.getSelectedAreaList().size()) {
-				query.append(" or c.AreaCode = " + config.getSelectedAreaList().get(a));
-				a++;
-			}
-
-			query.append(" ) and ( p.Year = " + config.getSelectedYearsList().get(0));
-
-			int y = 1;
-			while (y < config.getSelectedYearsList().size()) {
-				query.append(" or p.Year = " + config.getSelectedYearsList().get(y));
-				y++;
-			}
-
-			query.append(" ) and ( i.ItemCode = " + config.getSelectedItemsList().get(0));
-
-			int it = 1;
-			while (it < config.getSelectedItemsList().size()) {
-				query.append(" or i.ItemCode = " + config.getSelectedItemsList().get(it));
-				it++;
-			}
-			query.append(" )");
-
+			query = buildQueryColumnChart(query, config, counter);
 			System.out.println(query);
 			try {
 				PreparedStatement select = conn.prepareStatement(query.toString());
