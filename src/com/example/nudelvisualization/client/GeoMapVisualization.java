@@ -52,9 +52,9 @@ public class GeoMapVisualization extends Visualization {
 	
 	public boolean checkIsoCode(String[][]isoCodes){
 		boolean noCountryArea = false;
-		for (int j = 0; j<IsoCodes.length; j++){
+		for (int j = 0; j<isoCodes.length; j++){
 			//if the selected Area is not a country:
-			if (IsoCodes[j][1].equals("..")){
+			if (isoCodes[j][1].equals("..")){
 				noCountryArea = true;
 			}else{
 				noCountryArea = false;
