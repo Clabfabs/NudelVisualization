@@ -143,6 +143,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 		}
 		query.append(" ?)");
 		return query;
+		
 	}
 
 	private String[][] getISOCodes(Configuration config) {
