@@ -7,8 +7,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
@@ -132,10 +134,17 @@ public class GeoMapVisualization extends Visualization {
 		dataAccessSocket.getDataForIntensityMap(config, new AsyncCallback<HashMap<String, String[][]>>() {
 			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
 			public void onSuccess(final HashMap<String, String[][]> data) { 
+				
+				RootPanel.get("visualizationContainer").clear();
 				IsoCodes = data.get("IsoCode");
 				boolean noCountryArea = checkIsoCode(IsoCodes);
 				if (noCountryArea){
-				//hier kommt das Fenster rein. 
+				DialogBox box = new DialogBox();
+				box.setText("You have chosen regions which are not representable. Please chose actual countries.");
+				box.setPixelSize(200, 100);
+				box.show();
+				RootPanel.get("visualitaionContainer").add(box);
+					
 				}else{
 				populationData = data.get("population");
 				
@@ -148,8 +157,7 @@ public class GeoMapVisualization extends Visualization {
 				if (config.getSelectedDataSeriesList().contains("3")) {
 					exportresult = data.get("export");
 				}
-				//new config: delete former Map
-				RootPanel.get("visualizationContainer").clear();
+				
 				draw();
 				}
 			}	
