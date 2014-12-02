@@ -4,10 +4,8 @@ import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
@@ -39,7 +37,7 @@ public class GeoMapVisualization extends Visualization {
 	String [][] populationData = null;
 	String [][] importresult = null;
 	String [][] exportresult = null;
-	private TextBox newSymbolTextBox = new TextBox(); 
+
 	
 	public GeoMapVisualization(){
 		
