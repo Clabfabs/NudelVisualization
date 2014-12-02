@@ -102,8 +102,9 @@ public class ColumnChartVisualization extends Visualization {
 				RootPanel.get("visualizationContainer").clear();
 				for (HashMap<String, List<String[]>> hashMap : hashMapArray) {
 					if (hashMap == null){
-						break;
-					}
+						System.out.println("Hashmap null.");
+						counter++;
+					}else{
 
 					int nrOfArea = config.getSelectedAreaList().size();
 					int nrOfItems = config.getSelectedItemsList().size();
@@ -158,6 +159,7 @@ public class ColumnChartVisualization extends Visualization {
 				}
 				RootPanel.get("visualizationContainer").add(framePanel);
 				addSource();
+			}
 			}
 		}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE, Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE, ImageLineChart.PACKAGE,
 				ImageAreaChart.PACKAGE, ImageBarChart.PACKAGE, ImagePieChart.PACKAGE, IntensityMap.PACKAGE, MapVisualization.PACKAGE,
