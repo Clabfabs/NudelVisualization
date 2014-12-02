@@ -52,9 +52,9 @@ public class GeoMapVisualization extends Visualization {
 	
 	public boolean checkIsoCode(String[][] isoCodes){
 		boolean checkCountryArea = false;
-		for (int j = 0; j<IsoCodes.length; j++){
+		for (int j = 0; j<isoCodes.length; j++){
 			//if the selected Area is not a country:
-			if (IsoCodes[j][1].equals("..")){
+			if (isoCodes[j][1].equals("..")){
 				checkCountryArea = true;
 			}else{
 				checkCountryArea = false;
@@ -72,16 +72,6 @@ public class GeoMapVisualization extends Visualization {
 			public void onSuccess(final HashMap<String, String[][]> data) { 
 				IsoCodes = data.get("IsoCode");
 				boolean noCountryArea = checkIsoCode(IsoCodes);
-//				boolean noCountryArea = false;
-//				for (int j = 0; j<IsoCodes.length; j++){
-//					//if the selected Area is not a country:
-//					if (IsoCodes[j][1].equals("..")){
-//						noCountryArea = true;
-//					}else{
-//						noCountryArea = false;
-//						break;
-//				}
-//				}
 				if (noCountryArea){
 				//hier kommt das Fenster rein. 
 				}else{
