@@ -68,7 +68,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 	}
 
 	public String[][] getItem() {
-		String sql = "SELECT ItemCode, ItemName FROM nudeldb.items";
+		String sql = "SELECT ItemCode, ItemName FROM nudeldb.items WHERE ItemCode <> 3010 ORDER BY ItemName";
 		return simpleQuery(sql);
 	}
 
