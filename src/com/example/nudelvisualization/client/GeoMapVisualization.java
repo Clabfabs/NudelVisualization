@@ -191,7 +191,7 @@ public class GeoMapVisualization extends Visualization {
 		GeoMap.Options options = GeoMap.Options.create();
 		options.setRegion("world");
 		options.setShowLegend(true);
-		options.setSize(790, 395);
+		options.setSize(1000, 500);
 		options.setShowLegend(true);
 		
 		//add data to GeoMap
