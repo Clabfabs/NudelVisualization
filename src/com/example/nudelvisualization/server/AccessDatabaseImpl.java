@@ -484,6 +484,16 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 	 */
 	public HashMap<String, String[][]> getTableVisualizationData(Configuration config) {
 
+		/*if (config.getSelectedDataSeriesList().contains("1")) {
+			String productionQuery = getTableQuery("production", "WHERE 1 = 1");
+		}
+		if (config.getSelectedDataSeriesList().contains("2")) {
+			String productionQuery = getTableQuery("import", "WHERE ElementCode = 5610");
+		}
+		if (config.getSelectedDataSeriesList().contains("1")) {
+			String productionQuery = getTableQuery("production", "WHERE ElementCode = 5910");
+		}*/
+		
 		ArrayList<String[]> returnValue = new ArrayList<>();
 		int nCol = 0;
 		System.out.println("trying query");
