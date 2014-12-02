@@ -178,12 +178,9 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 		}
 		return returnValuesStrings;
 	}
-
-	private String[][] getPopulation(Configuration config) {
-		ArrayList<String[]> returnValue = new ArrayList<>();
-		int nCol = 0;
-		System.out.println("trying query");
-		StringBuilder query = new StringBuilder();
+	
+	public StringBuilder buildQueryPopulation(StringBuilder query, Configuration config){
+		StringBuilder queryString = null;
 		query.append("SELECT AreaCode, Year, Value FROM nudeldb.population WHERE (AreaCode =");
 		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
 			query.append(" ? OR AreaCode =");
@@ -194,6 +191,26 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 			query.append(" ? OR Year =");
 		}
 		query.append(" ?)");
+		return query;
+		
+	}
+
+	private String[][] getPopulation(Configuration config) {
+		ArrayList<String[]> returnValue = new ArrayList<>();
+		int nCol = 0;
+		System.out.println("trying query");
+		StringBuilder query = new StringBuilder();
+		query = buildQueryPopulation(query, config);
+//		query.append("SELECT AreaCode, Year, Value FROM nudeldb.population WHERE (AreaCode =");
+//		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
+//			query.append(" ? OR AreaCode =");
+//		}
+//		query.append(" ?)");
+//		query.append(" AND (Year =");
+//		for (int i = 0; i < config.getSelectedYearsList().size() - 1; i++) {
+//			query.append(" ? OR Year =");
+//		}
+//		query.append(" ?)");
 		System.out.println(query.toString());
 		try {
 			PreparedStatement select = conn.prepareStatement(query.toString());

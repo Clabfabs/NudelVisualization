@@ -64,6 +64,68 @@ public class GeoMapVisualization extends Visualization {
 		return checkCountryArea;
 	}
 	
+//	public int calculatePopulationAsDouble(String[][] result, int j){
+//		int populationAsDouble = 0;
+//		for (int i= 0; i< result.length; i++){
+//			if (result[i][0].equals(config.getSelectedAreaList().get(j))){
+//				if (!(result[i][3].isEmpty())){ //get rid of exceptions
+//					//compare it with population
+//					for (int y = 0; y< populationData.length; y++){
+//						if(populationData[y][1].equals(result[i][1])){
+//							//add up all dataValues
+//							valueAsDouble = Integer.valueOf(result[i][3]);
+//							populationAsDouble = Integer.valueOf(populationData[y][2]);
+//							
+//						}
+//					}
+//				}
+//			}
+//		}
+//		return populationAsDouble;
+//	}
+//	
+//	public int calculateValueAsDouble(String[][] result, int j){
+//		int valueAsDouble = 0;
+//		for (int i= 0; i< result.length; i++){
+//			if (result[i][0].equals(config.getSelectedAreaList().get(j))){
+//				if (!(result[i][3].isEmpty())){ //get rid of exceptions
+//					//compare it with population
+//					for (int y = 0; y< populationData.length; y++){
+//						if(populationData[y][1].equals(result[i][1])){
+//							//add up all dataValues
+//							valueAsDouble = Integer.valueOf(result[i][3]);
+//							
+//						}
+//					}
+//				}
+//			}
+//		}
+//		return valueAsDouble;
+//	}
+	
+	public int calculateSumAllData(String[][] result, int valueAsDouble, int populationAsDouble, int j){
+		int sumAllData = 0;
+		
+				for (int i= 0; i< result.length; i++){
+					if (result[i][0].equals(config.getSelectedAreaList().get(j))){
+						if (!(result[i][3].isEmpty())){ //get rid of exceptions
+							//compare it with population
+							for (int y = 0; y< populationData.length; y++){
+								if(populationData[y][1].equals(result[i][1])){
+									//add up all dataValues
+									
+									sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
+									
+								}
+							}
+						}
+					}
+				}
+			
+		return sumAllData;
+	
+	}
+	
 	
 	public void initialize() {
 		AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
