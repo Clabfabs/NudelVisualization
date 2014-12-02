@@ -31,7 +31,6 @@ public class Filter {
 	private HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
     private Grid gridYear = new Grid(3, 2);
     private Button buttonTable = new Button("Table");
-    private Button buttonIntensityMap = new Button("Intensity Map");
     private Button buttonColumnChart = new Button("Column Chart");
     private Button buttonGeoMap = new Button("Geo Map");
     private Button buttonLineChart = new Button("Line Chart");
@@ -159,17 +158,7 @@ public class Filter {
 			}
 		});
 
-		// Button to initialize IntensityMap
-		buttonIntensityMap.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				updateFilter();
-				if (isValidInput()) {
-					drawIntensityMap(config);
-				} else System.out.println("Invalid input");
-
-			}
-		});
+	
 
 		// Button to initialize LineChart
 		buttonLineChart.addClickHandler(new ClickHandler() {
@@ -224,7 +213,6 @@ public class Filter {
 		
 		VerticalPanel buttons = new VerticalPanel();
 		buttons.add(buttonTable);
-		buttons.add(buttonIntensityMap);
 		buttons.add(buttonColumnChart);
 		buttons.add(buttonLineChart);
 		buttons.add(buttonGeoMap);
@@ -293,11 +281,7 @@ public class Filter {
 		visualization.draw();
 	}
 
-	public void drawIntensityMap(Configuration config) {
-		IntensityMapVisualization map = new IntensityMapVisualization(config);
-		map.initialize();
-
-	}
+	
 
 	public void drawLineChart(Configuration config) {
 		LineChartVisualization map = new LineChartVisualization(config);

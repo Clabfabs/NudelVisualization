@@ -233,7 +233,7 @@ public class GeoMapVisualization extends Visualization {
 			}
 		}
 		
-		//gather selected years and items for the comment underneath the visualization
+		//gather selected years and items for the comment 
 		String allSelectedYears = "";
 		for (int i = 0; i<config.getSelectedYearsList().size(); i++){
 			allSelectedYears = (allSelectedYears.concat(config.getSelectedYearsList().get(i)));	
@@ -269,6 +269,7 @@ public class GeoMapVisualization extends Visualization {
 		// First try of a "next" button
 		if (config.getSelectedYearsList().size() == 1 && !(config.getSelectedYearsList().get(0) == "2011")) {
 			Button next = new Button("Next Year");
+			next.setPixelSize(100, 30);
 			next.addClickHandler(new ClickHandler(){
 				@Override
 				public void onClick(ClickEvent event) {
