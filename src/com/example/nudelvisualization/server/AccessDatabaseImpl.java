@@ -1,6 +1,5 @@
 package com.example.nudelvisualization.server;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -109,6 +108,17 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 		return data;
 	}
 
+	/**
+	 * User wants a Line Chart. This method provides all required data for
+	 * this task.
+	 * 
+	 * <pre>
+	 * For every config option, at least one item is selected
+	 * 
+	 * @param config The Configuration object with the IDs of the selected parameters
+	 * 
+	 * @return a HashMap  with all the required tables as 2-dimensional String arrays
+	 */
 	public HashMap<String, String[][]> getDataForLineChart(Configuration config) {
 
 		HashMap<String, String[][]> data = new HashMap<String, String[][]>();

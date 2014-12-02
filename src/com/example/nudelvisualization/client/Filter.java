@@ -2,6 +2,8 @@ package com.example.nudelvisualization.client;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.File;
+
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -33,6 +35,7 @@ public class Filter {
     private Button buttonColumnChart = new Button("Column Chart");
     private Button buttonGeoMap = new Button("Geo Map");
     private Button buttonLineChart = new Button("Line Chart");
+    private Button buttonSaveConfig = new Button("Save Configuration");
 	
 	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	// Listbox for GUI which will offer the option to choose one of the Areas in
@@ -54,6 +57,8 @@ public class Filter {
 	 * service.
 	 */
 	private AccessDatabaseAsync dataAccessSocket = null;
+	private saveConfigAsync saveConfigSocket = null;
+
 
 	public void init() {
 		dataAccessSocket = GWT.create(AccessDatabase.class);
@@ -189,12 +194,32 @@ public class Filter {
 			}
 		});
 
+		// Button to initialize ColumnChart
+		buttonSaveConfig.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent event) {
+				updateFilter();
+				if (isValidInput()) {
+					saveConfigSocket.getConfigAsFile(config, new AsyncCallback<File>() {
+						@Override
+						public void onFailure(Throwable caught) {System.out.println("Communication with Server failed.");}
+
+						@Override
+						public void onSuccess(File result) {
+							
+						}
+					});
+				} else System.out.println("Invalid input");
+			}
+		});
+		
 		VerticalPanel buttons = new VerticalPanel();
 		buttons.add(buttonTable);
 		buttons.add(buttonIntensityMap);
 		buttons.add(buttonColumnChart);
 		buttons.add(buttonLineChart);
 		buttons.add(buttonGeoMap);
+		buttons.add(buttonSaveConfig);
 		buttons.addStyleName("buttonPanel");
 
 		/*	    VerticalPanel upload = new VerticalPanel();
