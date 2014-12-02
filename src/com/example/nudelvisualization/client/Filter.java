@@ -200,7 +200,7 @@ public class Filter {
 			public void onClick(ClickEvent event) {
 				updateFilter();
 				if (isValidInput()) {
-					saveConfigSocket.getConfigAsFile(config, new AsyncCallback<File>() {
+					/*saveConfigSocket.getConfigAsFile(config, new AsyncCallback<File>() {
 						@Override
 						public void onFailure(Throwable caught) {System.out.println("Communication with Server failed.");}
 
@@ -209,7 +209,7 @@ public class Filter {
 							
 						}
 					});
-				} else System.out.println("Invalid input");
+*/				} else System.out.println("Invalid input");
 			}
 		});
 		
