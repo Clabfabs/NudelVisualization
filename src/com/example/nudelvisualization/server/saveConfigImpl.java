@@ -11,7 +11,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class saveConfigImpl extends RemoteServiceServlet implements saveConfig {
 
-	@Override
 	public File getConfigAsFile(Configuration config) {
 		File output = new File("/savedConfig.txt");
 		PrintWriter writer;

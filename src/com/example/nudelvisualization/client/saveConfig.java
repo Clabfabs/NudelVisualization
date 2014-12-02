@@ -12,5 +12,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("saveConfig")
 public interface saveConfig extends RemoteService {
-	File getConfigAsFile(Configuration config);
+	// File getConfigAsFile(Configuration config);
 }

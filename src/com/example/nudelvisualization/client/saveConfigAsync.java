@@ -6,6 +6,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface saveConfigAsync {
 
-	void getConfigAsFile(Configuration config, AsyncCallback<File> callback);
+	//void getConfigAsFile(Configuration config, AsyncCallback<File> callback);
 
 }
