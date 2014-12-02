@@ -70,6 +70,12 @@ public class Filter {
 	}
 	
 	
+	public void fillAreaList(String[][] areasAsString, ArrayList<Area> area, int indexName, int indexCode){
+		for (int j = 0; j < areaAsString.length; j++) {
+			area.add(new Area(areaAsString[j][indexCode], areaAsString[j][indexName]));
+			lbAreaFilter.addItem(area.get(j).getName(), area.get(j).getID());
+		}
+	}
 
 	private class InitialDataCallbackHandler implements AsyncCallback<HashMap<String, String[][]>> {
 
@@ -89,10 +95,12 @@ public class Filter {
 			 * We fill Area objects with the values of the columns "AreaCode"
 			 * and "AreaName" and gather them in an arraylist(area).
 			 */
-			for (int j = 0; j < areaAsString.length; j++) {
-				area.add(new Area(areaAsString[j][indexCode], areaAsString[j][indexName]));
-				lbAreaFilter.addItem(area.get(j).getName(), area.get(j).getID());
-			}
+			
+			fillAreaList(areaAsString, area, indexName, indexCode);
+//			for (int j = 0; j < areaAsString.length; j++) {
+//				area.add(new Area(areaAsString[j][indexCode], areaAsString[j][indexName]));
+//				lbAreaFilter.addItem(area.get(j).getName(), area.get(j).getID());
+//			}
 			lbAreaFilter.setVisibleItemCount(10);
 
 			/*
