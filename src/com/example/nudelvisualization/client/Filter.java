@@ -31,6 +31,7 @@ public class Filter {
 	private HorizontalPanel filterHorizontalPanel = new HorizontalPanel();
     private Grid gridYear = new Grid(3, 2);
     private Button buttonTable = new Button("Table");
+    private Button buttonIntensityMap = new Button("Intensity Map");
     private Button buttonColumnChart = new Button("Column Chart");
     private Button buttonGeoMap = new Button("Geo Map");
     private Button buttonLineChart = new Button("Line Chart");
@@ -67,14 +68,6 @@ public class Filter {
 	private void fillListBoxes() {
 		dataAccessSocket.getInitialData(new InitialDataCallbackHandler());
 	}
-	
-	
-	public void fillAreaList(String[][] areasAsString, ArrayList<Area> area, int indexName, int indexCode){
-		for (int j = 0; j < areaAsString.length; j++) {
-			area.add(new Area(areaAsString[j][indexCode], areaAsString[j][indexName]));
-			lbAreaFilter.addItem(area.get(j).getName(), area.get(j).getID());
-		}
-	}
 
 	private class InitialDataCallbackHandler implements AsyncCallback<HashMap<String, String[][]>> {
 
@@ -94,12 +87,10 @@ public class Filter {
 			 * We fill Area objects with the values of the columns "AreaCode"
 			 * and "AreaName" and gather them in an arraylist(area).
 			 */
-			
-			fillAreaList(areaAsString, area, indexName, indexCode);
-//			for (int j = 0; j < areaAsString.length; j++) {
-//				area.add(new Area(areaAsString[j][indexCode], areaAsString[j][indexName]));
-//				lbAreaFilter.addItem(area.get(j).getName(), area.get(j).getID());
-//			}
+			for (int j = 0; j < areaAsString.length; j++) {
+				area.add(new Area(areaAsString[j][indexCode], areaAsString[j][indexName]));
+				lbAreaFilter.addItem(area.get(j).getName(), area.get(j).getID());
+			}
 			lbAreaFilter.setVisibleItemCount(10);
 
 			/*
@@ -158,7 +149,17 @@ public class Filter {
 			}
 		});
 
-	
+		// Button to initialize IntensityMap
+		buttonIntensityMap.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				updateFilter();
+				if (isValidInput()) {
+					drawIntensityMap(config);
+				} else System.out.println("Invalid input");
+
+			}
+		});
 
 		// Button to initialize LineChart
 		buttonLineChart.addClickHandler(new ClickHandler() {
@@ -213,6 +214,7 @@ public class Filter {
 		
 		VerticalPanel buttons = new VerticalPanel();
 		buttons.add(buttonTable);
+		buttons.add(buttonIntensityMap);
 		buttons.add(buttonColumnChart);
 		buttons.add(buttonLineChart);
 		buttons.add(buttonGeoMap);
@@ -273,6 +275,7 @@ public class Filter {
 		filterHorizontalPanel.add(buttons);
 		// filterHorizontalPanel.add(panel);
 
+		RootPanel.get("filterContainer").clear();
 		RootPanel.get("filterContainer").add(filterHorizontalPanel);
 	}
 
@@ -281,7 +284,11 @@ public class Filter {
 		visualization.draw();
 	}
 
-	
+	public void drawIntensityMap(Configuration config) {
+		IntensityMapVisualization map = new IntensityMapVisualization(config);
+		map.initialize();
+
+	}
 
 	public void drawLineChart(Configuration config) {
 		LineChartVisualization map = new LineChartVisualization(config);

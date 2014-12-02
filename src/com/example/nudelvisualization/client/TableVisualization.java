@@ -7,11 +7,14 @@ import java.util.HashMap;
 
 
 
+
+
 // import com.example.nudelvisualization.client.IndexedColumn;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -22,7 +25,7 @@ public class TableVisualization extends Visualization {
 
 	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
 	private VerticalPanel visualizationPanel = new VerticalPanel();
-	private CellTable visualizeTable = new CellTable();
+	private CellTable visualizeTable = new CellTable<>();
 	private String[][] result = null;
 	
 	public TableVisualization(Configuration config) {
@@ -43,9 +46,10 @@ public class TableVisualization extends Visualization {
 			}
 
 			public void onSuccess(HashMap<String, String[][]> data) {
-
+				visualizeTable.setPageSize(50);
+				visualizeTable.setWidth("100%", true);
 				result = data.get("Production");
-				for (int i = 0; i < 5 && i < result.length; i++) {
+				for (int i = 0; i < 30 && i < result.length; i++) {
 					for (int j = 0; j < result[i].length; j++) {
 						System.out.print(result[i][j] + "\t");
 					}
@@ -55,24 +59,33 @@ public class TableVisualization extends Visualization {
 			    int nrows = result.length;
 			    int ncols = result[0].length;
 			    ArrayList rowsL = new ArrayList(nrows);
+			    
 			    //List rowsL = new ArrayList(nrows);
-			    for (int irow = 0; irow < nrows; irow++) {	
-			        List<String> rowL = Arrays.asList(result[irow]);
-			        rowsL.add(rowL);
+			    for (int irow = 0; irow < nrows; irow++) {
+				    List<String> rowL = Arrays.asList(result[irow]); 
+				    rowsL.add(rowL); 
+
 			    }
 			    
 			    // Create table columns
 			    for (int icol = 0; icol < ncols; icol++) {
-			    		IndexedColumn iColumn = new IndexedColumn(icol);
-			    		visualizeTable.addColumn(iColumn, new TextHeader(config.getSelectedTitles().get(icol)));
+			    	IndexedColumn iColumn = new IndexedColumn(icol);
+			    	visualizeTable.addColumn(iColumn, new TextHeader(config.getSelectedTitles().get(icol)));
 			    }
-			    
+
 			    final ListDataProvider<ArrayList<String>> dataProvider = new ListDataProvider<ArrayList<String>>(rowsL);
 			    dataProvider.addDataDisplay(visualizeTable);
 			    
+			    SimplePager pagerTop = new SimplePager();
+			    pagerTop.setDisplay(visualizeTable);
+			    SimplePager pagerBottom = new SimplePager();
+			    pagerBottom.setDisplay(visualizeTable);
+
 			    visualizationPanel.add(visualizeTable);
 			    RootPanel.get("visualizationContainer").clear();
+				RootPanel.get("visualizationContainer").add(pagerTop);
 				RootPanel.get("visualizationContainer").add(visualizationPanel);
+				RootPanel.get("visualizationContainer").add(pagerBottom);	
 			}
 		});
 	 }

@@ -52,81 +52,6 @@ public class GeoMapVisualization extends Visualization {
 		super(config);
 	}
 	
-	public boolean checkIsoCode(String[][] isoCodes){
-		boolean checkCountryArea = false;
-		for (int j = 0; j<isoCodes.length; j++){
-			//if the selected Area is not a country:
-			if (isoCodes[j][1].equals("..")){
-				checkCountryArea = true;
-			}else{
-				checkCountryArea = false;
-				break;
-		}
-		}
-		return checkCountryArea;
-	}
-	
-//	public int calculatePopulationAsDouble(String[][] result, int j){
-//		int populationAsDouble = 0;
-//		for (int i= 0; i< result.length; i++){
-//			if (result[i][0].equals(config.getSelectedAreaList().get(j))){
-//				if (!(result[i][3].isEmpty())){ //get rid of exceptions
-//					//compare it with population
-//					for (int y = 0; y< populationData.length; y++){
-//						if(populationData[y][1].equals(result[i][1])){
-//							//add up all dataValues
-//							valueAsDouble = Integer.valueOf(result[i][3]);
-//							populationAsDouble = Integer.valueOf(populationData[y][2]);
-//							
-//						}
-//					}
-//				}
-//			}
-//		}
-//		return populationAsDouble;
-//	}
-//	
-//	public int calculateValueAsDouble(String[][] result, int j){
-//		int valueAsDouble = 0;
-//		for (int i= 0; i< result.length; i++){
-//			if (result[i][0].equals(config.getSelectedAreaList().get(j))){
-//				if (!(result[i][3].isEmpty())){ //get rid of exceptions
-//					//compare it with population
-//					for (int y = 0; y< populationData.length; y++){
-//						if(populationData[y][1].equals(result[i][1])){
-//							//add up all dataValues
-//							valueAsDouble = Integer.valueOf(result[i][3]);
-//							
-//						}
-//					}
-//				}
-//			}
-//		}
-//		return valueAsDouble;
-//	}
-	
-	public int calculateSumAllData(String[][] result, int valueAsDouble, int populationAsDouble, int j){
-		int sumAllData = 0;
-		
-				for (int i= 0; i< result.length; i++){
-					if (result[i][0].equals(config.getSelectedAreaList().get(j))){
-						if (!(result[i][3].isEmpty())){ //get rid of exceptions
-							//compare it with population
-							for (int y = 0; y< populationData.length; y++){
-								if(populationData[y][1].equals(result[i][1])){
-									//add up all dataValues
-									
-									sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
-									
-								}
-							}
-						}
-					}
-				}
-			
-		return sumAllData;
-	
-	}
 	
 	
 	public void initialize() {
@@ -137,7 +62,16 @@ public class GeoMapVisualization extends Visualization {
 				
 				RootPanel.get("visualizationContainer").clear();
 				IsoCodes = data.get("IsoCode");
-				boolean noCountryArea = checkIsoCode(IsoCodes);
+				boolean noCountryArea = false;
+				for (int j = 0; j<IsoCodes.length; j++){
+					//if the selected Area is not a country:
+					if (IsoCodes[j][1].equals("..")){
+						noCountryArea = true;
+					}else{
+						noCountryArea = false;
+						break;
+				}
+				}
 				if (noCountryArea){
 				DialogBox box = new DialogBox();
 				box.setText("You have chosen regions which are not representable. Please chose actual countries.");
@@ -199,7 +133,7 @@ public class GeoMapVisualization extends Visualization {
 		GeoMap.Options options = GeoMap.Options.create();
 		options.setRegion("world");
 		options.setShowLegend(true);
-		options.setSize(1000, 500);
+		options.setSize(790, 395);
 		options.setShowLegend(true);
 		
 		//add data to GeoMap
@@ -241,7 +175,7 @@ public class GeoMapVisualization extends Visualization {
 			}
 		}
 		
-		//gather selected years and items for the comment 
+		//gather selected years and items for the comment underneath the visualization
 		String allSelectedYears = "";
 		for (int i = 0; i<config.getSelectedYearsList().size(); i++){
 			allSelectedYears = (allSelectedYears.concat(config.getSelectedYearsList().get(i)));	
@@ -277,7 +211,6 @@ public class GeoMapVisualization extends Visualization {
 		// First try of a "next" button
 		if (config.getSelectedYearsList().size() == 1 && !(config.getSelectedYearsList().get(0) == "2011")) {
 			Button next = new Button("Next Year");
-			next.setPixelSize(100, 30);
 			next.addClickHandler(new ClickHandler(){
 				@Override
 				public void onClick(ClickEvent event) {
