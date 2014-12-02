@@ -3,7 +3,10 @@ package com.example.nudelvisualization.client;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
@@ -194,8 +197,26 @@ public class GeoMapVisualization extends Visualization {
 		" of " + allSelectedItems + "in " + allSelectedYears + ":");
 
 		GeoMap widget = new GeoMap(data, options);
-		RootPanel.get("visualizationContainer").add(text);
-		RootPanel.get("visualizationContainer").add(widget);
 		
+		RootPanel.get("visualizationContainer").add(text);
+		
+		// First try of a "next" button
+		if (config.getSelectedYearsList().size() == 1 && !(config.getSelectedYearsList().get(0) == "2011")) {
+			Button next = new Button("Next Year");
+			next.addClickHandler(new ClickHandler(){
+				@Override
+				public void onClick(ClickEvent event) {
+					int currentYear = Integer.parseInt(config.getSelectedYearsList().get(0));
+					String nextYear = Integer.toString(currentYear + 1);
+					config.getSelectedYearsList().clear();
+					config.addYear(nextYear);
+					GeoMapVisualization newMap = new GeoMapVisualization(config);
+					newMap.initialize();
+				}
+			});	
+			RootPanel.get("visualizationContainer").add(next);
+		}
+				
+		RootPanel.get("visualizationContainer").add(widget);
 	}
 }
