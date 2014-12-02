@@ -16,7 +16,6 @@ public class ConfigurationTest {
 	private ArrayList<String> selectedDataSeriesName = new ArrayList<String>();
 	private ArrayList<String> titles = new ArrayList<String>();
 
-	
 	@Test
 	public void testConfiguration() {
 		Configuration tester = new Configuration();
@@ -29,17 +28,38 @@ public class ConfigurationTest {
 		tester.addYear("1990");
 		assertEquals("1990", tester.getSelectedYearsList().get(0));
 	}
-	
+
 	@Test
-	public void testaddTitles(){
+	public void testaddTitles() {
 		ArrayList<String> test = new ArrayList<String>();
 		test.add("test");
 		Configuration config = new Configuration();
 		config.addTitles("test");
-		
-		assertEquals(test,config.getSelectedTitles());
-		
-		
+
+		assertEquals(test, config.getSelectedTitles());
+
+	}
+
+	@Test
+	public void testaddArea() {
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("test");
+		Configuration config = new Configuration();
+		config.addArea("test");
+
+		assertEquals(test, config.getSelectedAreaList());
+
+	}
+	
+	@Test
+	public void testaddAreaName() {
+		ArrayList<String> test = new ArrayList<String>();
+		test.add("test");
+		Configuration config = new Configuration();
+		config.addAreaName("test");
+
+		assertEquals(test, config.getSelectedAreaNameList());
+
 	}
 
 }
