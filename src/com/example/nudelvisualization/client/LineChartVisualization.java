@@ -31,6 +31,7 @@ public class LineChartVisualization extends Visualization{
 	private String currentItem = null;
 	private String currentArea = null;
 	private String[][] result = null;
+	private int tenYearsForecast;
 	
 	public LineChartVisualization(Configuration config) {
 		super(config);
@@ -107,8 +108,19 @@ public class LineChartVisualization extends Visualization{
 		dataAccessSocket.getDataForLineChart(config, new AsyncCallback<HashMap<String, String[][]>>() {
 			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
 			public void onSuccess(final HashMap<String, String[][]> data) { 
-				// Until then, let's just take "production"
+				if(config.getSelectedDataSeriesList().contains("1")){
 				result = data.get("production");
+				}
+				else if(config.getSelectedDataSeriesList().contains("2")){
+					result = data.get("import");
+				}
+				else if(config.getSelectedDataSeriesList().contains("3")){
+					result = data.get("export");
+				}
+				//to do: window message
+				else{
+					System.out.println("No dataseries selected. Please select production, import or export.");
+				}
 				draw();
 			}	
 		});	
@@ -169,9 +181,8 @@ public class LineChartVisualization extends Visualization{
 		    								f++;
 		    								int currentYear = (Integer.parseInt(result[g-1][3]) + b + 1);
 		    								data.setValue(f, 0, new Integer(currentYear).toString());
-		    								data.setCell(f, j, forecastValues[b], null, null);	
+		    								data.setCell(f, j, forecastValues[b], null, null);
 		    							}
-		    							
 	    							}
 	    						ImageLineChart widget = new ImageLineChart(data, options);
 	    						RootPanel.get("visualizationContainer").clear();
