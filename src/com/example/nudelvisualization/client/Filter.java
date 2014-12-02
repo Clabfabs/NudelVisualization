@@ -93,7 +93,6 @@ public class Filter {
 			}
 			lbAreaFilter.setVisibleItemCount(10);
 
-
 			/*
 			 * We fill Item objects with the values of the columns "ItemCode"
 			 * and "ItemName" and gather them in an arraylist(items).

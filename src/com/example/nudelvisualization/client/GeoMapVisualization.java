@@ -4,10 +4,8 @@ import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
@@ -31,9 +29,6 @@ public class GeoMapVisualization extends Visualization {
 
 	/*
 	 * TO DO's
-	 * - Exception wenn man nur Import oder Export anwählt--> Warum?! (result ist dann null)
-	 * - Beschriftung --> ev. Production fett und oben, Absätze
-	 * - Methode, die Land überprüft und dann den richtigen Namen ausgibt oder Datenbank änderen... 
 	 * - Fenster wenn nicht Land angewählt wurde
 	 * 
 	 * */
@@ -42,7 +37,7 @@ public class GeoMapVisualization extends Visualization {
 	String [][] populationData = null;
 	String [][] importresult = null;
 	String [][] exportresult = null;
-	private TextBox newSymbolTextBox = new TextBox(); 
+
 	
 	public GeoMapVisualization(){
 		
@@ -60,21 +55,34 @@ public class GeoMapVisualization extends Visualization {
 			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
 			public void onSuccess(final HashMap<String, String[][]> data) { 
 				IsoCodes = data.get("IsoCode");
-				
+				boolean noCountryArea = false;
+				for (int j = 0; j<IsoCodes.length; j++){
+					//if the selected Area is not a country:
+					if (IsoCodes[j][1].equals("..")){
+						noCountryArea = true;
+					}else{
+						noCountryArea = false;
+						break;
+				}
+				}
+				if (noCountryArea){
+				//hier kommt das Fenster rein. 
+				}else{
 				populationData = data.get("population");
 				
 				if (config.getSelectedDataSeriesList().contains("1")) {
 					productionresult = data.get("production");
 				}
 				if (config.getSelectedDataSeriesList().contains("2")) {
-					importresult = data.get("production");
+					importresult = data.get("import");
 				}
 				if (config.getSelectedDataSeriesList().contains("3")) {
-					exportresult = data.get("production");
+					exportresult = data.get("export");
 				}
 				//new config: delete former Map
 				RootPanel.get("visualizationContainer").clear();
 				draw();
+				}
 			}	
 		});	
 	}
@@ -110,28 +118,11 @@ public class GeoMapVisualization extends Visualization {
 
 	private void drawGeoMap(String dataSerie, String result[][]){
 		
-		boolean noCountryArea = false;
-		for (int j = 0; j<IsoCodes.length; j++){
-			//if the selected Area is not a country:
-			if (IsoCodes[j][1].equals("..")){
-				noCountryArea = true;
-			}else{
-				noCountryArea = false;
-				break;
-			
-		}
-		}
-		
-		if (noCountryArea){
-		//hier kommt das Fenster rein. 
-		}
-	
-		
 		//create GeoMap
 		GeoMap.Options options = GeoMap.Options.create();
 		options.setRegion("world");
 		options.setShowLegend(true);
-		options.setSize(1000, 500);
+		options.setSize(790, 395);
 		options.setShowLegend(true);
 		
 		//add data to GeoMap
@@ -198,14 +189,12 @@ public class GeoMapVisualization extends Visualization {
 					allSelectedItems = allSelectedItems + ", ";
 				}
 		}
-		//HTML space = new HTML("");
+	
 		HTML text = new HTML(dataSerie+ " per capita" +
 		" of " + allSelectedItems + "in " + allSelectedYears + ":");
 
 		GeoMap widget = new GeoMap(data, options);
-		//RootPanel.get("visualizationContainer").add(space);
 		RootPanel.get("visualizationContainer").add(text);
-		//RootPanel.get("visualizationContainer").add(space);
 		RootPanel.get("visualizationContainer").add(widget);
 		
 	}
