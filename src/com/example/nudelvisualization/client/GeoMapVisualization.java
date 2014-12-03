@@ -2,13 +2,14 @@ package com.example.nudelvisualization.client;
 
 import java.util.HashMap;
 
+import com.chap.links.client.Timeline;
+import com.chap.links.client.Timeline.Options;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-//import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
@@ -37,8 +38,6 @@ public class GeoMapVisualization extends Visualization {
 	String [][] populationData = null;
 	String [][] importresult = null;
 	String [][] exportresult = null;
-
-	
 	public GeoMapVisualization(){
 		
 	}
@@ -46,6 +45,40 @@ public class GeoMapVisualization extends Visualization {
 	public GeoMapVisualization(Configuration config) {
 		super(config);
 	}
+	
+/*public void createTimeline(){
+	    Runnable onLoadCallback = new Runnable() {
+	      public void run() {
+	        // create a data table
+	    	  
+	            DataTable data = DataTable.create();
+	            data.addColumn(DataTable.ColumnType.DATETIME, "year");
+	       
+
+	        // fill the table with some data
+	        data.addRows(3);
+	        data.setValue(0, 0, "1990");
+	        data.setValue(1, 0, "1991");
+	        data.setValue(2, 0, "1992");
+	        
+	        // create options
+	        Timeline.Options options = Timeline.Options.create();
+	        options.setWidth("100%");
+	        options.setHeight("200px");
+	        options.setStyle(Timeline.Options.STYLE.BOX);
+	        options.setEditable(true);
+
+	        // create the timeline, with data and options
+	       Timeline timeline = new Timeline(data, options);
+
+	        RootPanel.get("visualizationContainer").add(timeline);
+	      }
+	    };
+
+	    // Load the visualization api, passing the onLoadCallback to be called
+	    // when loading is done.
+	    VisualizationUtils.loadVisualizationApi(onLoadCallback);    
+	  }*/
 	
 	public boolean checkIsoCode(String[][]isoCodes){
 		boolean noCountryArea = false;
@@ -123,12 +156,7 @@ public class GeoMapVisualization extends Visualization {
 	
 
 	private void drawGeoMap(String dataSerie, String result[][]){
-		for (int i = 0; i<IsoCodes.length; i++){
-			for (int j= 0;j<IsoCodes[0].length;j++){
-				System.out.print(IsoCodes[i][j]+ "   ");
-			}
-			System.out.println();
-		}
+		//createTimeline();
 		//create GeoMap
 		GeoMap.Options options = GeoMap.Options.create();
 		options.setRegion("world");
