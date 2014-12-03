@@ -291,6 +291,31 @@ public class Filter {
 					System.out.println("Invalid input");
 			}
 		});
+		buttonGeoMap.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				updateFilter();
+				if (isInValidInput()) {
+					String msg = "You have forgotten to chose: ";
+					if (config.getSelectedAreaList().isEmpty()){
+						msg = msg + "the countrie(s) ";
+					}else if(config.getSelectedYearsList().isEmpty()){
+						msg = msg + "the year(s)";
+					}else if (config.getSelectedDataSeriesList().isEmpty()){
+						msg = msg + "the data serie(s) ";
+					} else if (config.getSelectedItemsList().isEmpty()){
+						msg = msg + "the item(s) ";
+					}
+					Window.alert(msg);
+				} else if (constraint2()) {
+
+				}
+				else {
+					drawGeoMap(config);
+
+				}
+				System.out.println("Invalid input");}
+		});
 
 		VerticalPanel buttons = new VerticalPanel();
 		buttons.add(buttonTable);

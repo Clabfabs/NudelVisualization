@@ -5,12 +5,12 @@ import java.util.HashMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
+//import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
@@ -77,11 +77,7 @@ public class GeoMapVisualization extends Visualization {
 				IsoCodes = data.get("IsoCode");
 				boolean noCountryArea = checkIsoCode(IsoCodes); 
 				if (noCountryArea){
-				DialogBox box = new DialogBox();
-				box.setText("You have chosen regions which are not representable. Please chose actual countries.");
-				box.setPixelSize(200, 100);
-				box.show();
-				RootPanel.get("visualitaionContainer").add(box);
+				Window.alert("You have chosen regions which are not representable. Please chose actual countries.");
 					
 				}else{
 				populationData = data.get("population");
