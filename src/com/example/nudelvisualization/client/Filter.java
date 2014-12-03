@@ -196,33 +196,7 @@ public class Filter {
 				System.out.println("Invalid input");}
 		});
 
-		buttonGeoMap.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				updateFilter();
-				if (isInValidInput()) {
-					String msg = "You have forgotten to chose: ";
-					if (config.getSelectedAreaList().isEmpty()){
-						msg = msg + "the countrie(s) ";
-					}else if(config.getSelectedYearsList().isEmpty()){
-						msg = msg + "the year(s)";
-					}else if (config.getSelectedDataSeriesList().isEmpty()){
-						msg = msg + "the data serie(s) ";
-					} else if (config.getSelectedItemsList().isEmpty()){
-						msg = msg + "the item(s) ";
-					}
-				} else if (constraint2()) {
-
-				}
-				else {
-					drawGeoMap(config);
-
-				}
-				System.out.println("Invalid input");}
-		});
-
-		// Button to initialize ColumnChart
-		buttonColumnChart.addClickHandler(new ClickHandler() {
+		buttonTable.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				updateFilter();
@@ -238,17 +212,36 @@ public class Filter {
 						msg = msg + "the item(s) ";
 					}
 					Window.alert(msg);
-
-				} else if (config.getSelectedAreaList().size()>10) {
-					Window.alert("Only 10 countries are allowed.");
-
-				}
-				else if (config.getSelectedItemsList().size()>5) {
-					Window.alert("Only 5 items are allowed.");
+				} else if (constraint2()) {
 
 				}
 				else {
-					drawColumnChart(config);
+					drawTable(config);
+
+				}
+				System.out.println("Invalid input");}
+		});
+
+		
+		// Button to initialize ColumnChart
+		buttonGeoMap.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				updateFilter();
+				if (isInValidInput()) {
+					String msg = "You have forgotten to chose: ";
+					if (config.getSelectedAreaList().isEmpty()){
+						msg = msg + "the countrie(s) ";
+					}else if(config.getSelectedYearsList().isEmpty()){
+						msg = msg + "the year(s)";
+					}else if (config.getSelectedDataSeriesList().isEmpty()){
+						msg = msg + "the data serie(s) ";
+					} else if (config.getSelectedItemsList().isEmpty()){
+						msg = msg + "the item(s) ";
+					}
+					Window.alert(msg);
+				} else {
+					drawGeoMap(config);
 
 				}
 				System.out.println("Invalid input");
