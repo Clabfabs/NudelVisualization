@@ -123,7 +123,12 @@ public class GeoMapVisualization extends Visualization {
 	
 
 	private void drawGeoMap(String dataSerie, String result[][]){
-		
+		for (int i = 0; i<IsoCodes.length; i++){
+			for (int j= 0;j<IsoCodes[0].length;j++){
+				System.out.print(IsoCodes[i][j]+ "   ");
+			}
+			System.out.println();
+		}
 		//create GeoMap
 		GeoMap.Options options = GeoMap.Options.create();
 		options.setRegion("world");
@@ -159,14 +164,21 @@ public class GeoMapVisualization extends Visualization {
 						}
 					}
 				}
-
-				//add selected country with value of sumAllData. If there is no data, sumAllData = 0
-				data.addRow();
-				data.setValue(counter, 0, IsoCodes[j][2]);
-				data.setValue(counter, 1 , sumAllData);
-				sumAllData = 0;
-				counter++;
-				
+				if (IsoCodes[j][1].equals("CD") || IsoCodes[j][1].equals("CG") || IsoCodes[j][1].equals("CI") || IsoCodes[j][1].equals("SS")){
+					//add selected country with value of sumAllData. If there is no data, sumAllData = 0
+					data.addRow();
+					data.setValue(counter, 0, IsoCodes[j][1]);
+					data.setValue(counter, 1 , sumAllData);
+					sumAllData = 0;
+					counter++;
+				}else{
+					//add selected country with value of sumAllData. If there is no data, sumAllData = 0
+					data.addRow();
+					data.setValue(counter, 0, IsoCodes[j][2]);
+					data.setValue(counter, 1 , sumAllData);
+					sumAllData = 0;
+					counter++;
+				}
 			}
 		}
 		
@@ -213,6 +225,7 @@ public class GeoMapVisualization extends Visualization {
 		// First try of a "next" button
 		if (config.getSelectedYearsList().size() == 1 && !(config.getSelectedYearsList().get(0) == "2011")) {
 			Button next = new Button("Next Year");
+			next.setPixelSize(100, 30);
 			next.addClickHandler(new ClickHandler(){
 				@Override
 				public void onClick(ClickEvent event) {
