@@ -1,9 +1,9 @@
 package com.example.nudelvisualization.client;
 
+
 import java.util.HashMap;
 
-import com.chap.links.client.Timeline;
-import com.chap.links.client.Timeline.Options;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -46,39 +46,10 @@ public class GeoMapVisualization extends Visualization {
 		super(config);
 	}
 	
-/*public void createTimeline(){
-	    Runnable onLoadCallback = new Runnable() {
-	      public void run() {
-	        // create a data table
-	    	  
-	            DataTable data = DataTable.create();
-	            data.addColumn(DataTable.ColumnType.DATETIME, "year");
-	       
-
-	        // fill the table with some data
-	        data.addRows(3);
-	        data.setValue(0, 0, "1990");
-	        data.setValue(1, 0, "1991");
-	        data.setValue(2, 0, "1992");
+public void createTimeline(){
+	
 	        
-	        // create options
-	        Timeline.Options options = Timeline.Options.create();
-	        options.setWidth("100%");
-	        options.setHeight("200px");
-	        options.setStyle(Timeline.Options.STYLE.BOX);
-	        options.setEditable(true);
-
-	        // create the timeline, with data and options
-	       Timeline timeline = new Timeline(data, options);
-
-	        RootPanel.get("visualizationContainer").add(timeline);
-	      }
-	    };
-
-	    // Load the visualization api, passing the onLoadCallback to be called
-	    // when loading is done.
-	    VisualizationUtils.loadVisualizationApi(onLoadCallback);    
-	  }*/
+	  }
 	
 	public boolean checkIsoCode(String[][]isoCodes){
 		boolean noCountryArea = false;
