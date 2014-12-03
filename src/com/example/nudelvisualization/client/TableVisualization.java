@@ -86,7 +86,9 @@ public class TableVisualization extends Visualization {
 				RootPanel.get("visualizationContainer").add(pagerTop);
 				RootPanel.get("visualizationContainer").add(visualizationPanel);
 				RootPanel.get("visualizationContainer").add(pagerBottom);	
+				addSource();
 			}
+
 		});
 	 }
 	

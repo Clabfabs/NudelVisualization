@@ -156,7 +156,7 @@ public class Filter {
 
 				}
 				else {
-					drawLineChart(config);
+					drawTable(config);
 
 				}
 				System.out.println("Invalid input");}

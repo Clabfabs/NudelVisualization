@@ -222,5 +222,7 @@ public class GeoMapVisualization extends Visualization {
 		}
 				
 		RootPanel.get("visualizationContainer").add(widget);
+
+		addSource();
 	}
 }
