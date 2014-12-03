@@ -32,11 +32,6 @@ import com.google.gwt.visualization.client.visualizations.corechart.CoreChart;
 
 public class GeoMapVisualization extends Visualization {
 
-	/*
-	 * TO DO's
-	 * - Fenster wenn nicht Land angewählt wurde
-	 * 
-	 * */
 	String [][] IsoCodes = null;
 	String [][] productionresult = null;
 	String [][] populationData = null;
@@ -200,9 +195,16 @@ public class GeoMapVisualization extends Visualization {
 					allSelectedItems = allSelectedItems + ", ";
 				}
 		}
-	
+		String noCountryAreas = "";
+		for (int j = 0; j<IsoCodes.length; j++){
+			//if the selected Area is not a country:
+			if (IsoCodes[j][1].equals("..")){
+				noCountryAreas = " (Some of the regions you have chosen are no actual countries. They are not represented.)";
+				break;
+		}
+		}
 		HTML text = new HTML(dataSerie+ " per capita" +
-		" of " + allSelectedItems + "in " + allSelectedYears + ":");
+		" of " + allSelectedItems + "in " + allSelectedYears + noCountryAreas+ ":");
 
 		GeoMap widget = new GeoMap(data, options);
 		
@@ -226,7 +228,7 @@ public class GeoMapVisualization extends Visualization {
 		}
 				
 		RootPanel.get("visualizationContainer").add(widget);
-
+		
 		addSource();
 	}
 }
