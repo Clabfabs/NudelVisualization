@@ -187,6 +187,8 @@ public class LineChartVisualization extends Visualization{
 	    						ImageLineChart widget = new ImageLineChart(data, options);
 	    						RootPanel.get("visualizationContainer").clear();
 	    						RootPanel.get("visualizationContainer").add(widget);
+	    						addSource();
+
 						}
 						
 						else{

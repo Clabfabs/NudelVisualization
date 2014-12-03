@@ -4,12 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-/**
- * @author nadinepiveteau
- *Testing not possible here because the methods are dependent on the GUI elements. 
- */
-public class FilterTest {
-
+public class ControllerTest {
+	/**
+	 * @author nadinepiveteau
+	 * No J Unit test possible due to the fact that it is dependent on the GUI. No way to go around it. 
+	 */
 	@Test
 	public void test() {
 		fail("Not yet implemented");

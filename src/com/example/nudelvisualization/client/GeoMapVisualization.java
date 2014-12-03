@@ -52,6 +52,19 @@ public class GeoMapVisualization extends Visualization {
 		super(config);
 	}
 	
+	public boolean checkIsoCode(String[][]isoCodes){
+		boolean noCountryArea = false;
+		for (int j = 0; j<isoCodes.length; j++){
+			//if the selected Area is not a country:
+			if (isoCodes[j][1].equals("..")){
+				noCountryArea = true;
+			}else{
+				noCountryArea = false;
+				break;
+		}
+		}
+		return noCountryArea;
+	}
 	
 	
 	public void initialize() {
@@ -62,16 +75,7 @@ public class GeoMapVisualization extends Visualization {
 				
 				RootPanel.get("visualizationContainer").clear();
 				IsoCodes = data.get("IsoCode");
-				boolean noCountryArea = false;
-				for (int j = 0; j<IsoCodes.length; j++){
-					//if the selected Area is not a country:
-					if (IsoCodes[j][1].equals("..")){
-						noCountryArea = true;
-					}else{
-						noCountryArea = false;
-						break;
-				}
-				}
+				boolean noCountryArea = checkIsoCode(IsoCodes); 
 				if (noCountryArea){
 				DialogBox box = new DialogBox();
 				box.setText("You have chosen regions which are not representable. Please chose actual countries.");
@@ -226,5 +230,7 @@ public class GeoMapVisualization extends Visualization {
 		}
 				
 		RootPanel.get("visualizationContainer").add(widget);
+
+		addSource();
 	}
 }
