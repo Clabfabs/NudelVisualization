@@ -19,7 +19,6 @@
 
 #visualizationContainer {
 
-	
 }
 .jumbotron {
     background-image: url('http://www.wallpapersfolder.com/user-content/uploads/wall/o/2013/06/brown-noodle-in-the-blue-space.jpg');
@@ -47,4 +46,19 @@
 nav{
 	margin-left: 10px;
 	margin-right: 10px;
+}
+#selectiontext{
+	font-size: 12pt;
+	margin-left: 7px;
+}
+
+.addPlacement{
+	height: 300px;
+	width: 400px;
+	border: 2px solid black;
+	border-radius: 5px;
+	background-color: #308014;
+	float: right;
+	margin-right: 30px;
+	margin-bottom: 30px;
 }
