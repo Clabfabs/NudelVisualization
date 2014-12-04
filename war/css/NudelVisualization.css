@@ -1,7 +1,9 @@
 .gwt-Button {
 	width: 100%
 }
-
+.gwt-Button:hover{
+	color: #eec81b; 
+}
 .buttonPanel {
 	margin-left: 5px;
 }
@@ -12,10 +14,33 @@
 }
 
 #filterContainer {
-
+	background-color: #f2f2f2;
 }
 
 #visualizationContainer {
+
 	
+}
+.jumbotron {
+    background-image: url('http://www.wallpapersfolder.com/user-content/uploads/wall/o/2013/06/brown-noodle-in-the-blue-space.jpg');
 	
+}
+.jumbotron h1{
+        color: #eec81b;
+        font-family: 
+        
+}
+.jumbotron p{
+    color: #eec81b;
+}
+.background{
+	background-color: #f2f2f2;
+}
+
+#nudelcolor{
+	color: #eec81b;
+}
+
+#nudelcolor:hover{
+	color: #f2f2f2;
 }
