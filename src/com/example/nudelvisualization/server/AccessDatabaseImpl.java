@@ -191,7 +191,6 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 	}
 	
 	public StringBuilder buildQueryPopulation(StringBuilder query, Configuration config){
-		StringBuilder queryString = null;
 		query.append("SELECT AreaCode, Year, Value FROM nudeldb.population WHERE (AreaCode =");
 		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
 			query.append(" ? OR AreaCode =");
@@ -423,7 +422,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 	}
 
 	public StringBuilder buildQueryProductionLCData(StringBuilder query, Configuration config){
-		query.append("SELECT ElementName, AreaName, ItemName, Year, Value FROM nudeldb.production NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items");
+		query.append("SELECT ElementName, AreaName, ItemName, Year, Value FROM nudeldb.production NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items ORDER BY AreaCode, ItemCode, Year");
 		query.append(" WHERE (AreaCode =");
 		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
 			query.append(" ? OR AreaCode =");
@@ -505,7 +504,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 	}
 
 	public StringBuilder buildQueryTradeLCData(StringBuilder query, Configuration config){
-		query.append("SELECT ElementName, AreaName, ItemName, Year, Value FROM nudeldb.trade NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items");
+		query.append("SELECT ElementName, AreaName, ItemName, Year, Value FROM nudeldb.trade NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items ORDER BY AreaCode, ItemCode, Year");
 		query.append(" WHERE (ElementCode = ?) AND (AreaCode =");
 		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
 			query.append(" ? OR AreaCode =");
