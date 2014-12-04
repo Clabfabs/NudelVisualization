@@ -1,8 +1,8 @@
 package com.example.nudelvisualization.client;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,6 +11,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
@@ -38,6 +39,7 @@ public class GeoMapVisualization extends Visualization {
 	String [][] populationData = null;
 	String [][] importresult = null;
 	String [][] exportresult = null;
+	
 	public GeoMapVisualization(){
 		
 	}
@@ -45,11 +47,203 @@ public class GeoMapVisualization extends Visualization {
 	public GeoMapVisualization(Configuration config) {
 		super(config);
 	}
+
+	public void createTimeline(){
+		ArrayList <Button> yearsButton = new ArrayList <Button>();
+		int startYear = 1990;
+		int endYear = 2011;
+		for (int i = startYear; i <= endYear;i++){
+			yearsButton.add(new Button(Integer.toString(i)));
+		}
 	
-public void createTimeline(){
+		for (int j = 0; j<yearsButton.size(); j++){
+			yearsButton.get(j).setPixelSize(36, 27);
+		}
 	
-	        
-	  }
+		yearsButton.get(0).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("1990");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(1).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("1991");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(2).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("1992");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(3).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("1993");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(4).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("1994");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(5).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("1995");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(6).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("1996");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(7).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("1997");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(8).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("1998");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(9).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("1999");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(10).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2000");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(11).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2001");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(12).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2002");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(13).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2003");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(14).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2004");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(15).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2005");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(16).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2006");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(17).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2007");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(18).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2008");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(19).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2009");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(20).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2010");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		yearsButton.get(21).addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				config.getSelectedYearsList().clear();
+				config.addYear("2011");
+				GeoMapVisualization newMap = new GeoMapVisualization(config);
+				newMap.initialize();
+			}
+		});
+		
+		HorizontalPanel timeline = new HorizontalPanel();
+		for (int y = 0; y<yearsButton.size();y++){
+			timeline.add(yearsButton.get(y));
+		}
+		
+		RootPanel.get("visualizationContainer").add(timeline);
+	}
 	
 	public boolean checkIsoCode(String[][]isoCodes){
 		boolean noCountryArea = false;
@@ -218,26 +412,14 @@ public void createTimeline(){
 		" of " + allSelectedItems + "in " + allSelectedYears + noCountryAreas+ ":");
 
 		GeoMap widget = new GeoMap(data, options);
+
+		if (config.getSelectedYearsList().size() == 1) {
+			createTimeline();
+		}
 		
 		RootPanel.get("visualizationContainer").add(text);
 		
-		// First try of a "next" button
-		if (config.getSelectedYearsList().size() == 1 && !(config.getSelectedYearsList().get(0) == "2011")) {
-			Button next = new Button("Next Year");
-			next.setPixelSize(100, 30);
-			next.addClickHandler(new ClickHandler(){
-				@Override
-				public void onClick(ClickEvent event) {
-					int currentYear = Integer.parseInt(config.getSelectedYearsList().get(0));
-					String nextYear = Integer.toString(currentYear + 1);
-					config.getSelectedYearsList().clear();
-					config.addYear(nextYear);
-					GeoMapVisualization newMap = new GeoMapVisualization(config);
-					newMap.initialize();
-				}
-			});	
-			RootPanel.get("visualizationContainer").add(next);
-		}
+		
 				
 		RootPanel.get("visualizationContainer").add(widget);
 		
