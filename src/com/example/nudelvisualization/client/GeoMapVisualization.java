@@ -12,6 +12,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
@@ -49,15 +50,15 @@ public class GeoMapVisualization extends Visualization {
 	}
 
 	public void createTimeline(){
-		ArrayList <Button> yearsButton = new ArrayList <Button>();
+		ArrayList <Image> yearsButton = new ArrayList <Image>();
 		int startYear = 1990;
 		int endYear = 2011;
 		for (int i = startYear; i <= endYear;i++){
-			yearsButton.add(new Button(Integer.toString(i)));
+			yearsButton.add(new Image(Integer.toString(i)+".png"));
 		}
 	
 		for (int j = 0; j<yearsButton.size(); j++){
-			yearsButton.get(j).setPixelSize(36, 27);
+			yearsButton.get(j).setPixelSize(45, 50);
 		}
 	
 		yearsButton.get(0).addClickHandler(new ClickHandler(){
@@ -326,7 +327,7 @@ public class GeoMapVisualization extends Visualization {
 		GeoMap.Options options = GeoMap.Options.create();
 		options.setRegion("world");
 		options.setShowLegend(true);
-		options.setSize(790, 395);
+		options.setSize(990, 495);
 		options.setShowLegend(true);
 		
 		//add data to GeoMap
