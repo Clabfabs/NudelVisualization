@@ -12,7 +12,7 @@
 	text-align: center;
 	font-size: 16pt;
 }
-
+/* 
 #filterContainer {
 	background-color: #f2f2f2;
 }
@@ -59,17 +59,17 @@ nav{
 	font-size: 12pt;
 	margin-left: 7px;
 }
-
+*/
 .addPlacement{
 	height: 300px;
-	width: 400px;
+	width: 100px;
 	border: 2px solid black;
 	border-radius: 5px;
-	background-image: url(/NudelVisualization/war/herecouldbeyouradd.png);
+	background-image: url(../herecouldbeyouradd.png);
 	float: right;
 	margin-right: 30px;
 	margin-bottom: 30px;
-}
+} 
 
 nav{
 	background-color: rgba(0,0,0,0.90)!important;
