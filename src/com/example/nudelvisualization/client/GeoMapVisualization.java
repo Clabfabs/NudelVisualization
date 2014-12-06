@@ -41,7 +41,6 @@ public class GeoMapVisualization extends Visualization {
 	String [][] importresult = null;
 	String [][] exportresult = null;
 	ArrayList <Image> yearsButton = new ArrayList <Image>();
-	VerticalPanel panel = new VerticalPanel();
 	
 	
 	public GeoMapVisualization(){
@@ -206,14 +205,13 @@ public class GeoMapVisualization extends Visualization {
 
 		GeoMap widget = new GeoMap(data, options);
 
-		if (config.getSelectedYearsList().size() == 1) {
+		if (config.getSelectedYearsList().size() == 1 && config.getSelectedDataSeriesList().size() == 1) {
 			createTimeline();
 		}
 		
-		panel.add(text);
-		panel.add(widget);
-		RootPanel.get("visualizationContainer").add(panel);
 		
+		RootPanel.get("visualizationContainer").add(text);
+		RootPanel.get("visualizationContainer").add(widget);
 		addSource();
 	}
 	
@@ -266,7 +264,7 @@ public class GeoMapVisualization extends Visualization {
 		}
 		
 		for (int j = 0; j<yearsButton.size(); j++){
-			yearsButton.get(j).setPixelSize(45, 50);	
+			yearsButton.get(j).setPixelSize(45, 58);	
 		}
 	
 		yearsButton.get(0).addClickHandler(new ClickHandler(){
@@ -450,6 +448,6 @@ public class GeoMapVisualization extends Visualization {
 		for (int y = 0; y<yearsButton.size();y++){
 			timeline.add(yearsButton.get(y));
 		}
-		panel.add(timeline);
+		RootPanel.get("visualizationContainer").add(timeline);
 	}
 }
