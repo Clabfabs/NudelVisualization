@@ -236,13 +236,15 @@ public class GeoMapVisualization extends Visualization {
 	public void createTimeline(){
 		int startYear = 1990;
 		int endYear = 2011;
+
 		for (int i = startYear; i <= endYear;i++){
-			//if (Integer.toString(i).equals(config.getSelectedYearsList().get(0))){
-				//yearsButton.add(new Image(Integer.toString(i)+"r.png"));	
-			//}else{
+			if (config.getSelectedYearsList().size() == 1 && Integer.toString(i).equals(config.getSelectedYearsList().get(0))){
+				yearsButton.add(new Image(Integer.toString(i)+"r.png"));	
+			}else{
 				yearsButton.add(new Image(Integer.toString(i)+".png"));
+			}
 		}
-		//}
+		
 		for (int j = 0; j<yearsButton.size(); j++){
 			yearsButton.get(j).setPixelSize(45, 50);	
 		}
