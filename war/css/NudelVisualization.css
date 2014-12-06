@@ -21,22 +21,23 @@
 
 }
 .jumbotron {
-    background-image: url('http://www.wallpapersfolder.com/user-content/uploads/wall/o/2013/06/brown-noodle-in-the-blue-space.jpg');
+    background-image: url('http://downloads.xdesktopwallpapers.com/wp-content/uploads/2011/01/Noodles-With-Stick.jpg');
 	
 }
 .jumbotron h1{
         color: #eec81b;
-        font-family: Cursive;
+        font-family: Palatino Linotype;
     	position: relative;
-   		top: 30px;
-        margin-top: 50px;
+    	top: -10px;
+    	left: -25px;
 }
 .jumbotron p{
     color: #eec81b;
-    font-family: Cursive;
+    font-family: Palatino Linotype;
     position: relative;
-   	top: 50px;
+   	top: 80px;
    	margin-bottom: 30px;
+   	left: 1020px;
 }
 .background{
 	background-color: #f2f2f2;
@@ -52,7 +53,7 @@
 nav{
 	margin-left: 10px;
 	margin-right: 10px;
-	font-family: Cursive;
+	font-family: Palatino Linotype;
 }
 #selectiontext{
 	font-size: 12pt;
@@ -64,11 +65,12 @@ nav{
 	width: 400px;
 	border: 2px solid black;
 	border-radius: 5px;
-	background-color: #eec81b;
+	background-image: url(/NudelVisualization/war/herecouldbeyouradd.png);
 	float: right;
 	margin-right: 30px;
 	margin-bottom: 30px;
 }
-.addPLacement p{
-	text-align: center;
+
+nav{
+	background-color: rgba(0,0,0,0.90)!important;
 }
