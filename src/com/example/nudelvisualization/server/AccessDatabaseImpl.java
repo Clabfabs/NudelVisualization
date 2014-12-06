@@ -596,66 +596,46 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 	 * @return a 2-dimensional String Array with the rows
 	 */
 	public HashMap<String, String[][]> getTableVisualizationData(Configuration config) {
-
-		/*if (config.getSelectedDataSeriesList().contains("1")) {
-			String productionQuery = getTableQuery("production", "WHERE 1 = 1");
-		}
-		if (config.getSelectedDataSeriesList().contains("2")) {
-			String productionQuery = getTableQuery("import", "WHERE ElementCode = 5610");
-		}
-		if (config.getSelectedDataSeriesList().contains("1")) {
-			String productionQuery = getTableQuery("production", "WHERE ElementCode = 5910");
-		}*/
 		
 		ArrayList<String[]> returnValue = new ArrayList<>();
 		int nCol = 0;
-		System.out.println("trying query");
+		int numberOfDataSeries = 0;
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT");
-		if (config.getSelectedTitles() == null) {
-			query.append(" * ");
-		} else {
-			int count = 0;
-			for (int i = 0; i < config.getSelectedTitles().size() - 1; i++) {
-				query.append(" " + config.getSelectedTitles().get(count++) + ",");
+		System.out.println("trying query");
+		if (config.getSelectedDataSeriesList().contains("1")) {
+			numberOfDataSeries++;
+			query.append(tableQueryBuilder(config, "production", "1 = 1"));
+			if (config.getSelectedDataSeriesList().contains("2")
+					|| config.getSelectedDataSeriesList().contains("3")) {
+				query.append(" UNION ");
 			}
-			query.append(" " + config.getSelectedTitles().get(count) + " ");
 		}
-		query.append("FROM");
-		// To be uncommented later!
-		/*
-		 * for (int i = 0; i < config.getSelectedDataSeriesList().size()-1; i++)
-		 * { query.append(" nudeldb." +
-		 * config.getSelectedDataSeriesList().get(i) + ","); }
-		 */
-		query.append(" nudeldb.production NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items");
-		query.append(" WHERE (AreaCode =");
-		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
-			query.append(" ? OR AreaCode =");
+		if (config.getSelectedDataSeriesList().contains("2")) {
+			numberOfDataSeries++;
+			query.append(tableQueryBuilder(config, "trade", "ElementCode = 5610"));
+			if (config.getSelectedDataSeriesList().contains("3")) {
+				query.append(" UNION ");
+			}
 		}
-		query.append(" ?)");
-		query.append(" AND (Year =");
-		for (int i = 0; i < config.getSelectedYearsList().size() - 1; i++) {
-			query.append(" ? OR Year =");
+		if (config.getSelectedDataSeriesList().contains("3")) {
+			numberOfDataSeries++;
+			query.append(tableQueryBuilder(config, "trade", "ElementCode = 5910"));
 		}
-		query.append(" ?)");
-		query.append(" AND (ItemCode =");
-		for (int i = 0; i < config.getSelectedItemsList().size() - 1; i++) {
-			query.append(" ? OR ItemCode =");
-		}
-		query.append(" ?)");
+		
 		System.out.println(query.toString());
 		try {
 			PreparedStatement select = conn.prepareStatement(query.toString());
 			int count = 1;
-			for (String s : config.getSelectedAreaList()) {
-				select.setInt(count++, Integer.parseInt(s));
-			}
-			for (String s : config.getSelectedYearsList()) {
-				select.setInt(count++, Integer.parseInt(s));
-			}
-			for (String s : config.getSelectedItemsList()) {
-				select.setInt(count++, Integer.parseInt(s));
+			for (int i = 0; i < numberOfDataSeries; i++) {
+				for (String s : config.getSelectedAreaList()) {
+					select.setInt(count++, Integer.parseInt(s));
+				}
+				for (String s : config.getSelectedYearsList()) {
+					select.setInt(count++, Integer.parseInt(s));
+				}
+				for (String s : config.getSelectedItemsList()) {
+					select.setInt(count++, Integer.parseInt(s));
+				}				
 			}
 			System.out.println(select.toString());
 			ResultSet result = select.executeQuery();
@@ -683,6 +663,36 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 		HashMap<String, String[][]> data = new HashMap<>();
 		data.put("Production", returnValuesStrings);
 		return data;
+	}
+
+	private String tableQueryBuilder(Configuration config, String table, String condition) {
+		StringBuilder queryTemp = new StringBuilder();
+		queryTemp.append("SELECT");
+		if (config.getSelectedTitles() == null) {
+			queryTemp.append(" * ");
+		} else {
+			int count = 0;
+			for (int i = 0; i < config.getSelectedTitles().size() - 1; i++) {
+				queryTemp.append(" " + config.getSelectedTitles().get(count++) + ",");
+			}
+			queryTemp.append(" " + config.getSelectedTitles().get(count) + " ");
+		}
+		queryTemp.append("FROM nudeldb." + table + " NATURAL JOIN nudeldb.elements NATURAL JOIN nudeldb.countries NATURAL JOIN nudeldb.items WHERE " + condition + " AND (AreaCode =");
+		for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
+			queryTemp.append(" ? OR AreaCode =");
+		}
+		queryTemp.append(" ?)");
+		queryTemp.append(" AND (Year =");
+		for (int i = 0; i < config.getSelectedYearsList().size() - 1; i++) {
+			queryTemp.append(" ? OR Year =");
+		}
+		queryTemp.append(" ?)");
+		queryTemp.append(" AND (ItemCode =");
+		for (int i = 0; i < config.getSelectedItemsList().size() - 1; i++) {
+			queryTemp.append(" ? OR ItemCode =");
+		}
+		queryTemp.append(" ?)");
+		return queryTemp.toString();
 	}
 
 	public StringBuilder buildQueryColumnChart(StringBuilder query, Configuration config, int counter){
