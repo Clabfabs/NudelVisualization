@@ -115,7 +115,6 @@ public class GeoMapVisualization extends Visualization {
 	
 
 	private void drawGeoMap(String dataSerie, String result[][]){
-		//createTimeline();
 		//create GeoMap
 		GeoMap.Options options = GeoMap.Options.create();
 		options.setRegion("world");
