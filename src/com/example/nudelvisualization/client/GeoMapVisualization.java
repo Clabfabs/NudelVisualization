@@ -134,22 +134,22 @@ public class GeoMapVisualization extends Visualization {
 			//if the selected Area is a country:
 			if (!(IsoCodes[j][1].equals(".."))){
 				//gather value of data
-				for (int i= 0; i< result.length; i++){
-					if (result[i][0].equals(config.getSelectedAreaList().get(j))){
-						if (!(result[i][3].isEmpty())){ //get rid of exceptions
-							//compare it with population
-							for (int y = 0; y< populationData.length; y++){
-								if(populationData[y][1].equals(result[i][1])){
-									//add up all dataValues
-									int valueAsDouble = Integer.valueOf(result[i][3]);
-									int populationAsDouble = Integer.valueOf(populationData[y][2]);
-									sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
-									
-								}
-							}
-						}
-					}
-				}
+				sumAllData = getSumAllData(result, j);
+//				for (int i= 0; i< result.length; i++){
+//					if (result[i][0].equals(config.getSelectedAreaList().get(j))){
+//						if (!(result[i][3].isEmpty())){ //get rid of exceptions
+//							//compare it with population
+//							for (int y = 0; y< populationData.length; y++){
+//								if(populationData[y][1].equals(result[i][1])){
+//									//add up all dataValues
+//									int valueAsDouble = Integer.valueOf(result[i][3]);
+//									int populationAsDouble = Integer.valueOf(populationData[y][2]);
+//									sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
+//								}
+//							}
+//						}
+//					}
+//				}
 				if (IsoCodes[j][1].equals("CD") || IsoCodes[j][1].equals("CG") || IsoCodes[j][1].equals("CI") || IsoCodes[j][1].equals("SS")){
 					//add selected country with value of sumAllData. If there is no data, sumAllData = 0
 					data.addRow();
@@ -230,6 +230,26 @@ public class GeoMapVisualization extends Visualization {
 		}
 		}
 		return noCountryArea;
+	}
+	
+	public int getSumAllData(String [][] result, int j){
+		int sumAllData=0;
+		for (int i= 0; i< result.length; i++){
+			if (result[i][0].equals(config.getSelectedAreaList().get(j))){
+				if (!(result[i][3].isEmpty())){ //get rid of exceptions
+					//compare it with population
+					for (int y = 0; y< populationData.length; y++){
+						if(populationData[y][1].equals(result[i][1])){
+							//add up all dataValues
+							int valueAsDouble = Integer.valueOf(result[i][3]);
+							int populationAsDouble = Integer.valueOf(populationData[y][2]);
+							sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
+						}
+					}
+				}
+			}
+		}
+		return sumAllData;
 	}
 	
 	
