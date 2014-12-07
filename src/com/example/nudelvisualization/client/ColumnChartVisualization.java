@@ -98,7 +98,7 @@ public class ColumnChartVisualization extends Visualization {
 				hashMapArray.add(dataTriple.getHashMapImport());
 				hashMapArray.add(dataTriple.getHashMapExport());
 				int counter = 0;
-				HorizontalPanel framePanel = new HorizontalPanel();
+				VerticalPanel framePanel = new VerticalPanel();
 				RootPanel.get("visualizationContainer").clear();
 				for (HashMap<String, List<String[]>> hashMap : hashMapArray) {
 					if (hashMap == null){
