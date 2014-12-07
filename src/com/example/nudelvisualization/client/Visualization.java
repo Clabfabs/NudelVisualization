@@ -27,7 +27,7 @@ public abstract class Visualization {
 	}
 	
 	public void addSource(){
-		Label source = new Label("source: XXXXXXXXXXXXXXXXXXXX");
+		Label source = new Label("source: World Trade Organisation");
 		RootPanel.get("visualizationContainer").add(source);
 		
 	}
