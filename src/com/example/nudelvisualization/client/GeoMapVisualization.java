@@ -140,9 +140,9 @@ public class GeoMapVisualization extends Visualization {
 //							for (int y = 0; y< populationData.length; y++){
 //								if(populationData[y][1].equals(result[i][1])){
 //									//add up all dataValues
-//									int valueAsDouble = Integer.valueOf(result[i][3]);
-//									int populationAsDouble = Integer.valueOf(populationData[y][2]);
-//									sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
+//									int valueAsInt = Integer.valueOf(result[i][3]);
+//									int populationAsInt = Integer.valueOf(populationData[y][2]);
+//									sumAllData = sumAllData + (valueAsInt/populationAsInt);
 //								}
 //							}
 //						}
@@ -238,9 +238,9 @@ public class GeoMapVisualization extends Visualization {
 					for (int y = 0; y< populationData.length; y++){
 						if(populationData[y][1].equals(result[i][1])){
 							//add up all dataValues
-							int valueAsDouble = Integer.valueOf(result[i][3]);
-							int populationAsDouble = Integer.valueOf(populationData[y][2]);
-							sumAllData = sumAllData + (valueAsDouble/populationAsDouble);
+							int valueAsInt = Integer.valueOf(result[i][3]);
+							int populationAsInt = Integer.valueOf(populationData[y][2]);
+							sumAllData = sumAllData + (valueAsInt/populationAsInt);
 						}
 					}
 				}
@@ -256,9 +256,9 @@ public class GeoMapVisualization extends Visualization {
 
 		for (int i = startYear; i <= endYear;i++){
 			if (config.getSelectedYearsList().size() == 1 && Integer.toString(i).equals(config.getSelectedYearsList().get(0))){
-				yearsButton.add(new Image(Integer.toString(i)+"r.png"));	
+				yearsButton.add(new Image("timelineimages/" + Integer.toString(i)+"r.png"));	
 			}else{
-				yearsButton.add(new Image(Integer.toString(i)+".png"));
+				yearsButton.add(new Image("timelineimages/" + Integer.toString(i)+".png"));
 			}
 		}
 		
@@ -444,9 +444,10 @@ public class GeoMapVisualization extends Visualization {
 		});
 		
 		HorizontalPanel timeline = new HorizontalPanel();
-		for (int y = 0; y<yearsButton.size();y++){
+		for (int y = 0; y<yearsButton.size(); y++){
 			timeline.add(yearsButton.get(y));
 		}
+		timeline.addStyleName("timeline");
 		RootPanel.get("visualizationContainer").add(timeline);
 	}
 }
