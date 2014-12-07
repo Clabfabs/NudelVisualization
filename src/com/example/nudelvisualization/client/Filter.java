@@ -196,7 +196,7 @@ public class Filter {
 				System.out.println("Invalid input");}
 		});
 
-		buttonTable.addClickHandler(new ClickHandler() {
+		buttonColumnChart.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				updateFilter();
@@ -216,7 +216,7 @@ public class Filter {
 
 				}
 				else {
-					drawTable(config);
+					drawColumnChart(config);
 
 				}
 				System.out.println("Invalid input");}
