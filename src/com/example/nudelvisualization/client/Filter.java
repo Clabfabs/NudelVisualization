@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 // import java.io.File;
 
+
+
+
+
 import org.apache.xalan.xsltc.compiler.util.ErrorMessages;
 
 import com.google.gwt.core.client.GWT;
@@ -13,10 +17,12 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 
 public class Filter {
 
@@ -35,6 +41,7 @@ public class Filter {
 	private Button buttonGeoMap = new Button("Geo Map");
 	private Button buttonLineChart = new Button("Line Chart");
 	private Button buttonSaveConfig = new Button("Save Configuration");
+	private Button buttonLoadConfig = new Button("Load Configuration");
 
 	private ArrayList<DataSeries> dataSeries = new ArrayList<DataSeries>();
 	// Listbox for GUI which will offer the option to choose one of the Areas in
@@ -60,6 +67,7 @@ public class Filter {
 
 	public void init() {
 		dataAccessSocket = GWT.create(AccessDatabase.class);
+		saveConfigSocket = GWT.create(saveConfig.class);
 		fillListBoxes();
 	}
 
@@ -90,6 +98,7 @@ public class Filter {
 				lbAreaFilter.addItem(area.get(j).getName(), area.get(j).getID());
 			}
 			lbAreaFilter.setVisibleItemCount(10);
+			lbAreaFilter.setWidth("100%");
 
 			/*
 			 * We fill Item objects with the values of the columns "ItemCode"
@@ -100,6 +109,8 @@ public class Filter {
 				lbItemsFilter.addItem(items.get(j).getName(), items.get(j).getID());
 			}
 			lbItemsFilter.setVisibleItemCount(10);
+			lbItemsFilter.setWidth("100%");
+
 
 			/*
 			 * We fill Year object
@@ -109,6 +120,7 @@ public class Filter {
 				lbYearsFilter.addItem(years.get(j).getYear());
 			}
 			lbYearsFilter.setVisibleItemCount(10);
+			lbYearsFilter.setWidth("100%");
 
 			// Adding all DataSeries-Objects
 			setDataSeries();
@@ -118,6 +130,8 @@ public class Filter {
 				lbDataSeriesFilter.addItem(dataSeries.get(i).getName(), dataSeries.get(i).getID());
 			}
 			lbDataSeriesFilter.setVisibleItemCount(10);
+			lbDataSeriesFilter.setWidth("100%");
+
 
 			initializeFilter();
 		}
@@ -140,7 +154,7 @@ public class Filter {
 			public void onClick(ClickEvent event) {
 				updateFilter();
 				if (isInValidInput()) {
-					String msg = "You have forgotten to chose: ";
+					String msg = "You forgot to choose: ";
 					if (config.getSelectedAreaList().isEmpty()){
 						msg = msg + "the countrie(s) ";
 					}else if(config.getSelectedYearsList().isEmpty()){
@@ -169,7 +183,7 @@ public class Filter {
 			public void onClick(ClickEvent event) {
 				updateFilter();
 				if (isInValidInput()) {
-					String msg = "You have forgotten to chose: ";
+					String msg = "You forgot to choose: ";
 					if (config.getSelectedAreaList().isEmpty()){
 						msg = msg + "the countrie(s) ";
 					}else if(config.getSelectedYearsList().isEmpty()){
@@ -183,15 +197,12 @@ public class Filter {
 
 				} else if (config.getSelectedAreaList().size()>10) {
 					Window.alert("Only 10 countries are allowed.");
-
 				}
 				else if (config.getSelectedItemsList().size()>5) {
 					Window.alert("Only 5 items are allowed.");
-
 				}
 				else {
 					drawLineChart(config);
-
 				}
 				System.out.println("Invalid input");}
 		});
@@ -201,7 +212,7 @@ public class Filter {
 			public void onClick(ClickEvent event) {
 				updateFilter();
 				if (isInValidInput()) {
-					String msg = "You have forgotten to chose: ";
+					String msg = "You forgot to choose: ";
 					if (config.getSelectedAreaList().isEmpty()){
 						msg = msg + "the countrie(s) ";
 					}else if(config.getSelectedYearsList().isEmpty()){
@@ -234,7 +245,7 @@ public class Filter {
 			public void onClick(ClickEvent event) {
 				updateFilter();
 				if (isInValidInput()) {
-					String msg = "You have forgotten to chose: ";
+					String msg = "You forgot to choose: ";
 					if (config.getSelectedAreaList().isEmpty()){
 						msg = msg + "the countrie(s) ";
 					}else if(config.getSelectedYearsList().isEmpty()){
@@ -261,40 +272,101 @@ public class Filter {
 			@Override
 			public void onClick(ClickEvent event) {
 				updateFilter();
-				if (isInValidInput()) { /// Ufpasse Fabio has gänderet vo isValid unf is(!!!)In(!!)ValidInput(). Just so you know =)
-					/*
-					 * saveConfigSocket.getConfigAsFile(config, new
-					 * AsyncCallback<File>() {
-					 * 
-					 * @Override public void onFailure(Throwable caught)
-					 * {System.
-					 * out.println("Communication with Server failed.");}
-					 * 
-					 * @Override public void onSuccess(File result) {
-					 * 
-					 * } });
-					 */} else
+				if (isInValidInput()) {
 					System.out.println("Invalid input");
+				} else {
+					saveConfigSocket.getConfigAsFile(config, new AsyncCallback<Void>()  {
+						@Override
+						public void onFailure(Throwable caught) {
+							System.out.println("Communication with server failed: " + caught.getMessage());							
+						}
+						@Override
+						public void onSuccess(Void result) {
+							System.out.println("It worked, maybe.");
+						}
+					});;
+				}
+					
+			}
+		});
+		buttonLoadConfig.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				saveConfigSocket.setConfigFromFile(new AsyncCallback<Configuration>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						System.out.println("Communication with server failed: " + caught.getMessage());
+					}
+					@Override
+					public void onSuccess(Configuration result) {
+						for (int i = 0; i < lbAreaFilter.getItemCount(); i++) {
+							if (result.getSelectedAreaList().contains(lbAreaFilter.getValue(i))) {
+								lbAreaFilter.setItemSelected(i, true);
+							} else {
+								lbAreaFilter.setItemSelected(i, false);
+							}
+						}
+						for (int i = 0; i < lbItemsFilter.getItemCount(); i++) {
+							if (result.getSelectedItemsList().contains(lbItemsFilter.getValue(i))) {
+								lbItemsFilter.setItemSelected(i, true);
+							} else {
+								lbItemsFilter.setItemSelected(i, false);
+							}
+						}
+						for (int i = 0; i < lbYearsFilter.getItemCount(); i++) {
+							if (result.getSelectedYearsList().contains(lbYearsFilter.getValue(i))) {
+								lbYearsFilter.setItemSelected(i, true);
+							} else {
+								lbYearsFilter.setItemSelected(i, false);
+							}
+						}
+						for (int i = 0; i < lbDataSeriesFilter.getItemCount(); i++) {
+							if (result.getSelectedDataSeriesList().contains(lbDataSeriesFilter.getValue(i))) {
+								lbDataSeriesFilter.setItemSelected(i, true);
+							} else {
+								lbDataSeriesFilter.setItemSelected(i, false);
+							}
+						}
+						
+					}
+					
+				});
 			}
 		});
 		
-		VerticalPanel buttons = new VerticalPanel();
-		buttons.add(buttonTable);
-		buttons.add(buttonColumnChart);
-		buttons.add(buttonLineChart);
-		buttons.add(buttonGeoMap);
-		buttons.add(buttonSaveConfig);
-		buttons.addStyleName("buttonPanel");
+		HorizontalPanel configButtons = new HorizontalPanel();
+		// configButtons.add(buttonSaveConfig);
+		configButtons.add(buttonLoadConfig);
+		configButtons.setCellHorizontalAlignment(buttonLoadConfig, HasHorizontalAlignment.ALIGN_RIGHT);
+		
+		HorizontalPanel visualizationButtons = new HorizontalPanel();
+		visualizationButtons.add(buttonTable);
+		visualizationButtons.add(buttonColumnChart);
+		visualizationButtons.add(buttonLineChart);
+		visualizationButtons.add(buttonGeoMap);
+		visualizationButtons.setCellWidth(buttonTable, "25%");
+		visualizationButtons.setCellWidth(buttonColumnChart, "25%");
+		visualizationButtons.setCellWidth(buttonLineChart, "25%");
+		visualizationButtons.setCellWidth(buttonGeoMap, "25%");
+		visualizationButtons.setCellHorizontalAlignment(buttonTable, HasHorizontalAlignment.ALIGN_CENTER);
+		visualizationButtons.setCellHorizontalAlignment(buttonColumnChart, HasHorizontalAlignment.ALIGN_CENTER);
+		visualizationButtons.setCellHorizontalAlignment(buttonLineChart, HasHorizontalAlignment.ALIGN_CENTER);
+		visualizationButtons.setCellHorizontalAlignment(buttonGeoMap, HasHorizontalAlignment.ALIGN_CENTER);
+		visualizationButtons.addStyleName("buttonPanel");
+		visualizationButtons.setWidth("100%");
 
 		filterHorizontalPanel.add(gridYear);
 		filterHorizontalPanel.add(lbAreaFilter);
 		filterHorizontalPanel.add(lbYearsFilter);
 		filterHorizontalPanel.add(lbDataSeriesFilter);
 		filterHorizontalPanel.add(lbItemsFilter);
-		filterHorizontalPanel.add(buttons);
+		filterHorizontalPanel.setWidth("100%");
 
 		RootPanel.get("filterContainer").clear();
+		RootPanel.get("filterContainer").add(configButtons);
 		RootPanel.get("filterContainer").add(filterHorizontalPanel);
+		RootPanel.get("filterContainer").add(visualizationButtons);
+
 	}
 
 	public void drawTable(Configuration config) {

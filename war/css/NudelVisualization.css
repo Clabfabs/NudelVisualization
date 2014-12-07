@@ -1,11 +1,13 @@
 .gwt-Button {
-	width: 100%
+	width: 90%;
+	margin-top: 5px!important;
+	margin-bottom: 5px!important;
 }
 .gwt-Button:hover{
 	color: #eec81b; 
 }
-.buttonPanel {
-	margin-left: 5px;
+.buttonPanel td {
+	align: center!important
 }
 	
 .gwt-Label {
@@ -64,14 +66,14 @@ nav{
 }
 */
 .addPlacement{
-	height: 300px;
+	height: 260px;
 	width: 100px;
 	border: 2px solid black;
 	border-radius: 5px;
-	background-image: url(../herecouldbeyouradd.png);
-	float: right;
-	margin-right: 30px;
-	margin-bottom: 30px;
+	/*background-image: url(../herecouldbeyouradd.png);*/
+	float: right; 
+	/*margin-right: 30px;
+	margin-bottom: 30px; */
 } 
 
 nav{

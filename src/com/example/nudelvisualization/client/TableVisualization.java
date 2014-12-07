@@ -5,13 +5,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.HashMap;
 
+
 // import com.example.nudelvisualization.client.IndexedColumn;
-import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -59,59 +59,130 @@ public class TableVisualization extends Visualization {
 			    for (int irow = 0; irow < nrows; irow++) {
 				    rowsL.add(result[irow]); 
 			    }
-			    			    
-			    TextColumn<String[]> addressColumn = new TextColumn<String[]>() {
-			        @Override
-			        public String getValue(String[] s) {
-			          return s[0];
-			        }
-			      };
-			    
-			    // Create table columns
-			    IndexedColumn element = new IndexedColumn(0);
-			    addressColumn.setSortable(true);
-			    visualizeTable.addColumn(addressColumn, new TextHeader("Element Name"));
-			    IndexedColumn area = new IndexedColumn(1);
-			    area.setSortable(true);
-			    visualizeTable.addColumn(area, new TextHeader("Area Name"));
-			    IndexedColumn item = new IndexedColumn(2);
-			    item.setSortable(true);
-			    visualizeTable.addColumn(item, new TextHeader("Item Name"));
-			    IndexedColumn year = new IndexedColumn(3);
-			    year.setSortable(true);
-			    visualizeTable.addColumn(year, new TextHeader("Year"));
-			    IndexedColumn value = new IndexedColumn(4);
-			    value.setSortable(true);
-			    visualizeTable.addColumn(value, new TextHeader("Value"));
-			    IndexedColumn unit = new IndexedColumn(5);
-			    visualizeTable.addColumn(unit, new TextHeader("Unit"));
 
-			    // Add a ColumnSortEvent.ListHandler to connect sorting to the
-			    // java.util.List.
+			    // Create table columns
+			    TextColumn<String[]> elementColumn = new TextColumn<String[]>() {
+			    	@Override
+			    	public String getValue(String[] s) {
+			    		return s[0];
+			    	}
+			    };
+			    visualizeTable.addColumn(elementColumn, new TextHeader("Element Name"));
+			    
+			    TextColumn<String[]> areaColumn = new TextColumn<String[]>() {
+			    	@Override
+			    	public String getValue(String[] s) {
+			    		return s[1];
+			    	}
+			    };
+			    visualizeTable.addColumn(areaColumn, new TextHeader("Area Name"));
+			    
+			    TextColumn<String[]> itemColumn = new TextColumn<String[]>() {
+			    	@Override
+			    	public String getValue(String[] s) {
+			    		return s[2];
+			    	}
+			    };
+			    visualizeTable.addColumn(itemColumn, new TextHeader("Item Name"));
+			    
+			    TextColumn<String[]> yearColumn = new TextColumn<String[]>() {
+			    	@Override
+			    	public String getValue(String[] s) {
+			    		return s[3];
+			    	}
+			    };
+			    visualizeTable.addColumn(yearColumn, new TextHeader("Year"));
+			    
+			    TextColumn<String[]> valueColumn = new TextColumn<String[]>() {
+			    	@Override
+			    	public String getValue(String[] s) {
+			    		return s[4];
+			    	}
+			    };
+			    visualizeTable.addColumn(valueColumn, new TextHeader("Value"));
+			    
+			    TextColumn<String[]> unitColumn = new TextColumn<String[]>() {
+			    	@Override
+			    	public String getValue(String[] s) {
+			    		return s[5];
+			    	}
+			    };
+			    visualizeTable.addColumn(unitColumn, new TextHeader("Unit"));
+			    
+			    // Sorting is disabled.
+			    /*elementColumn.setSortable(true);
+			    areaColumn.setSortable(true);
+			    itemColumn.setSortable(true);
+			    yearColumn.setSortable(true);
+			    valueColumn.setSortable(true);
+			    unitColumn.setSortable(true);
+			    
 			    ListHandler<String[]> columnSortHandler = new ListHandler<>(rowsL);
-			    columnSortHandler.setComparator(addressColumn,
+			    visualizeTable.addColumnSortHandler(columnSortHandler);
+
+			    columnSortHandler.setComparator(elementColumn,
 			    		new Comparator<String[]>() {
 			    	public int compare(String[] s1, String[] s2) {
-			    		if (s1 == s2) {
-			    			return 0;
-			    		}
-
-			    		// Compare the name columns.
-			    		if (s1 != null) {
-			    			return (s2 != null) ? s1[0].compareTo(s2[0]) : 1;
-			    		}
+			    		if (s1 == s2) { return 0; }
+			    		// Compare the element columns.
+			    		if (s1 != null) { return (s2 != null) ? s1[0].compareTo(s2[0]) : 1; }
 			    		return -1;
 			    	}
 			    });
-			    visualizeTable.addColumnSortHandler(columnSortHandler);
-
+			    columnSortHandler.setComparator(areaColumn,
+			    		new Comparator<String[]>() {
+			    	public int compare(String[] s1, String[] s2) {
+			    		if (s1 == s2) { return 0; }
+			    		// Compare the element columns.
+			    		if (s1 != null) { return (s2 != null) ? s1[1].compareTo(s2[1]) : 1; }
+			    		return -1;
+			    	}
+			    });
+			    columnSortHandler.setComparator(itemColumn,
+			    		new Comparator<String[]>() {
+			    	public int compare(String[] s1, String[] s2) {
+			    		if (s1 == s2) { return 0; }
+			    		// Compare the element columns.
+			    		if (s1 != null) { return (s2 != null) ? s1[2].compareTo(s2[2]) : 1; }
+			    		return -1;
+			    	}
+			    });
+			    columnSortHandler.setComparator(yearColumn,
+			    		new Comparator<String[]>() {
+			    	public int compare(String[] s1, String[] s2) {
+			    		if (s1 == s2) { return 0; }
+			    		// Compare the element columns.
+			    		if (s1 != null) { return (s2 != null) ? s1[3].compareTo(s2[3]) : 1; }
+			    		return -1;
+			    	}
+			    });
+			    columnSortHandler.setComparator(valueColumn,
+			    		new Comparator<String[]>() {
+			    	public int compare(String[] s1, String[] s2) {
+			    		if (s1 == s2) { return 0; }
+			    		// Compare the element columns.
+			    		if (s1 != null) { return (s2 != null) ? s1[4].compareTo(s2[4]) : 1; }
+			    		return -1;
+			    	}
+			    });
+			    columnSortHandler.setComparator(unitColumn,
+			    		new Comparator<String[]>() {
+			    	public int compare(String[] s1, String[] s2) {
+			    		if (s1 == s2) { return 0; }
+			    		// Compare the element columns.
+			    		if (s1 != null) { return (s2 != null) ? s1[5].compareTo(s2[5]) : 1; }
+			    		return -1;
+			    	}
+			    });*/
 
 			    final ListDataProvider<String[]> dataProvider = new ListDataProvider<String[]>(rowsL);
 			    dataProvider.addDataDisplay(visualizeTable);
 			    
-			    SimplePager pagerTop = new SimplePager();
+			    SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+			    SimplePager pagerTop = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 			    pagerTop.setDisplay(visualizeTable);
-			    SimplePager pagerBottom = new SimplePager();
+			    
+			    SimplePager pagerBottom = new SimplePager(TextLocation.CENTER, pagerResources, false, 0, true);
 			    pagerBottom.setDisplay(visualizeTable);
 
 			    visualizationPanel.add(visualizeTable);
@@ -121,19 +192,6 @@ public class TableVisualization extends Visualization {
 				RootPanel.get("visualizationContainer").add(pagerBottom);	
 				addSource();
 			}
-
 		});
 	 }
-	
-	private class IndexedColumn extends Column<String[], String> {
-	    private final int index;
-	    public IndexedColumn(int index) {
-	        super(new TextCell());
-	        this.index = index;
-	    }
-		@Override
-		public String getValue(String[] object) {
-			return object[this.index];
-		}
-	}
 }
