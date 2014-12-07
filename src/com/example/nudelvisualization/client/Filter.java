@@ -240,9 +240,12 @@ public class Filter {
 						msg = msg + "the item(s) ";
 					}
 					Window.alert(msg);
+				}
+				else if (config.getSelectedItemsList().size()>5) {
+					Window.alert("Only 5 items are allowed.");
+
 				} else {
 					drawGeoMap(config);
-
 				}
 				System.out.println("Invalid input");
 			}
