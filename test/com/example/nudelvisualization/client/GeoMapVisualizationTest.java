@@ -27,11 +27,26 @@ public class GeoMapVisualizationTest {
 	//test for one Area that is a country.
 	@Test 
 	public void testGetSumAllData(){
-		int j = 0;
 		Configuration config = new Configuration();
 		config.addArea("1");
+		config.addArea("2");
+		String [][] populationData = new String[2][3];
+		populationData[0][1] = "Armenia";
+		populationData[1][1] = "Afghanistan"; 
+		populationData[0][2] = "100";
+		populationData[1][2] = "100"; 
 		
+		String[][] testResult = new String[2][4];
+		testResult[0][0] = "1";
+		testResult[0][1] = "Armenia";
+		testResult[0][3] = "200";
+		testResult[1][0] = "2";
+		testResult[1][1] = "Afghanistan";
+		testResult[1][3] = "500";
 		
+		//for j = 0
+		GeoMapVisualization geomap = new GeoMapVisualization();
+		assertEquals(2, geomap.getSumAllData(testResult, 0, config, populationData));
 		
 //		public int getSumAllData(String [][] result, int j){
 //			int sumAllData=0;

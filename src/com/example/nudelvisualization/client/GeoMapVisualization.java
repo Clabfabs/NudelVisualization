@@ -132,7 +132,7 @@ public class GeoMapVisualization extends Visualization {
 			//if the selected Area is a country:
 			if (!(IsoCodes[j][1].equals(".."))){
 				//gather value of data
-				sumAllData = getSumAllData(result, j);
+				sumAllData = getSumAllData(result, j, config, populationData);
 //				for (int i= 0; i< result.length; i++){
 //					if (result[i][0].equals(config.getSelectedAreaList().get(j))){
 //						if (!(result[i][3].isEmpty())){ //get rid of exceptions
@@ -229,7 +229,7 @@ public class GeoMapVisualization extends Visualization {
 		return noCountryArea;
 	}
 	
-	public int getSumAllData(String [][] result, int j){
+	public int getSumAllData(String [][] result, int j, Configuration config, String[][] populationData){
 		int sumAllData=0;
 		for (int i= 0; i< result.length; i++){
 			if (result[i][0].equals(config.getSelectedAreaList().get(j))){
