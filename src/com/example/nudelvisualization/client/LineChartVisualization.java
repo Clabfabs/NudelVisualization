@@ -223,9 +223,6 @@ public class LineChartVisualization extends Visualization{
     	    								float[] forecastValues;
     	    								int n = ROWCOUNTER;
     	    								forecastValues = getForecastValues((row - start), start);
-    	    								//data.addColumn(ColumnType.NUMBER, "Forecast");
-    	    								//itemCounter++;
-    	    								//data.setCell(columnCounter-1, itemCounter, result[row-1][4], null, null);
     		    							for(int b=0; b<3;b++){
     		    								
     		    								//int currentYear = (Integer.parseInt(result[row-1][3]) + b +1);
