@@ -31,6 +31,15 @@ public class TableVisualization extends Visualization {
 		visualizeTable.setPageSize(50);
 		visualizeTable.setWidth("100%", true);
 	}
+	
+	public List<String[]> getRowsAsList(String[][] result,  List<String[]> rowsL){
+	    int nrows = result.length;
+
+		  for (int irow = 0; irow < nrows; irow++) {
+			    rowsL.add(result[irow]); 
+		    }
+		  return rowsL;
+	}
 
 	public void draw() {
 		config.addTitles("ElementName");
@@ -56,9 +65,10 @@ public class TableVisualization extends Visualization {
 			    int nrows = result.length;
 			    List<String[]> rowsL = new ArrayList<>(nrows);
 			    
-			    for (int irow = 0; irow < nrows; irow++) {
-				    rowsL.add(result[irow]); 
-			    }
+			    rowsL = getRowsAsList(result, rowsL);
+//			    for (int irow = 0; irow < nrows; irow++) {
+//				    rowsL.add(result[irow]); 
+//			    }
 
 			    // Create table columns
 			    TextColumn<String[]> elementColumn = new TextColumn<String[]>() {
