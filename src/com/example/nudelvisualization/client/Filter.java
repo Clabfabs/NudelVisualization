@@ -1,28 +1,30 @@
 package com.example.nudelvisualization.client;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 // import java.io.File;
 
 
 
 
-
-import org.apache.xalan.xsltc.compiler.util.ErrorMessages;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 
 public class Filter {
 
@@ -63,11 +65,9 @@ public class Filter {
 	 * service.
 	 */
 	private AccessDatabaseAsync dataAccessSocket = null;
-	private saveConfigAsync saveConfigSocket = null;
 
 	public void init() {
 		dataAccessSocket = GWT.create(AccessDatabase.class);
-		saveConfigSocket = GWT.create(saveConfig.class);
 		fillListBoxes();
 	}
 
@@ -148,7 +148,82 @@ public class Filter {
 
 	public void initializeFilter() {
 
-		// Button to initialize TableVis
+		HorizontalPanel configButtons = new HorizontalPanel();
+		
+		final FormPanel uploadForm = new FormPanel();
+
+		uploadForm.setAction("/nudelvisualization/config");
+		uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
+	    uploadForm.setMethod(FormPanel.METHOD_POST);
+	    
+	    FileUpload upload = new FileUpload();
+	    upload.setName("uploadFormElement");
+	    uploadForm.add(upload);
+	    
+	    // Add an event handler to the form.
+	    uploadForm.addSubmitHandler(new FormPanel.SubmitHandler() {
+	      public void onSubmit(SubmitEvent event) {
+	        // This event is fired just before the form is submitted. We can take
+	        // this opportunity to perform validation.
+	      }
+	    });
+	    uploadForm.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
+	      public void onSubmitComplete(SubmitCompleteEvent event) {
+	        // When the form submission is successfully completed, this event is
+	        // fired. Assuming the service returned a response of type text/html,
+	        // we can get the result text here (see the FormPanel documentation for
+	        // further explanation).
+	    	String result = event.getResults();
+	    	String[] results = result.split("\n");
+
+	    	if (!results[0].equals("")) {
+	    		ArrayList<String> areas = new ArrayList<String>(Arrays.asList(results[0].split(","))); 
+	    		ArrayList<String> items = new ArrayList<String>(Arrays.asList(results[1].split(","))); 
+	    		ArrayList<String> years = new ArrayList<String>(Arrays.asList(results[2].split(","))); 
+	    		ArrayList<String> dataSeries = new ArrayList<String>(Arrays.asList(results[3].split(","))); 
+
+	    		for (int i = 0; i < lbAreaFilter.getItemCount(); i++) {
+	    			if (areas.contains(lbAreaFilter.getValue(i))) {
+	    				lbAreaFilter.setItemSelected(i, true);
+	    			} else {
+	    				lbAreaFilter.setItemSelected(i, false);
+	    			}
+	    		}
+	    		for (int i = 0; i < lbItemsFilter.getItemCount(); i++) {
+	    			if (items.contains(lbItemsFilter.getValue(i))) {
+	    				lbItemsFilter.setItemSelected(i, true);
+	    			} else {
+	    				lbItemsFilter.setItemSelected(i, false);
+	    			}
+	    		}
+	    		for (int i = 0; i < lbYearsFilter.getItemCount(); i++) {
+	    			if (years.contains(lbYearsFilter.getValue(i))) {
+	    				lbYearsFilter.setItemSelected(i, true);
+	    			} else {
+	    				lbYearsFilter.setItemSelected(i, false);
+	    			}
+	    		}
+	    		for (int i = 0; i < lbDataSeriesFilter.getItemCount(); i++) {
+	    			if (dataSeries.contains(lbDataSeriesFilter.getValue(i))) {
+	    				lbDataSeriesFilter.setItemSelected(i, true);
+	    			} else {
+	    				lbDataSeriesFilter.setItemSelected(i, false);
+	    			}
+	    		}
+	    	} else {
+	    		Window.alert("No file selected.");
+	    	}
+	      }
+	    });
+	    
+		buttonLoadConfig.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				uploadForm.submit();
+			}
+		});
+		
+		// Buttons to initialize
 		buttonTable.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -273,70 +348,45 @@ public class Filter {
 				if (isInValidInput()) {
 					System.out.println("Invalid input");
 				} else {
-					saveConfigSocket.getConfigAsFile(config, new AsyncCallback<Void>()  {
-						@Override
-						public void onFailure(Throwable caught) {
-							System.out.println("Communication with server failed: " + caught.getMessage());							
-						}
-						@Override
-						public void onSuccess(Void result) {
-							System.out.println("It worked, maybe.");
-						}
-					});;
+					StringBuilder areas = new StringBuilder();
+					for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
+						areas.append(config.getSelectedAreaList().get(i)+",");
+					}
+					areas.append(config.getSelectedAreaList().get(config.getSelectedAreaList().size()-1));
+					StringBuilder items = new StringBuilder();
+					for (int i = 0; i < config.getSelectedItemsList().size() - 1; i++) {
+						items.append(config.getSelectedItemsList().get(i)+",");
+					}
+					items.append(config.getSelectedItemsList().get(config.getSelectedItemsList().size()-1));
+					StringBuilder years = new StringBuilder();
+					for (int i = 0; i < config.getSelectedYearsList().size() - 1; i++) {
+						years.append(config.getSelectedYearsList().get(i)+",");
+					}
+					years.append(config.getSelectedYearsList().get(config.getSelectedYearsList().size()-1));
+					StringBuilder dataSeries = new StringBuilder();
+					for (int i = 0; i < config.getSelectedDataSeriesList().size() - 1; i++) {
+						dataSeries.append(config.getSelectedDataSeriesList().get(i)+",");
+					}
+					dataSeries.append(config.getSelectedDataSeriesList().get(config.getSelectedDataSeriesList().size()-1));
+					
+					Window.open("/nudelvisualization/config?areas="+URL.encode(areas.toString())+"&items="+URL.encode(items.toString())+"&years="+URL.encode(years.toString())+"&dataseries="+URL.encode(dataSeries.toString()), "_blank", "");
 				}
-					
 			}
 		});
 		
-		buttonLoadConfig.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				saveConfigSocket.setConfigFromFile(new AsyncCallback<Configuration>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						System.out.println("Communication with server failed: " + caught.getMessage());
-					}
-					@Override
-					public void onSuccess(Configuration result) {
-						for (int i = 0; i < lbAreaFilter.getItemCount(); i++) {
-							if (result.getSelectedAreaList().contains(lbAreaFilter.getValue(i))) {
-								lbAreaFilter.setItemSelected(i, true);
-							} else {
-								lbAreaFilter.setItemSelected(i, false);
-							}
-						}
-						for (int i = 0; i < lbItemsFilter.getItemCount(); i++) {
-							if (result.getSelectedItemsList().contains(lbItemsFilter.getValue(i))) {
-								lbItemsFilter.setItemSelected(i, true);
-							} else {
-								lbItemsFilter.setItemSelected(i, false);
-							}
-						}
-						for (int i = 0; i < lbYearsFilter.getItemCount(); i++) {
-							if (result.getSelectedYearsList().contains(lbYearsFilter.getValue(i))) {
-								lbYearsFilter.setItemSelected(i, true);
-							} else {
-								lbYearsFilter.setItemSelected(i, false);
-							}
-						}
-						for (int i = 0; i < lbDataSeriesFilter.getItemCount(); i++) {
-							if (result.getSelectedDataSeriesList().contains(lbDataSeriesFilter.getValue(i))) {
-								lbDataSeriesFilter.setItemSelected(i, true);
-							} else {
-								lbDataSeriesFilter.setItemSelected(i, false);
-							}
-						}
-						
-					}
-					
-				});
-			}
-		});
-		
-		HorizontalPanel configButtons = new HorizontalPanel();
-		// configButtons.add(buttonSaveConfig);
+		configButtons.add(buttonSaveConfig);
+		configButtons.add(uploadForm);
 		configButtons.add(buttonLoadConfig);
+
+		configButtons.setWidth("100%");
+		configButtons.setCellHorizontalAlignment(buttonSaveConfig, HasHorizontalAlignment.ALIGN_CENTER);
+		configButtons.setCellHorizontalAlignment(uploadForm, HasHorizontalAlignment.ALIGN_RIGHT);
 		configButtons.setCellHorizontalAlignment(buttonLoadConfig, HasHorizontalAlignment.ALIGN_RIGHT);
+		configButtons.setCellVerticalAlignment(buttonSaveConfig, HasVerticalAlignment.ALIGN_MIDDLE);
+		configButtons.setCellVerticalAlignment(uploadForm, HasVerticalAlignment.ALIGN_MIDDLE);
+		configButtons.setCellVerticalAlignment(buttonLoadConfig, HasVerticalAlignment.ALIGN_MIDDLE);
+		configButtons.addStyleName("buttonPanel");
+
 		
 		HorizontalPanel visualizationButtons = new HorizontalPanel();
 		visualizationButtons.add(buttonTable);

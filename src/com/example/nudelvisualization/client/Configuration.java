@@ -1,5 +1,6 @@
 package com.example.nudelvisualization.client;
 
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -105,4 +106,5 @@ public class Configuration implements Serializable {
 	public void saveConfig(){
 
 	}
+	
 }
