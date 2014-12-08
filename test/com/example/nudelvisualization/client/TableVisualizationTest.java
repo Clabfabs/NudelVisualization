@@ -8,14 +8,7 @@ import java.util.List;
 import org.junit.Test;
 
 public class TableVisualizationTest {
-	/* JUnittest does not work because all methods are accessing data from the server.
-	 * We cannot simulate those circumstances.
-	 * In addition: We are using here a DataTable dataTable which is required for our GWT Visualization. 
-	 * However, this class consists of native methods that only work when the app is
-	 * running, which is not the case in a test. That is the reason why GWT can
-	 * not provide us these methods. This leads us to the fact that it's going
-	 * to be difficult to test this function...
-	 */ 	
+	
 	@Test
 	public void testgetRowsAsList() {
 		Configuration config = new Configuration();
@@ -50,9 +43,10 @@ public class TableVisualizationTest {
 		rowsLTest.add(testArray1);
 		rowsLTest.add(testArray2);
 		
-		TableVisualization table = new TableVisualization(config);
+		TableVisualization table = new TableVisualization(config) ;
 		rowsL= table.getRowsAsList(resultTest, rowsL);
-		assertEquals(rowsLTest, rowsL);
+		assertEquals(rowsLTest.get(0)[0],(rowsL.get(0)[0]));
+		assertEquals(rowsLTest.get(1)[0],(rowsL.get(1)[0]));
 		
 	}
 
