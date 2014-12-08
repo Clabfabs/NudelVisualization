@@ -32,14 +32,34 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 
 public class LineChartVisualization extends Visualization{
-	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);
 	
 	private String[][] result = null;
 	private int tenYearsForecast;
 	
 	public LineChartVisualization(Configuration config) {
 		super(config);
-		initialize();
+		//initialize();
+	}
+	
+	public float calculateEx(float Ex, int n){
+		for(int i =1; i<n+1; i++){
+			Ex = Ex + i;
+		}
+		return Ex;
+	}
+	
+	public float calculateEy(float Ey, int n, int start, String[][] result){
+		for(int i=0;i<n;i++){
+			Ey = Ey + Float.parseFloat(result[i + start][4]);
+		}
+		return Ey;
+	}
+	
+	public float calculateExy(String [][] result, float Exy, int n, int start){
+		for(int i=1;i<n+1;i++){
+			Exy = Exy + (i * Float.parseFloat(result[(i-1) + start][4]));
+		}
+		return Exy;
 	}
 
 	private float[] getForecastValues(int length, int start){
@@ -52,21 +72,18 @@ public class LineChartVisualization extends Visualization{
 		float[] forecastValues = new float[3];
 		
 		//calculate Ex
-		for(int i =1; i<n+1; i++){
-			Ex = Ex + i;
-		}
+		Ex = calculateEx(Ex,n);
+
 		System.out.print("Ex: " + Ex);
 		
 		//calculate Ey
-		for(int i=0;i<n;i++){
-			Ey = Ey + Float.parseFloat(result[i + start][4]);
-		}
+		Ey = calculateEy(Ey, n, start, result);
+
 		System.out.print("Ey: " + Ey);
 		
 		//calculate Exy
-		for(int i=1;i<n+1;i++){
-			Exy = Exy + (i * Float.parseFloat(result[(i-1) + start][4]));
-		}
+		Exy= calculateExy(result, Exy, n, start);
+
 		System.out.print("Exy: " + Exy);
 		
 		//calculate Ex2
@@ -108,7 +125,9 @@ public class LineChartVisualization extends Visualization{
 		return forecastValues;
 	}
 	
-	private void initialize() {
+	public void initialize() {
+		final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);
+
 		dataAccessSocket.getDataForLineChart(config, new AsyncCallback<HashMap<String, String[][]>>() {
 			public void onFailure(Throwable caught) { System.out.println("Communication with server failed"); }
 			public void onSuccess(final HashMap<String, String[][]> data) { 

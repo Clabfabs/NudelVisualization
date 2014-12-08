@@ -374,6 +374,7 @@ public class Filter {
 	
 	public void drawLineChart(Configuration config) {
 		LineChartVisualization map = new LineChartVisualization(config);
+		map.initialize();
 	}
 
 	public void drawColumnChart(Configuration config) {
