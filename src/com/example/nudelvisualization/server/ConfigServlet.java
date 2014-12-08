@@ -31,7 +31,7 @@ public class ConfigServlet extends HttpServlet {
 
         int BUFFER = 1024 * 100;
         
-        String filename = "savedConfig.nudelvis";
+        String filename = "savedConfig.txt";
         
         String contents = areas + "\n" + items + "\n" + years + "\n" + dataSeries;
         

@@ -164,7 +164,6 @@ public class LineChartVisualization extends Visualization{
 								drawLineChart("Export", exportresults);
 								
 							}	
-							addSource();
 						}
 						}, AnnotatedTimeLine.PACKAGE, CoreChart.PACKAGE,
 	    				Gauge.PACKAGE, GeoMap.PACKAGE, ImageChart.PACKAGE,
@@ -261,7 +260,6 @@ public class LineChartVisualization extends Visualization{
 		LineChart widget = new LineChart(data, options);
 		RootPanel.get("visualizationContainer").add(widget);
 				}
-		
 					}
 				}		
 			}
