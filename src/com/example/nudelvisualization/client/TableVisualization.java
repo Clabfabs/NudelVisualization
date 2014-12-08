@@ -27,8 +27,7 @@ public class TableVisualization extends Visualization {
 	
 	public TableVisualization(Configuration config) {
 		super(config); // protected areaIDs, itemIDs, years & dataSeries now ready to be used
-		visualizeTable.setPageSize(50);
-		visualizeTable.setWidth("100%", true);
+		
 	}
 	
 	public List<String[]> getRowsAsList(String[][] result,  List<String[]> rowsL){
@@ -42,6 +41,8 @@ public class TableVisualization extends Visualization {
 
 	public void draw() {
 		final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
+		visualizeTable.setPageSize(50);
+		visualizeTable.setWidth("100%", true);
 
 		config.addTitles("ElementName");
 		config.addTitles("AreaName");
