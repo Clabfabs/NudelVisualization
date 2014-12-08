@@ -1,12 +1,8 @@
 package com.example.nudelvisualization.server;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -64,7 +60,6 @@ public class ConfigServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		String result = items.get(0).getString();
-		System.out.println(result);
 		ServletOutputStream outputStream = resp.getOutputStream();
 		outputStream.write(result.getBytes());
 	}
