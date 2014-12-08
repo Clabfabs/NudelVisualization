@@ -32,7 +32,7 @@ public class AccessDatabaseImpl extends RemoteServiceServlet implements AccessDa
 				// Load the class that provides the new "jdbc:google:mysql://"
 				// prefix.
 				Class.forName("com.mysql.jdbc.GoogleDriver");
-				url = "jdbc:google:mysql://norse-voice-758:nudeldatabase";
+				url = "jdbc:google:mysql://norse-voice-758:nudeldatabase?autoReconnect=true";
 				user = "root";
 				password = "";
 			} else {

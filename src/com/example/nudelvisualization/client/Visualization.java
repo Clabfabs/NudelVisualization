@@ -27,8 +27,12 @@ public abstract class Visualization {
 	}
 	
 	public void addSource(){
-		Label source = new Label("source: World Trade Organisation");
-		RootPanel.get("visualizationContainer").add(source);
+		Label source1 = new Label("(c) FAO. 2014. FAOSTAT. data.fao.org. (Accessed 1.9.2014)");
+		source1.addStyleName("sourceLabel");
+		Label source2 = new Label("The FAO's endorsement of views portrayed on this website is not stated or implied in any way.");
+		source2.addStyleName("sourceLabel");
+		RootPanel.get("visualizationContainer").add(source1);
+		RootPanel.get("visualizationContainer").add(source2);
 		
 	}
 }

@@ -165,10 +165,9 @@ public class Filter {
 						msg = msg + "the item(s) ";
 					}
 					Window.alert(msg);
-				} else if (constraint2()) {
-
-				}
-				else {
+				} else if (config.getSelectedAreaList().size() * config.getSelectedItemsList().size() * config.getSelectedYearsList().size() * config.getSelectedDataSeriesList().size() > 35000) {
+					Window.alert("You chose too many options, this would probably cause the database connection to time out.");
+				} else {
 					drawTable(config);
 
 				}
@@ -225,11 +224,9 @@ public class Filter {
 					Window.alert(msg);
 				}  else if (config.getSelectedAreaList().size()>10) {
 					Window.alert("Only 10 countries are allowed.");
-
 				}
 				else if (config.getSelectedItemsList().size()>5) {
 					Window.alert("Only 5 items are allowed.");
-
 				}
 				else {
 					drawColumnChart(config);
