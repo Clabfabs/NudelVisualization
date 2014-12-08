@@ -219,7 +219,7 @@ public class GeoMapVisualization extends Visualization {
 	}
 	
 	//returns the value per capita for a selected country
-	private int getSumAllData(String [][] result, int j, Configuration config, String[][] populationData){
+	int getSumAllData(String [][] result, int j, Configuration config, String[][] populationData){
 		int sumAllData=0;
 		for (int i= 0; i< result.length; i++){
 			if (result[i][0].equals(config.getSelectedAreaList().get(j))){

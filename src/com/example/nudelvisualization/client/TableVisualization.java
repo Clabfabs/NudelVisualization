@@ -21,7 +21,6 @@ import com.google.gwt.view.client.ListDataProvider;
 
 public class TableVisualization extends Visualization {
 
-	private final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
 	private VerticalPanel visualizationPanel = new VerticalPanel();
 	private CellTable<String[]> visualizeTable = new CellTable<>();
 	private String[][] result = null;
@@ -42,6 +41,8 @@ public class TableVisualization extends Visualization {
 	}
 
 	public void draw() {
+		final AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
+
 		config.addTitles("ElementName");
 		config.addTitles("AreaName");
 		config.addTitles("ItemName");

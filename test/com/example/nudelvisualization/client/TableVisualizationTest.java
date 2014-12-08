@@ -8,9 +8,26 @@ import java.util.List;
 import org.junit.Test;
 
 public class TableVisualizationTest {
-//Test does not work because the TableVisualization constructor with parameter Configuration config accesses the server. 
+	/* JUnittest does not work because all methods are accessing data from the server.
+	 * We cannot simulate those circumstances.
+	 * In addition: We are using here a DataTable dataTable which is required for our GWT Visualization. 
+	 * However, this class consists of native methods that only work when the app is
+	 * running, which is not the case in a test. That is the reason why GWT can
+	 * not provide us these methods. This leads us to the fact that it's going
+	 * to be difficult to test this function...
+	 */ 	
 	@Test
 	public void testgetRowsAsList() {
+		Configuration config = new Configuration();
+		config.addArea("1");
+		config.addAreaName("Armenia");
+		config.addDataSeries("production");
+		config.addItem("1");
+		config.addItem("2");
+		config.addItemNames("Wheat");
+		config.addItemNames("Barley");
+		config.addYear("1992");
+		config.addYear("1993");
 
 		String[][] resultTest = new String[2][6];
 		resultTest[0][0]= "1";
@@ -33,7 +50,7 @@ public class TableVisualizationTest {
 		rowsLTest.add(testArray1);
 		rowsLTest.add(testArray2);
 		
-		TableVisualization table = new TableVisualization(null);
+		TableVisualization table = new TableVisualization(config);
 		rowsL= table.getRowsAsList(resultTest, rowsL);
 		assertEquals(rowsLTest, rowsL);
 		
