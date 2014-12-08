@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.visualization.client.DataTable;
+import com.google.gwt.visualization.client.LegendPosition;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
@@ -41,55 +42,55 @@ public class LineChartVisualization extends Visualization{
 		initialize();
 	}
 
-	private int[] getForecastValues(int length){
+	private float[] getForecastValues(int length, int start){
 
 		//calculating linear regression for forecast
-		int  betaHat0 = 0, betaHat1  = 0;
+		float  betaHat0 = 0, betaHat1  = 0;
 		int n = length;
-		int Exy = 0, Ex = 0, Ey = 0, Ex2 = 0;
-		int yAverage = 0, xAverage =0;
-		int[] forecastValues = new int[3];
+		float Exy = 0, Ex = 0, Ey = 0, Ex2 = 0;
+		float yAverage = 0, xAverage =0;
+		float[] forecastValues = new float[3];
 		
 		//calculate Ex
 		for(int i =1; i<n+1; i++){
-			Ex += i;
+			Ex = Ex + i;
 		}
 		System.out.print("Ex: " + Ex);
 		
 		//calculate Ey
 		for(int i=0;i<n;i++){
-			Ey += Integer.parseInt(result[i][4]);
+			Ey = Ey + Float.parseFloat(result[i + start][4]);
 		}
-		System.out.print("Ey: " + Exy);
+		System.out.print("Ey: " + Ey);
 		
 		//calculate Exy
 		for(int i=1;i<n+1;i++){
-			Exy += (i + Integer.parseInt(result[i-1][4]));
+			Exy = Exy + (i * Float.parseFloat(result[(i-1) + start][4]));
 		}
 		System.out.print("Exy: " + Exy);
 		
 		//calculate Ex2
 		for(int i=1;i<n+1;i++){
-			Ex2 += (i * i);
+			Ex2 = Ex2 + (i * i);
 		}
 		System.out.print(" Ex2: " + Ex2);
 		
 		//calculate betaHat1
-		betaHat1 = ((n*Exy)-(Ex*Ey))/((n*Ex2)-(Ex2*Ex2));
+		betaHat1 = ((n*Exy)-(Ex*Ey))/((n*Ex2)-(Ex*Ex));
 		System.out.print(" betaHat1: " + betaHat1);
 		
 		//calculate yAverage
-		int ySum = 0;
+		float ySum = 0;
 		for(int i=0; i<n;i++){
-			ySum += Integer.parseInt(result[i][4]);
+			ySum = ySum +  Float.parseFloat(result[i + start][4]);
 		}
 		yAverage = ySum / n;
 		System.out.print(" yAverage: " + yAverage);
 		
 		//calculate xAverage
-		int xSum=0;
+		float xSum=0;
 		for(int i=1; i<n+1;i++){
-			xSum += i;
+			xSum = xSum + i;
 		}
 		xAverage = xSum / n;
 		System.out.print(" xAverage: " + xAverage);
@@ -152,17 +153,19 @@ public class LineChartVisualization extends Visualization{
 									if(!(currentArea.equals(result[i][1]))){
 										currentArea = result[i][1];
 								String currentItem = null;	
-								HTML text = new HTML(result[row][1]);
-								RootPanel.get("visualizationContainer").add(text);
+								
 								Options options = LineChart.createOptions();
 								options.setHeight(300);
-								options.setWidth(800);
+								options.setWidth(1000);
+								options.setTitle(result[row][1]);
 	    						// item = 2, year = 3, Value = 4
 	    						DataTable data = DataTable.create();
 	    						data.addColumn(ColumnType.STRING, "Years");
-	    						data.addRows(22);
+	    						data.addRows(25);
 	    						
 	    						//TO DO: ADDING ALL YEARS
+	    						for(int x=0; x<10; x++){
+	    						//data.setValue(x,0,config.getSelectedYearsList.get(x));
 	    						data.setValue(0,0,"1990");
 	    						data.setValue(1,0,"1991");
 	    						data.setValue(2,0,"1992");
@@ -185,7 +188,7 @@ public class LineChartVisualization extends Visualization{
 	    						data.setValue(19,0,"2009");
 	    						data.setValue(20,0,"2010");
 	    						data.setValue(21,0,"2011");
-	    					
+	    						}
 	    						//adding Years to the x-Axis of the LineChart
 	    						
 	    						int ROWCOUNTER = 0;
@@ -197,7 +200,7 @@ public class LineChartVisualization extends Visualization{
 	    						if(result != null){
 	    						//creating Linechart for Production, Import and Export
 	    						// data.addRows(YEARCOUNTER);
-	    						
+	    							int start = 0;
 	    							int columnCounter=0;
 	    							int itemCounter = 0;
 	    							// adding items in different colors to the LineChart
@@ -207,6 +210,7 @@ public class LineChartVisualization extends Visualization{
 	    									currentItem = result[row][2];
 	    									itemCounter++;
 	    									columnCounter = 0;
+	    									start = row;
 	    								}
 	    								//calculates the years entrypoint for Values
 	    								columnCounter = (Integer.parseInt(result[row][3])-1990);
@@ -214,26 +218,23 @@ public class LineChartVisualization extends Visualization{
 	    								data.setCell(columnCounter, itemCounter, result[row][4], null, null);
 	    								columnCounter++;
 	    								row++;
-	    							}
-	    							//adding forecast values
-	    							/*
-	    							if(itemCounter==1){
-	    								data.addRows(3);
-	    								int[] forecastValues;
-	    								int n = result.length;
-	    								forecastValues = getForecastValues(n);
-	    								data.addColumn(ColumnType.NUMBER, "Forecast");
-	    								itemCounter++;
-	    								//data.setCell(columnCounter-1, itemCounter, result[row-1][4], null, null);
-		    							for(int b=0; b<3;b++){
-		    								
-		    								int currentYear = (Integer.parseInt(result[row-1][3]) + b +1);
-		    								data.setValue(columnCounter, 0, new Integer(currentYear).toString());
-		    								data.setCell(columnCounter, itemCounter, forecastValues[b], null, null);
-		    								columnCounter++;
-		    							}
-	    							}
-	    							*/
+	    								if(columnCounter % 22 == 0){
+    	    								
+    	    								float[] forecastValues;
+    	    								int n = ROWCOUNTER;
+    	    								forecastValues = getForecastValues((row - start), start);
+    	    								//data.addColumn(ColumnType.NUMBER, "Forecast");
+    	    								//itemCounter++;
+    	    								//data.setCell(columnCounter-1, itemCounter, result[row-1][4], null, null);
+    		    							for(int b=0; b<3;b++){
+    		    								
+    		    								//int currentYear = (Integer.parseInt(result[row-1][3]) + b +1);
+    		    								data.setValue(columnCounter, 0, "in " + (b+ 1) + "y");
+    		    								data.setCell(columnCounter, itemCounter, (int)forecastValues[b], null, null);
+    		    								columnCounter++;
+    		    							}
+    	    							}
+	    							}	
 	    						LineChart widget = new LineChart(data, options);
 	    						RootPanel.get("visualizationContainer").add(widget);
 						}
