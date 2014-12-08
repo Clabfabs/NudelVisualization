@@ -66,11 +66,12 @@ nav{
 	margin-right: 10px;
 	font-family: Palatino Linotype;
 }
+*/
 #selectiontext{
 	font-size: 12pt;
-	margin-left: 7px;
+	/*margin-left: 7px;*/
 }
-*/
+
 .addPlacement{
 	height: 280px;
 	width: 100px;
