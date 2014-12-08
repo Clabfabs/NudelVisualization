@@ -14,30 +14,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class saveConfigImpl extends RemoteServiceServlet implements saveConfig {
 
 	public void getConfigAsFile(Configuration config) {
-		File output = new File("../savedConfig.txt");
-		PrintWriter writer;
-		try {
-			writer = new PrintWriter(output);
-			for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
-				writer.print(config.getSelectedAreaList().get(i)+",");
-			}
-			writer.print(config.getSelectedAreaList().get(config.getSelectedAreaList().size())+"\n");
-			for (int i = 0; i < config.getSelectedItemsList().size() - 1; i++) {
-				writer.print(config.getSelectedItemsList().get(i)+",");
-			}
-			writer.print(config.getSelectedItemsList().get(config.getSelectedItemsList().size())+"\n");
-			for (int i = 0; i < config.getSelectedYearsList().size() - 1; i++) {
-				writer.print(config.getSelectedYearsList().get(i)+",");
-			}
-			writer.print(config.getSelectedYearsList().get(config.getSelectedYearsList().size())+"\n");
-			for (int i = 0; i < config.getSelectedDataSeriesList().size() - 1; i++) {
-				writer.print(config.getSelectedDataSeriesList().get(i)+",");
-			}
-			writer.print(config.getSelectedDataSeriesList().get(config.getSelectedDataSeriesList().size())+"\n");
-			writer.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	public Configuration setConfigFromFile() {

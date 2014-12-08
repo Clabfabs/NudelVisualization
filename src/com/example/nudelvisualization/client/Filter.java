@@ -5,24 +5,22 @@ import java.util.HashMap;
 // import java.io.File;
 
 
-
-
-
-import org.apache.xalan.xsltc.compiler.util.ErrorMessages;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 
 public class Filter {
 
@@ -272,18 +270,32 @@ public class Filter {
 				if (isInValidInput()) {
 					System.out.println("Invalid input");
 				} else {
-					saveConfigSocket.getConfigAsFile(config, new AsyncCallback<Void>()  {
-						@Override
-						public void onFailure(Throwable caught) {
-							System.out.println("Communication with server failed: " + caught.getMessage());							
-						}
-						@Override
-						public void onSuccess(Void result) {
-							System.out.println("It worked, maybe.");
-						}
-					});;
+					StringBuilder areas = new StringBuilder();
+					for (int i = 0; i < config.getSelectedAreaList().size() - 1; i++) {
+						areas.append(config.getSelectedAreaList().get(i)+",");
+					}
+					areas.append(config.getSelectedAreaList().get(config.getSelectedAreaList().size()-1));
+					StringBuilder items = new StringBuilder();
+					for (int i = 0; i < config.getSelectedItemsList().size() - 1; i++) {
+						items.append(config.getSelectedItemsList().get(i)+",");
+					}
+					items.append(config.getSelectedItemsList().get(config.getSelectedItemsList().size()-1));
+					StringBuilder years = new StringBuilder();
+					for (int i = 0; i < config.getSelectedYearsList().size() - 1; i++) {
+						years.append(config.getSelectedYearsList().get(i)+",");
+					}
+					years.append(config.getSelectedYearsList().get(config.getSelectedYearsList().size()-1));
+					StringBuilder dataSeries = new StringBuilder();
+					for (int i = 0; i < config.getSelectedDataSeriesList().size() - 1; i++) {
+						dataSeries.append(config.getSelectedDataSeriesList().get(i)+",");
+					}
+					dataSeries.append(config.getSelectedDataSeriesList().get(config.getSelectedDataSeriesList().size()-1));
+					System.out.println(areas.toString());
+					System.out.println(items.toString());
+					System.out.println(years.toString());
+					System.out.println(dataSeries.toString());
+					Window.open("/nudelvisualization/config?areas="+URL.encode(areas.toString())+"&items="+URL.encode(items.toString())+"&years="+URL.encode(years.toString())+"&dataseries="+URL.encode(dataSeries.toString()), "_blank", "");
 				}
-					
 			}
 		});
 		buttonLoadConfig.addClickHandler(new ClickHandler() {
@@ -334,7 +346,46 @@ public class Filter {
 		HorizontalPanel configButtons = new HorizontalPanel();
 		// configButtons.add(buttonSaveConfig);
 		configButtons.add(buttonLoadConfig);
+		
+		/*final FormPanel form = new FormPanel();
+		
+		configButtons.add(form);
+		form.setAction("/nudelvisualization/config");
+		form.setEncoding(FormPanel.ENCODING_MULTIPART);
+	    form.setMethod(FormPanel.METHOD_POST);
+	    
+	    FileUpload upload = new FileUpload();
+	    upload.setName("uploadFormElement");
+	    form.add(upload);
+	    
+	    // Add an event handler to the form.
+	    form.addSubmitHandler(new FormPanel.SubmitHandler() {
+	      public void onSubmit(SubmitEvent event) {
+	        // This event is fired just before the form is submitted. We can take
+	        // this opportunity to perform validation.
+	    	  Window.alert("hallo");
+	      }
+	    });
+	    form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
+	      public void onSubmitComplete(SubmitCompleteEvent event) {
+	        // When the form submission is successfully completed, this event is
+	        // fired. Assuming the service returned a response of type text/html,
+	        // we can get the result text here (see the FormPanel documentation for
+	        // further explanation).
+	        Window.alert(event.getResults());
+	      }
+	    });
+	    
+	    // Add a 'submit' button.
+	    configButtons.add(new Button("Submit", new ClickHandler() {
+	      public void onClick(ClickEvent event) {
+	        form.submit();
+	      }
+	    }));*/
+
+		
 		configButtons.setCellHorizontalAlignment(buttonLoadConfig, HasHorizontalAlignment.ALIGN_RIGHT);
+		// configButtons.setCellHorizontalAlignment(buttonSaveConfig, HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		HorizontalPanel visualizationButtons = new HorizontalPanel();
 		visualizationButtons.add(buttonTable);
