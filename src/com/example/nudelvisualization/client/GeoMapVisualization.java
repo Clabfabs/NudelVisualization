@@ -51,7 +51,7 @@ public class GeoMapVisualization extends Visualization {
 		super(config);
 	}
 
-
+	//access to database if valid user-input 
 	public void initialize() {
 		AccessDatabaseAsync dataAccessSocket = GWT.create(AccessDatabase.class);	
 		dataAccessSocket.getDataForIntensityMap(config, new AsyncCallback<HashMap<String, String[][]>>() {
@@ -89,7 +89,7 @@ public class GeoMapVisualization extends Visualization {
 		VisualizationUtils.loadVisualizationApi(
 				new Runnable() {
 					public void run() {
-					
+						
 						if (config.getSelectedDataSeriesList().contains("1")) {
 							drawGeoMap("Production", productionresult);
 							
@@ -120,7 +120,7 @@ public class GeoMapVisualization extends Visualization {
 		options.setSize(990, 495);
 		options.setShowLegend(true);
 		
-		//add data to GeoMap
+		//create DataTable for GeoMap
 		DataTable data = DataTable.create();
 		data.addColumn(ColumnType.STRING, dataSerie);
 		data.addColumn(ColumnType.NUMBER, dataSerie+ " per capita");
@@ -128,26 +128,13 @@ public class GeoMapVisualization extends Visualization {
 		int sumAllData = 0;
 		int counter = 0;
 		
+		//gather values of data
 		for (int j = 0; j<IsoCodes.length; j++){
 			//if the selected Area is a country:
 			if (!(IsoCodes[j][1].equals(".."))){
-				//gather value of data
+				
 				sumAllData = getSumAllData(result, j, config, populationData);
-//				for (int i= 0; i< result.length; i++){
-//					if (result[i][0].equals(config.getSelectedAreaList().get(j))){
-//						if (!(result[i][3].isEmpty())){ //get rid of exceptions
-//							//compare it with population
-//							for (int y = 0; y< populationData.length; y++){
-//								if(populationData[y][1].equals(result[i][1])){
-//									//add up all dataValues
-//									int valueAsInt = Integer.valueOf(result[i][3]);
-//									int populationAsInt = Integer.valueOf(populationData[y][2]);
-//									sumAllData = sumAllData + (valueAsInt/populationAsInt);
-//								}
-//							}
-//						}
-//					}
-//				}
+				//for countries are only representable with their IsoCode. 
 				if (IsoCodes[j][1].equals("CD") || IsoCodes[j][1].equals("CG") || IsoCodes[j][1].equals("CI") || IsoCodes[j][1].equals("SS")){
 					//add selected country with value of sumAllData. If there is no data, sumAllData = 0
 					data.addRow();
@@ -155,6 +142,7 @@ public class GeoMapVisualization extends Visualization {
 					data.setValue(counter, 1 , sumAllData);
 					sumAllData = 0;
 					counter++;
+					//all the others are representable with their name
 				}else{
 					//add selected country with value of sumAllData. If there is no data, sumAllData = 0
 					data.addRow();
@@ -166,7 +154,7 @@ public class GeoMapVisualization extends Visualization {
 			}
 		}
 		
-		//gather selected years and items for the comment underneath the visualization
+		//gather selected years and items for the comment above the visualization
 		String allSelectedYears = "";
 		for (int i = 0; i<config.getSelectedYearsList().size(); i++){
 			allSelectedYears = (allSelectedYears.concat(config.getSelectedYearsList().get(i)));	
@@ -191,6 +179,7 @@ public class GeoMapVisualization extends Visualization {
 					allSelectedItems = allSelectedItems + ", ";
 				}
 		}
+		
 		String noCountryAreas = "";
 		for (int j = 0; j<IsoCodes.length; j++){
 			//if the selected Area is not a country:
@@ -200,10 +189,10 @@ public class GeoMapVisualization extends Visualization {
 		}
 		}
 		HTML text = new HTML(dataSerie+ " per capita" +
-		" of " + allSelectedItems + "in " + allSelectedYears + noCountryAreas+ ":");
+		" of " + allSelectedItems + "in " + allSelectedYears + ":  " + noCountryAreas);
 
 		GeoMap widget = new GeoMap(data, options);
-
+		//if only one year and dataserie is selected show timeline
 		if (config.getSelectedYearsList().size() == 1 && config.getSelectedDataSeriesList().size() == 1) {
 			createTimeline();
 		}
@@ -229,7 +218,8 @@ public class GeoMapVisualization extends Visualization {
 		return noCountryArea;
 	}
 	
-	public int getSumAllData(String [][] result, int j, Configuration config, String[][] populationData){
+	//returns the value per capita for a selected country
+	private int getSumAllData(String [][] result, int j, Configuration config, String[][] populationData){
 		int sumAllData=0;
 		for (int i= 0; i< result.length; i++){
 			if (result[i][0].equals(config.getSelectedAreaList().get(j))){
@@ -253,7 +243,7 @@ public class GeoMapVisualization extends Visualization {
 	public void createTimeline(){
 		int startYear = 1990;
 		int endYear = 2011;
-
+		//create timeline. the selected year is red, the others are black.
 		for (int i = startYear; i <= endYear;i++){
 			if (config.getSelectedYearsList().size() == 1 && Integer.toString(i).equals(config.getSelectedYearsList().get(0))){
 				yearsButton.add(new Image("timelineimages/" + Integer.toString(i)+"r.png"));	
@@ -261,11 +251,12 @@ public class GeoMapVisualization extends Visualization {
 				yearsButton.add(new Image("timelineimages/" + Integer.toString(i)+".png"));
 			}
 		}
-		
+		//sets size of the timeline-images
 		for (int j = 0; j<yearsButton.size(); j++){
 			yearsButton.get(j).setPixelSize(45, 58);	
 		}
-	
+		
+		//adds all Clickhandleres
 		yearsButton.get(0).addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				config.getSelectedYearsList().clear();

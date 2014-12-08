@@ -203,7 +203,8 @@ public class Filter {
 				}
 				System.out.println("Invalid input");}
 		});
-
+		
+		//Button to initialize ColumnChart
 		buttonColumnChart.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -234,7 +235,7 @@ public class Filter {
 		});
 
 		
-		// Button to initialize ColumnChart
+		// Button to initialize GeoMap
 		buttonGeoMap.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -298,6 +299,7 @@ public class Filter {
 				}
 			}
 		});
+		
 		buttonLoadConfig.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
