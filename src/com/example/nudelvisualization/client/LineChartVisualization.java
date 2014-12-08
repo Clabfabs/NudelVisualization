@@ -163,8 +163,6 @@ public class LineChartVisualization extends Visualization{
 	    						data.addColumn(ColumnType.STRING, "Years");
 	    						data.addRows(25);
 	    						
-	    						//TO DO: ADDING ALL YEARS
-	    						for(int x=0; x<10; x++){
 	    						//data.setValue(x,0,config.getSelectedYearsList.get(x));
 	    						data.setValue(0,0,"1990");
 	    						data.setValue(1,0,"1991");
@@ -188,7 +186,7 @@ public class LineChartVisualization extends Visualization{
 	    						data.setValue(19,0,"2009");
 	    						data.setValue(20,0,"2010");
 	    						data.setValue(21,0,"2011");
-	    						}
+	    						
 	    						//adding Years to the x-Axis of the LineChart
 	    						
 	    						int ROWCOUNTER = 0;
