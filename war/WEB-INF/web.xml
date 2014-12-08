@@ -9,28 +9,18 @@
 		<servlet-name>dataServlet</servlet-name>
 		<servlet-class>com.example.nudelvisualization.server.AccessDatabaseImpl</servlet-class>
 	</servlet>
-	<servlet>
-		<servlet-name>configServlet</servlet-name>
-		<servlet-class>com.example.nudelvisualization.server.saveConfigImpl</servlet-class>
-	</servlet>
-
-	<servlet>
+		<servlet>
 		<servlet-name>ConfigServlet</servlet-name>
 		<servlet-class>com.example.nudelvisualization.server.ConfigServlet</servlet-class>
 	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>ConfigServlet</servlet-name>
-		<url-pattern>/nudelvisualization/config</url-pattern>
-	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>dataServlet</servlet-name>
 		<url-pattern>/nudelvisualization/accessDatabase</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>configServlet</servlet-name>
-		<url-pattern>/nudelvisualization/saveConfig</url-pattern>
+		<servlet-name>ConfigServlet</servlet-name>
+		<url-pattern>/nudelvisualization/config</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->
